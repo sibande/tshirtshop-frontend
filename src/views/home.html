@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <br>
+  <br>
+  <br>
+  <div class="row">
+    <div class="col s4">
+      <div class="row">
+	<div class="col s12"><strong>Search the Catalog</strong></div>
+      </div>
+      <div class="row">
+        <div class="input-field col s9">
+          <input id="search" type="text" class="validate">
+          <label for="search">Search</label>
+        </div>
+	<a class="col s3 waves-effect waves-light btn-large">Go!</a>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+	  <p>
+	    <label>
+              <input type="checkbox" name="search_all" class="filled-in" />
+              <span>Search for all words</span>
+	    </label>
+	  </p>
+        </div>
+	
+      </div>
+      <div class="row">
+	<div class="col s12">
+
+	  <ul>	    
+	    <li><strong>Choose a Department</strong></li>
+	    <li><a>Regional</a></li>
+	    <li><a>Nature</a></li>
+	    <li><a>Seasonal</a></li>
+	  </ul>
+
+	</div>
+      </div>
+    </div>
+    <div class="col s8 products-list">
+      
+    </div>
+  </div>
+{% endblock %}

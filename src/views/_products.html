@@ -1,0 +1,23 @@
+<div class="row">
+  {% for product in products.rows %}
+    {% if loop.index0 % 3 == 0 and not loop.last and not loop.first %}
+      </div>
+      <div class="row">
+    {% endif %}
+    
+
+    <div class="col s4">
+      <div class="center-align">
+	<img src="/static/resources/product_images/{{ product.thumbnail }}" alt="{{ product.name }}">
+      </div>
+      <div class="center-align">
+	<a href="#"><strong>{{ product.name }}</strong></a>
+      </div>
+      <div class="center-align">
+	<p><strong>{{ product.price }}</strong></p>
+	<p>{{ product.discounted_price }}</p>
+      </div>
+    </div>
+
+  {% endfor %}
+</div>

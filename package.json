@@ -1,0 +1,32 @@
+{
+  "name": "tshirtshop",
+  "version": "0.0.1",
+  "description": "An Awesome T-Shirt Shop.",
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --progress --colors --watch"
+  },
+  "dependencies": {
+    "@types/marked": "^0.4.0",
+    "element-closest": "^2.0.2",
+    "es6-promise": "^4.1.1",
+    "fetch-ie8": "^1.5.0",
+    "lodash": "^4.17.10",
+    "materialize-css": "^1.0.0",
+    "navigo": "^5.2.0",
+    "noty": "^3.2.0-beta",
+    "nunjucks": "^3.0.1",
+    "nunjucks-date": "^1.2.0",
+    "nunjucks-markdown": "^2.0.1",
+    "nunjucks-markdown-filter": "^0.1.0"
+  },
+  "devDependencies": {
+    "extract-text-webpack-plugin": "^3.0.0",
+    "html5-boilerplate": "^6.0.1",
+    "node-sass": "^4.9.0",
+    "nunjucks-date-filter": "^0.1.1",
+    "susy": "^3.0.1",
+    "webpack": "^3.3.0",
+    "webpack-sass-loaders": "^1.0.0"
+  }
+}
