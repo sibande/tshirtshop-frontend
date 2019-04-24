@@ -7,11 +7,14 @@ export default class PostService extends BaseService {
     super();
   }
 
-  list() {
+  list(page, limit, descriptionLength) {
     let queryParams = this.getQuery({
+      page: page,
+      limit: limit,
+      description_length: descriptionLength
     }, true);
 
-    let url = this.baseUrl + '/products';
+    let url = this.baseUrl + '/products?' + queryParams;
 
     return fetch(url, Object.assign({
       method: 'GET'
@@ -20,11 +23,23 @@ export default class PostService extends BaseService {
     });
   }
 
+  getProduct(productId) {
+    let url = this.baseUrl + '/products/' + productId;
 
-  search(queryString, allWords) {
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+
+  search(queryString, allWords, page, limit, descriptionLength) {
     let queryParams = this.getQuery({
       query_string: queryString,
-      all_words: allWords
+      all_words: allWords,
+      page: page,
+      limit: limit,
+      description_length: descriptionLength
     }, true);
 
     let url = this.baseUrl + '/products/search?' + queryParams;

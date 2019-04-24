@@ -6,3 +6,27 @@
     left: 50%;
     margin: -32px 0 0 -32px;
 }
+
+.discounted-price {
+    text-decoration: line-through;
+}
+
+#customize-thumbnails li {
+  display: inline;
+  list-style-type: none;
+}
+
+.thumbnails { 
+  margin: 20px 0;
+  text-align: center;
+}
+.thumbnails li {
+  display: inline-block;
+  cursor: pointer;
+  border: 5px solid #fff;
+}
+.thumbnails .tns-nav-active {
+  background: none;
+}
+.thumbnails li { height: 50px; }
+.thumbnails img { vertical-align: bottom; height: auto; max-height: 50px; }

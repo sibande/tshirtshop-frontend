@@ -176,7 +176,7 @@ class HomeController {
 
   renderProducts() {
     var that = this;
-    
+
     var productList;
 
     if (this.searchString) {
