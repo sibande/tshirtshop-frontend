@@ -4,7 +4,7 @@ webpackJsonp([0],{
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(136);
-module.exports = __webpack_require__(148);
+module.exports = __webpack_require__(150);
 
 
 /***/ }),
@@ -71,20 +71,53 @@ __WEBPACK_IMPORTED_MODULE_2_nunjucks_markdown__["register"](env, __WEBPACK_IMPOR
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_navigo__ = __webpack_require__(134);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_navigo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_navigo__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controllers_home__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__controllers_product__ = __webpack_require__(157);
 
 
 
 
 
-var root = '';
+
+var root = '/';
 var router = new __WEBPACK_IMPORTED_MODULE_1_navigo___default.a(root);
+
+// Handle link navigation
+document.addEventListener('click', function(e) {
+  if (e.which !== 1) {
+    return false;
+  }
+  let elem = e.target;
+
+  if (elem.tagName != "A" && elem.closest('a')) {
+    elem = elem.closest('a');
+  }
+
+
+  if (elem.tagName == "A" && elem.getAttribute('href') && !elem.classList.contains('nojs')) {
+    let uri = elem.getAttribute('href');
+
+    if (uri.charAt(0) === '/') {
+      uri = uri.substr(1);
+    }
+
+    router.navigate(uri);
+    // Prevent normal navigation
+    e.preventDefault();
+  }
+
+});
+
+
+
 
 router
   .on({
-    '/hello': function () {
+    'product/:productId': function (params, query) {
+      console.log(params);
+      console.log(query);
 
-      console.log('hello hello');
-
+      var controller = new __WEBPACK_IMPORTED_MODULE_3__controllers_product__["a" /* default */];
+      controller.render(params, query);
     },
     '*': function () {
       console.log('hello dashboard');
@@ -111,6 +144,11 @@ router
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nunjucks__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nunjucks___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nunjucks__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_product__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_urls__ = __webpack_require__(148);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_urls___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__shared_urls__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(149);
+
+
 
 
 
@@ -125,34 +163,45 @@ class HomeController {
     this.departmentId = null;
     this.categoryId = null;
     this.searchString = null;
+    this.pageNum = parseInt(Object(__WEBPACK_IMPORTED_MODULE_2__shared_urls__["getParameterByName"])('page')) || 1;
+  }
+
+  getPagingData(totalRows) {
+
+    return {
+      page: this.pageNum,
+      total: Math.ceil(totalRows / __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* ITEMS_PER_PAGE */])
+    };
   }
 
   renderProducts() {
-
+    var that = this;
+    
     var productList;
 
     if (this.searchString) {
-      productList = productService.list();
+      productList = productService.list(this.pageNum, __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* ITEMS_PER_PAGE */]);
     } else if (this.categoryId) {
-      productList = productService.list();
+      productList = productService.list(this.pageNum, __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* ITEMS_PER_PAGE */]);
     } else if (this.departmentId) {
-      productList = productService.list();
+      productList = productService.list(this.pageNum, __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* ITEMS_PER_PAGE */]);
     } else {
-      productList = productService.list();
+      productList = productService.list(this.pageNum, __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* ITEMS_PER_PAGE */]);
     }
 
-    productList = productService.search('beautiful', 'yes');
+    productList = productService.search('beautiful', 'yes', this.pageNum, __WEBPACK_IMPORTED_MODULE_3__constants__["a" /* ITEMS_PER_PAGE */]);
 
     productList.then(function(products) {
-      Object(__WEBPACK_IMPORTED_MODULE_0_nunjucks__["render"])('_products.html', {products: products}, function(err, res) {
+         Object(__WEBPACK_IMPORTED_MODULE_0_nunjucks__["render"])('_products.html',
+	     {products: products, paging: that.getPagingData(products.count)}, function(err, res) {
 	var productsElem = document.querySelector('div.products-list');
 
 	productsElem.innerHTML= res;
       });
     });
   }
-  
-  render() {
+
+  render(productId) {
     var that = this;
 
     Object(__WEBPACK_IMPORTED_MODULE_0_nunjucks__["render"])('home.html', {}, function(err, res) {
@@ -185,11 +234,14 @@ class PostService extends __WEBPACK_IMPORTED_MODULE_0__base_service__["a" /* def
     super();
   }
 
-  list() {
+  list(page, limit, descriptionLength) {
     let queryParams = this.getQuery({
+      page: page,
+      limit: limit,
+      description_length: descriptionLength
     }, true);
 
-    let url = this.baseUrl + '/products';
+    let url = this.baseUrl + '/products?' + queryParams;
 
     return fetch(url, Object.assign({
       method: 'GET'
@@ -198,11 +250,23 @@ class PostService extends __WEBPACK_IMPORTED_MODULE_0__base_service__["a" /* def
     });
   }
 
+  getProduct(productId) {
+    let url = this.baseUrl + '/products/' + productId;
 
-  search(queryString, allWords) {
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+
+  search(queryString, allWords, page, limit, descriptionLength) {
     let queryParams = this.getQuery({
       query_string: queryString,
-      all_words: allWords
+      all_words: allWords,
+      page: page,
+      limit: limit,
+      description_length: descriptionLength
     }, true);
 
     let url = this.baseUrl + '/products/search?' + queryParams;
@@ -285,7 +349,141 @@ class BaseService {
 /***/ 148:
 /***/ (function(module, exports) {
 
+
+// https://stackoverflow.com/a/901144
+exports.getParameterByName = function(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, '\\$&');
+  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+      results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+};
+
+
+/***/ }),
+
+/***/ 149:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+const ITEMS_PER_PAGE = 12;
+/* harmony export (immutable) */ __webpack_exports__["a"] = ITEMS_PER_PAGE;
+  // limit
+
+
+/***/ }),
+
+/***/ 150:
+/***/ (function(module, exports) {
+
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 157:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nunjucks__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nunjucks___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nunjucks__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_tiny_slider_src_tiny_slider__ = __webpack_require__(168);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_product__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_attribute__ = __webpack_require__(158);
+
+
+
+
+
+
+
+var productService = new __WEBPACK_IMPORTED_MODULE_2__services_product__["a" /* default */]();
+var attributeService = new __WEBPACK_IMPORTED_MODULE_3__services_attribute__["a" /* default */]();
+
+class ProductController {
+
+  constructor() {
+  }
+
+  render(params, query) {
+    var that = this;
+    
+    productService.getProduct(params.productId).then(function(product) {
+
+      if (!('error' in product)) {
+	attributeService.getProductAttributes(params.productId).then(function(attributes) {
+	  var mappedAttributes = {};
+
+	  for (var index in attributes) {
+	    var attribute = attributes[index];
+	    if (!(attribute.attribute_name in mappedAttributes)) {
+	      mappedAttributes[attribute.attribute_name] = [];
+	    }
+	    mappedAttributes[attribute.attribute_name].push(attribute);
+	  }
+
+	  Object(__WEBPACK_IMPORTED_MODULE_0_nunjucks__["render"])('product.html', {product: product, attributes: mappedAttributes}, function(err, res) {	    
+	    // Render the page
+	    var mainDiv = document.getElementById('main');
+	    mainDiv.innerHTML= res;
+	    console.log(__WEBPACK_IMPORTED_MODULE_1_tiny_slider_src_tiny_slider__["a" /* tns */]);
+	    
+	    var slider = Object(__WEBPACK_IMPORTED_MODULE_1_tiny_slider_src_tiny_slider__["a" /* tns */])({
+	      "container": "#customize",
+	      "items": 1,
+	      "controlsContainer": "#customize-controls",
+	      "navContainer": "#customize-thumbnails",
+	      "navAsThumbnails": true,
+	      "autoplay": false,
+	      "swipeAngle": false
+	    });
+
+	    M.updateTextFields();
+	  });
+	});
+
+      }
+    });
+
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = ProductController;
+
+
+
+/***/ }),
+
+/***/ 158:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_service__ = __webpack_require__(147);
+
+
+
+class PostService extends __WEBPACK_IMPORTED_MODULE_0__base_service__["a" /* default */] {
+
+  constructor() {
+    super();
+  }
+
+
+  getProductAttributes(productId) {
+    let url = this.baseUrl + '/attributes/inProduct/' + productId;
+
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = PostService;
+
+
 
 /***/ })
 
