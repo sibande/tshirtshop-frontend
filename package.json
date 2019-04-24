@@ -18,7 +18,8 @@
     "nunjucks": "^3.0.1",
     "nunjucks-date": "^1.2.0",
     "nunjucks-markdown": "^2.0.1",
-    "nunjucks-markdown-filter": "^0.1.0"
+    "nunjucks-markdown-filter": "^0.1.0",
+    "tiny-slider": "^2.9.2"
   },
   "devDependencies": {
     "extract-text-webpack-plugin": "^3.0.0",

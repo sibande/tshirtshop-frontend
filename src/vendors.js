@@ -5,6 +5,9 @@ import {configure, renderString, render} from 'nunjucks';
 // Noty
 import Noty from 'noty';
 
+// Tiny slider
+import {tns} from 'tiny-slider/src/tiny-slider';
+
 // Material
 var M = require('materialize-css/dist/js/materialize.js');
 
