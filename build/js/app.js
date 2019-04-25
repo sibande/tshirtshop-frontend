@@ -1,21 +1,146 @@
 webpackJsonp([0],{
 
-/***/ 135:
-/***/ (function(module, exports, __webpack_require__) {
+/***/ 140:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__(136);
-module.exports = __webpack_require__(150);
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_service__ = __webpack_require__(141);
+
+
+
+class PostService extends __WEBPACK_IMPORTED_MODULE_0__base_service__["a" /* default */] {
+
+  constructor() {
+    super();
+  }
+
+  list(page, limit, descriptionLength) {
+    let queryParams = this.getQuery({
+      page: page,
+      limit: limit,
+      description_length: descriptionLength
+    }, true);
+
+    let url = this.baseUrl + '/products?' + queryParams;
+
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+
+  getProduct(productId) {
+    let url = this.baseUrl + '/products/' + productId;
+
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+
+  search(queryString, allWords, page, limit, descriptionLength) {
+    let queryParams = this.getQuery({
+      query_string: queryString,
+      all_words: allWords,
+      page: page,
+      limit: limit,
+      description_length: descriptionLength
+    }, true);
+
+    let url = this.baseUrl + '/products/search?' + queryParams;
+
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+
+
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = PostService;
+
 
 
 /***/ }),
 
-/***/ 136:
+/***/ 141:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+// Base Service for interacting with the API
+
+
+const FETCH_DEFAULTS = {
+  cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+  credentials: 'same-origin', // include, same-origin, *omit
+  headers: {
+  },
+  mode: 'cors', // no-cors, cors, *same-origin
+  redirect: 'follow', // manual, *follow, error
+  referrer: 'no-referrer' // *client, no-referrer
+};
+/* unused harmony export FETCH_DEFAULTS */
+
+
+const BASE_URL = 'http://localhost:3000';
+/* unused harmony export BASE_URL */
+
+
+
+class BaseService {
+
+  constructor() {
+    this.baseUrl = BASE_URL;
+  }
+
+  getOptions() {
+    return FETCH_DEFAULTS;
+  }
+
+  getQuery(params, skipEmpty) {
+    let esc = encodeURIComponent;
+
+    let queryStr = Object.keys(params)
+      .map((k) => {
+	if ((params[k] === '' || params[k] === null || params[k] === undefined) && skipEmpty === true) {
+	  return null;
+	} else {
+	  return '&' + esc(k) + '=' + esc(params[k]);
+	}
+      }).join('');
+
+    while(queryStr.charAt(0) == '&') {
+      queryStr = queryStr.substr(1);
+    }
+    return queryStr;
+  }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = BaseService;
+
+
+
+
+/***/ }),
+
+/***/ 146:
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(147);
+module.exports = __webpack_require__(196);
+
+
+/***/ }),
+
+/***/ 147:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shared_nunjucks__ = __webpack_require__(137);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__routes__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__shared_nunjucks__ = __webpack_require__(148);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__routes__ = __webpack_require__(155);
 //
 RegExp.escape= function(s) {
     return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -29,17 +154,17 @@ RegExp.escape= function(s) {
 
 /***/ }),
 
-/***/ 137:
+/***/ 148:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nunjucks__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nunjucks___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nunjucks__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_nunjucks_date_filter__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_nunjucks_date_filter__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_nunjucks_date_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_nunjucks_date_filter__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_nunjucks_markdown__ = __webpack_require__(132);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_nunjucks_markdown__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_nunjucks_markdown___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_nunjucks_markdown__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_marked__ = __webpack_require__(133);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_marked__ = __webpack_require__(138);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_marked___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_marked__);
 
 
@@ -62,16 +187,16 @@ __WEBPACK_IMPORTED_MODULE_2_nunjucks_markdown__["register"](env, __WEBPACK_IMPOR
 
 /***/ }),
 
-/***/ 144:
+/***/ 155:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nunjucks__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nunjucks___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nunjucks__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_navigo__ = __webpack_require__(134);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_navigo__ = __webpack_require__(139);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_navigo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_navigo__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controllers_home__ = __webpack_require__(145);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__controllers_product__ = __webpack_require__(157);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__controllers_home__ = __webpack_require__(156);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__controllers_product__ = __webpack_require__(159);
 
 
 
@@ -137,16 +262,16 @@ router
 
 /***/ }),
 
-/***/ 145:
+/***/ 156:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nunjucks__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nunjucks___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nunjucks__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_product__ = __webpack_require__(146);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_urls__ = __webpack_require__(148);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_product__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_urls__ = __webpack_require__(157);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_urls___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__shared_urls__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__constants__ = __webpack_require__(158);
 
 
 
@@ -220,133 +345,7 @@ class HomeController {
 
 /***/ }),
 
-/***/ 146:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_service__ = __webpack_require__(147);
-
-
-
-class PostService extends __WEBPACK_IMPORTED_MODULE_0__base_service__["a" /* default */] {
-
-  constructor() {
-    super();
-  }
-
-  list(page, limit, descriptionLength) {
-    let queryParams = this.getQuery({
-      page: page,
-      limit: limit,
-      description_length: descriptionLength
-    }, true);
-
-    let url = this.baseUrl + '/products?' + queryParams;
-
-    return fetch(url, Object.assign({
-      method: 'GET'
-    }, this.getOptions())).then(function(res) {
-      return res.json();
-    });
-  }
-
-  getProduct(productId) {
-    let url = this.baseUrl + '/products/' + productId;
-
-    return fetch(url, Object.assign({
-      method: 'GET'
-    }, this.getOptions())).then(function(res) {
-      return res.json();
-    });
-  }
-
-  search(queryString, allWords, page, limit, descriptionLength) {
-    let queryParams = this.getQuery({
-      query_string: queryString,
-      all_words: allWords,
-      page: page,
-      limit: limit,
-      description_length: descriptionLength
-    }, true);
-
-    let url = this.baseUrl + '/products/search?' + queryParams;
-
-    return fetch(url, Object.assign({
-      method: 'GET'
-    }, this.getOptions())).then(function(res) {
-      return res.json();
-    });
-  }
-
-
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = PostService;
-
-
-
-/***/ }),
-
-/***/ 147:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-// Base Service for interacting with the API
-
-
-const FETCH_DEFAULTS = {
-  cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-  credentials: 'same-origin', // include, same-origin, *omit
-  headers: {
-    'content-type': 'application/json'
-  },
-  mode: 'cors', // no-cors, cors, *same-origin
-  redirect: 'follow', // manual, *follow, error
-  referrer: 'no-referrer' // *client, no-referrer
-};
-/* unused harmony export FETCH_DEFAULTS */
-
-
-const BASE_URL = 'http://localhost:3000';
-/* unused harmony export BASE_URL */
-
-
-
-class BaseService {
-
-  constructor() {
-    this.baseUrl = BASE_URL;
-  }
-
-  getOptions() {
-    return FETCH_DEFAULTS;
-  }
-
-  getQuery(params, skipEmpty) {
-    let esc = encodeURIComponent;
-
-    let queryStr = Object.keys(params)
-      .map((k) => {
-	if ((params[k] === '' || params[k] === null || params[k] === undefined) && skipEmpty === true) {
-	  return null;
-	} else {
-	  return '&' + esc(k) + '=' + esc(params[k]);
-	}
-      }).join('');
-
-    while(queryStr.charAt(0) == '&') {
-      queryStr = queryStr.substr(1);
-    }
-    return queryStr;
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = BaseService;
-
-
-
-
-/***/ }),
-
-/***/ 148:
+/***/ 157:
 /***/ (function(module, exports) {
 
 
@@ -364,7 +363,7 @@ exports.getParameterByName = function(name, url) {
 
 /***/ }),
 
-/***/ 149:
+/***/ 158:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -376,23 +375,19 @@ const ITEMS_PER_PAGE = 12;
 
 /***/ }),
 
-/***/ 150:
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 157:
+/***/ 159:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nunjucks__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_nunjucks___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_nunjucks__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_tiny_slider_src_tiny_slider__ = __webpack_require__(168);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_product__ = __webpack_require__(146);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_attribute__ = __webpack_require__(158);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_tiny_slider_src_tiny_slider__ = __webpack_require__(142);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_product__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_shoppingcart__ = __webpack_require__(204);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_attribute__ = __webpack_require__(195);
 
+
+var M = __webpack_require__(199);
 
 
 
@@ -400,16 +395,50 @@ const ITEMS_PER_PAGE = 12;
 
 
 var productService = new __WEBPACK_IMPORTED_MODULE_2__services_product__["a" /* default */]();
-var attributeService = new __WEBPACK_IMPORTED_MODULE_3__services_attribute__["a" /* default */]();
+var attributeService = new __WEBPACK_IMPORTED_MODULE_4__services_attribute__["a" /* default */]();
+var shoppingcartService = new __WEBPACK_IMPORTED_MODULE_3__services_shoppingcart__["a" /* default */]();
 
 class ProductController {
 
   constructor() {
   }
 
-  render(params, query) {
+  handleAddToCartEvent() {
     var that = this;
     
+    var element = document.querySelector('button.add-to-cart');
+
+
+    var handleAddToCart = function(e) {
+
+      var form = document.querySelector('form');
+      var quantity = form.querySelector('input[name=quantity]').value;
+      var color = form.querySelector('input[name="Color"]:checked');
+      color = color ? color.value : color;
+
+      var size = form.querySelector('input[name="Size"]:checked');
+      size = size ? size.value : size;
+
+      var attributes = {
+	Size: size,
+	Color: color
+      };
+
+      shoppingcartService.addToCart(that.params.productId, quantity, attributes).then(function(data) {
+	console.log('added to cart');
+	console.log(data);
+      });
+    };
+    element.removeEventListener('click', handleAddToCart);
+    element.addEventListener('click', handleAddToCart);
+
+  }
+
+  render(params, query) {
+    var that = this;
+
+    this.params = params;
+
     productService.getProduct(params.productId).then(function(product) {
 
       if (!('error' in product)) {
@@ -428,7 +457,6 @@ class ProductController {
 	    // Render the page
 	    var mainDiv = document.getElementById('main');
 	    mainDiv.innerHTML= res;
-	    console.log(__WEBPACK_IMPORTED_MODULE_1_tiny_slider_src_tiny_slider__["a" /* tns */]);
 	    
 	    var slider = Object(__WEBPACK_IMPORTED_MODULE_1_tiny_slider_src_tiny_slider__["a" /* tns */])({
 	      "container": "#customize",
@@ -441,6 +469,9 @@ class ProductController {
 	    });
 
 	    M.updateTextFields();
+
+	    that.handleAddToCartEvent();
+
 	  });
 	});
 
@@ -455,11 +486,11 @@ class ProductController {
 
 /***/ }),
 
-/***/ 158:
+/***/ 195:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_service__ = __webpack_require__(147);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_service__ = __webpack_require__(141);
 
 
 
@@ -485,6 +516,116 @@ class PostService extends __WEBPACK_IMPORTED_MODULE_0__base_service__["a" /* def
 
 
 
+/***/ }),
+
+/***/ 196:
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ 204:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__base_service__ = __webpack_require__(141);
+
+
+
+class ShoppingcartService extends __WEBPACK_IMPORTED_MODULE_0__base_service__["a" /* default */] {
+
+  constructor() {
+    super();
+  }
+
+  addToCart(productId, quantity, attributes) {
+    var that = this;
+    
+    var shoppingCart = localStorage.getItem('shoppingCart');
+    try {
+      shoppingCart = JSON.parse(shoppingCart);
+    } catch (e) {
+      shoppingCart = {};
+    }
+
+    var getCartId = null;
+
+    if (!shoppingCart.cartId) {
+      getCartId = this.getCartId().then(function(data) {
+	shoppingCart.cartId = data.cart_id;
+
+	localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
+
+	return data.cart_id;
+      });
+    } else {
+      getCartId = Promise.resolve(shoppingCart.cartId);
+    }
+
+    return getCartId.then(function(cartId) {
+      var formData = new FormData();
+
+      formData.append('cart_id', cartId);
+      formData.append('product_id', productId);
+      formData.append('attributes', JSON.stringify(attributes));
+
+      return fetch(that.baseUrl + '/shoppingcart/add', Object.assign({
+      	body: formData, // must match 'Content-Type' header
+      	method: 'POST'
+      }, that.getOptions())).then(function(res) {
+
+      	return res.json();
+      }).then(function(data) {
+
+
+	var itemIndex = data.length - 1;
+	var addedItem = data[itemIndex];
+
+	if (addedItem && addedItem.product_id == productId) {
+
+	  return that.updateItem(addedItem.item_id, quantity).then(function(data) {
+	    shoppingCart.items = data;
+	    localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
+
+	    return data;
+	  });
+	}
+	return data;
+      });
+
+    });
+  }
+
+  updateItem(itemId, quantity) {
+    let url = this.baseUrl + '/shoppingcart/update/' + itemId;
+
+    var formData = new FormData();
+    formData.append('quantity', quantity);
+
+    return fetch(url, Object.assign({
+      body: formData, // must match 'Content-Type' header
+      method: 'PUT'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+
+  getCartId() {
+    let url = this.baseUrl + '/shoppingcart/generateUniqueId';
+
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = ShoppingcartService;
+
+
+
 /***/ })
 
-},[135]);
+},[146]);
