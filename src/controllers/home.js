@@ -1,11 +1,13 @@
 import {configure, renderString, render} from 'nunjucks';
 
 import ProductService from './../services/product';
+import ShoppingcartService from './../services/shoppingcart';
 import {getParameterByName} from './../shared/urls';
 import {ITEMS_PER_PAGE} from './../constants';
 
 
 var productService = new ProductService();
+var shoppingcartService = new ShoppingcartService();
 
 export default class HomeController {
 
@@ -43,13 +45,26 @@ export default class HomeController {
     productList = productService.search('beautiful', 'yes', this.pageNum, ITEMS_PER_PAGE);
 
     productList.then(function(products) {
-         render('_products.html',
+      render('_products.html',
 	     {products: products, paging: that.getPagingData(products.count)}, function(err, res) {
 	var productsElem = document.querySelector('div.products-list');
 
 	productsElem.innerHTML= res;
       });
     });
+  }
+
+  renderShoppingcartSummary() {
+    var shoppingCart = shoppingcartService.getShoppingcart();
+
+    if (shoppingCart.totalAmount) {
+      render('_cart_summary.html', {shoppingCart: shoppingCart}, function(err, res) {
+
+	var summaryElem = document.querySelector('div.shoppingcart-summary .col');
+
+	summaryElem.innerHTML= res;
+      });
+    }
   }
 
   render(productId) {
@@ -60,6 +75,8 @@ export default class HomeController {
       mainDiv.innerHTML= res;
 
       that.renderProducts();
+
+      that.renderShoppingcartSummary();
 
       M.updateTextFields();
     });

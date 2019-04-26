@@ -2,7 +2,7 @@
 
 {% block content %}
 
-  <br />
+  <br>
 
   <div class="row">
     <div class="col s5">
@@ -64,30 +64,33 @@
 	
       </div>
       <br />
-      <div>
-	{% for attributeNane, attributeList in attributes %}
-	  <div><strong>{{attributeNane}}</strong></div>
-	  <div>
-	    {% for attribute in attributeList %}
-	      <label>
-		<input class="with-gap" name="{{attributeNane}}" type="radio" />
-		<span>{{attribute.attribute_value}}</span>
-	      </label>
-	    {% endfor %}
-	  </div>
-	{% endfor %}
-      </div>
-      <div>
-	<div class="row">
-	  <div class="input-field col s12">
-            <input name="quantity" type="number" class="validate">
-            <label for="quantity">Quantity</label>
-          </div>
+      <form onsubmit="event.preventDefault();">
+	<div>
+	  {% for attributeNane, attributeList in attributes %}
+	    <div><strong>{{attributeNane}}</strong></div>
+	    <div>
+	      {% for attributeId, attribute in attributeList %}
+		<label>
+		  <input class="with-gap" name="{{ attributeNane }}"
+			 value="{{ attribute.attribute_value_id }}" type="radio" />
+		  <span>{{attribute.attribute_value}}</span>
+		</label>
+	      {% endfor %}
+	    </div>
+	  {% endfor %}
 	</div>
-      </div>    
-      <div>
-	<button class="waves-effect waves-light btn-large">Add to cart</button>
-      </div>
+	<div>
+	  <div class="row">
+	    <div class="input-field col s2">
+              <input name="quantity" min="1" max="20" type="number" value="1" class="validate">
+              <label for="quantity">Quantity</label>
+            </div>
+	  </div>
+	</div>    
+	<div>
+	  <button class="waves-effect waves-light btn-large add-to-cart">Add to cart</button>
+	</div>
+      </form>
     </div>
   </div>
 

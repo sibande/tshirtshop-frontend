@@ -7,15 +7,30 @@ export default class ShoppingcartService extends BaseService {
     super();
   }
 
-  addToCart(productId, quantity, attributes) {
-    var that = this;
-    
+  getShoppingcart() {
     var shoppingCart = localStorage.getItem('shoppingCart');
     try {
       shoppingCart = JSON.parse(shoppingCart);
     } catch (e) {
-      shoppingCart = {};
+      shoppingCart = {items: []};
     }
+
+    shoppingCart.items.map(function(attribute) {
+      try {
+	attribute.attributes = JSON.parse(attribute.attributes);
+      } catch (e) {
+      }
+      return attribute;
+    });
+
+    return shoppingCart;
+  }
+  
+
+  addToCart(productId, quantity, attributes) {
+    var that = this;
+
+    var shoppingCart = this.getShoppingcart();
 
     var getCartId = null;
 
@@ -52,11 +67,14 @@ export default class ShoppingcartService extends BaseService {
 
 	if (addedItem && addedItem.product_id == productId) {
 
-	  return that.updateItem(addedItem.item_id, quantity).then(function(data) {
-	    shoppingCart.items = data;
-	    localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
+	  return that.updateItem(addedItem.item_id, quantity).then(function(items) {
+	    that.getCartTotalAmount(cartId).then(function(data) {
+	      shoppingCart.items = items;
+	      shoppingCart.totalAmount = data['total_amount'];
 
-	    return data;
+	      localStorage.setItem('shoppingCart', JSON.stringify(shoppingCart));
+	      return data;
+	    });
 	  });
 	}
 	return data;
@@ -79,6 +97,36 @@ export default class ShoppingcartService extends BaseService {
     });
   }
 
+  getCartTotalAmount(cartId) {
+    let url = this.baseUrl + '/shoppingcart/totalAmount/' + cartId;
+
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+
+  getCartProducts(cartId) {
+    let url = this.baseUrl + '/shoppingcart/' + cartId;
+
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+
+  getSavedProducts(cartId) {
+    let url = this.baseUrl + '/shoppingcart/getSaved/' + cartId;
+
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+  
   getCartId() {
     let url = this.baseUrl + '/shoppingcart/generateUniqueId';
 

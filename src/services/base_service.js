@@ -5,7 +5,6 @@ export const FETCH_DEFAULTS = {
   cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
   credentials: 'same-origin', // include, same-origin, *omit
   headers: {
-    'content-type': 'application/json'
   },
   mode: 'cors', // no-cors, cors, *same-origin
   redirect: 'follow', // manual, *follow, error

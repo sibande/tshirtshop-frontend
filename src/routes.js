@@ -3,6 +3,7 @@ import Navigo from 'navigo';
 
 import HomeController from './controllers/home';
 import ProductController from './controllers/product';
+import ShoppingcartController from './controllers/shoppingcart';
 
 var root = '/';
 var router = new Navigo(root);
@@ -39,23 +40,19 @@ document.addEventListener('click', function(e) {
 router
   .on({
     'product/:productId': function (params, query) {
-      console.log(params);
-      console.log(query);
-
       var controller = new ProductController;
       controller.render(params, query);
     },
+    'shoppingcart/details': function (params, query) {
+      // var controller = new ProductController;
+      // controller.render(params, query);
+      var controller = new ShoppingcartController;
+      controller.render();
+    },
     '*': function () {
-      console.log('hello dashboard');
-      
       var controller = new HomeController;
       controller.render();
       
-    },
-    '/hello2': function () {
-
-      console.log('hello2 hello2');
-
     }
   })
   .resolve();

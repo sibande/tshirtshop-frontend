@@ -13,7 +13,8 @@ var M = require('materialize-css/dist/js/materialize.js');
 
 // Fetch polyill
 import "es6-promise/auto";
-import "element-closest";
+
+require('element-closest/index.js');
 
 import * as dateFilter from 'nunjucks-date-filter';
 import * as markdown from 'nunjucks-markdown';

@@ -1,0 +1,20 @@
+<div class="row">
+  <div class="col s12"><strong>Cart Summary</strong></div>
+</div>
+{% for item in shoppingCart.items %}
+  <div class="row">
+    <div class="col s12">
+      {{ item.quantity }} x {{ item.name }}
+      ({% for attributeName, attribute in item.attributes %}
+        {% if not loop.first %} / {% endif %}{{ attributeName }} - {{ attribute.name }}
+       {% endfor %} )
+    </div>
+  </div>
+  
+{% endfor %}
+
+<div class="row">
+  <div class="col s12">
+    {{shoppingCart.totalAmount}} [<a href="/shoppingcart/details">View details</a>]
+  </div>
+</div>
