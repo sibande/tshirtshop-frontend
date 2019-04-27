@@ -32,7 +32,12 @@ export function handleAddToCart(e) {
   };
 
   shoppingcartService.addToCart(customParams.productId, quantity, attributes).then(function(data) {
-    //
+    if (customParams.afterCallback) {
+      //
+      var intervalId = setTimeout(() => {
+	customParams.afterCallback();
+      }, 100);
+    }
   });
 }
 

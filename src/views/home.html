@@ -32,9 +32,14 @@
 
 	  <ul>	    
 	    <li><strong>Choose a Department</strong></li>
-	    <li><a>Regional</a></li>
-	    <li><a>Nature</a></li>
-	    <li><a>Seasonal</a></li>
+	    {% for department in departments %}
+	      <li class="department">
+		<label>
+		  <input {% if department.department_id == departmentId %}checked{% endif %} name="department" value="{{department.department_id}}" type="radio">
+		  <span>{{department.name}}</span>
+		</label>
+	      </li>
+	    {% endfor %}
 	  </ul>
 
 	</div>

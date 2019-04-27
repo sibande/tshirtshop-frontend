@@ -1,0 +1,11 @@
+<ul>	    
+  <li><strong>Choose a Category</strong></li>
+  {% for category in categories %}
+  <li class="category">
+    <label>
+      <input {% if category.category_id == categoryId %}checked{% endif %} name="category" value="{{category.category_id}}" type="radio">
+      <span>{{category.name}}</span>
+    </label>
+  </li>
+  {% endfor %}
+</ul>
