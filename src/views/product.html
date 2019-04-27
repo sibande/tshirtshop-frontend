@@ -73,7 +73,7 @@
 		<label>
 		  <input class="with-gap" name="{{ attributeNane }}"
 			 value="{{ attribute.attribute_value_id }}" type="radio" />
-		  <span>{{attribute.attribute_value}}</span>
+		  <span>{% if attributeNane == 'Size' %}{{attribute.attribute_value}}{% endif %}</span>
 		</label>
 	      {% endfor %}
 	    </div>

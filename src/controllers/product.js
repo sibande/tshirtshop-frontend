@@ -11,6 +11,31 @@ var productService = new ProductService();
 var attributeService = new AttributeService();
 var shoppingcartService = new ShoppingcartService();
 
+
+export function handleAddToCart(e) {
+
+  var customParams = e.target.customParams;
+
+  var form = customParams.form;
+  var quantity = form.querySelector('input[name=quantity]').value || 1;
+  var colorId = form.querySelector('input[name="Color"]:checked');
+  colorId = colorId ? colorId.value : colorId;
+  var colorName = customParams.productAttributes['Color'][colorId].attribute_value;
+
+  var sizeId = form.querySelector('input[name="Size"]:checked');
+  sizeId = sizeId ? sizeId.value : sizeId;
+  var sizeName = customParams.productAttributes['Size'][sizeId].attribute_value;
+
+  var attributes = {
+    Size: {id: sizeId, name: sizeName},
+    Color: {id: colorId, name: colorName}
+  };
+
+  shoppingcartService.addToCart(customParams.productId, quantity, attributes).then(function(data) {
+    //
+  });
+}
+
 export default class ProductController {
 
   constructor() {
@@ -21,49 +46,13 @@ export default class ProductController {
 
     var element = document.querySelector('button.add-to-cart');
 
-    var handleAddToCart = function(e) {
-
-      var form = document.querySelector('form');
-      var quantity = form.querySelector('input[name=quantity]').value;
-      var colorId = form.querySelector('input[name="Color"]:checked');
-      colorId = colorId ? colorId.value : colorId;
-      var colorName = that.productAttributes[that.params.productId]['Color'][colorId].attribute_value;
-      
-      var sizeId = form.querySelector('input[name="Size"]:checked');
-      sizeId = sizeId ? sizeId.value : sizeId;
-      var sizeName = that.productAttributes[that.params.productId]['Size'][sizeId].attribute_value;
-
-      var attributes = {
-	Size: {id: sizeId, name: sizeName},
-	Color: {id: colorId, name: colorName}
-      };
-
-      shoppingcartService.addToCart(that.params.productId, quantity, attributes).then(function(data) {
-	//
-      });
-    };
     element.removeEventListener('click', handleAddToCart);
     element.addEventListener('click', handleAddToCart);
-
-  }
-
-  handleProductAttributes(attributes) {
-    // Store in localStorage
-    this.productAttributes = {};
-
-    var mappedAttributes = {};
-
-    for (var index in attributes) {
-      var attribute = attributes[index];
-      if (!(attribute.attribute_name in mappedAttributes)) {
-	mappedAttributes[attribute.attribute_name] = {};
-      }
-      mappedAttributes[attribute.attribute_name][attribute.attribute_value_id] = attribute;
-
-      this.productAttributes[this.params.productId] = mappedAttributes;
-    }
-
-    return mappedAttributes;
+    element.customParams = {
+      productId: that.params.productId,
+      productAttributes: that.productAttributes,
+      form: document.querySelector('form')
+    };
   }
 
   render(params, query) {
@@ -74,7 +63,9 @@ export default class ProductController {
     productService.getProduct(params.productId).then(function(product) {
       if (!('error' in product)) {
 	attributeService.getProductAttributes(params.productId).then(function(attributes) {
-	  var mappedAttributes = that.handleProductAttributes(attributes);
+
+	  var mappedAttributes = attributeService.mapProductAttributes(attributes);
+	  that.productAttributes = mappedAttributes;
 
 	  render('product.html', {product: product, attributes: mappedAttributes}, function(err, res) {	    
 	    // Render the page
