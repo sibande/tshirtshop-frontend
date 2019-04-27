@@ -36,7 +36,7 @@ export function handleAddToCart(e) {
       //
       var intervalId = setTimeout(() => {
 	customParams.afterCallback();
-      }, 100);
+      }, 300);
     }
   });
 }
