@@ -132,6 +132,10 @@ function handleDepartmentChange(e) {
     var controller = elem.customParams.controller;
 
     history.pushState(null, '', '/');
+
+    controller.searchString = null;
+    controller.searchAll = null;
+    document.querySelector('input[name=search]').value = '';
     controller.pageNum = 1;
 
     var currentElem;
@@ -192,14 +196,35 @@ function handleCategoryChange(e) {
   }
 }
 
+function handleSearchProducts() {
+  var searchString = document.querySelector('input[name=search]').value;
+  var searchAll = document.querySelector('input[name=search_all]').checked ? 'yes' : 'no';
+  window.location.href = '/?search=' + searchString + '&searchAll=' + searchAll;
+};
+
+function handleSearchEvent() {
+  var element = document.querySelector('button.search');
+
+  if (element) {
+    element.removeEventListener('click', handleSearchProducts);
+    element.addEventListener('click', handleSearchProducts);
+  }
+}
+
 export default class HomeController {
 
   constructor() {
     //
     this.departmentId = localStorage.getItem('departmentId') || null;
-    console.log(this.departmentId);
     this.categoryId = localStorage.getItem('categoryId') || null;
-    this.searchString = null;
+    this.searchString = getParameterByName('search') || null;
+    this.searchAll = getParameterByName('searchAll') || null;
+    if (this.searchString) {
+      this.categoryId = "";
+      localStorage.setItem('categoryId', "");
+      this.departmentId = "";
+      localStorage.setItem('departmentId', "");
+    }
     this.pageNum = parseInt(getParameterByName('page')) || 1;
   }
 
@@ -257,7 +282,7 @@ export default class HomeController {
     var productList;
 
     if (this.searchString) {
-      productList = productService.list(this.pageNum, ITEMS_PER_PAGE);
+      productList = productService.search(this.searchString, this.searchAll, this.pageNum, ITEMS_PER_PAGE);
     } else if (this.categoryId) {
       productList = productService.getProductsByCategory(this.categoryId, this.pageNum, ITEMS_PER_PAGE);
     } else if (this.departmentId) {
@@ -268,7 +293,12 @@ export default class HomeController {
 
     productList.then(function(products) {
 
-      var context = {products: products, paging: that.getPagingData(products.count)};
+      var context = {
+	products: products,
+	searchString: that.searchString,
+	searchAll: that.searchAll,
+	paging: that.getPagingData(products.count)
+      };
 
       render('_products.html', context, function(err, res) {
 	var productsElem = document.querySelector('div.products-list');
@@ -285,8 +315,11 @@ export default class HomeController {
       var context = {
 	departments: departments.rows,
  	departmentId: that.departmentId,
-	categoryId: that.categoryId
+	categoryId: that.categoryId,
+	searchString: that.searchString,
+	searchAll: that.searchAll
       };
+
       render('home.html', context, function(err, res) {
 	var mainDiv = document.getElementById('main');
 	mainDiv.innerHTML= res;
@@ -298,6 +331,7 @@ export default class HomeController {
 	M.updateTextFields();
 	that.handleQuickAddToCartEvent();
 	that.handleDepartmentChangeEvent();
+	handleSearchEvent();
 	if (that.departmentId) {
 	  that.renderCategories();
 	}

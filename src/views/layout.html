@@ -1,3 +1,31 @@
 <div class="container">
+  <br />
+
+  <div class="row">
+    <div class="col s8">
+      <a href="/">Home</a>
+    </div>
+    <div class="col s4">
+      <form onsubmit="event.preventDefault();">
+	<div class="row">
+	  <div class="input-field col s9">
+	    <input id="search" name="search" type="text" value="{{searchString}}" class="validate">
+	    <label for="search">Search</label>
+	  </div>
+	  <button class="col s3 waves-effect waves-light btn-large search">Go!</button>
+	</div>
+	<div class="row">
+	  <div class="input-field col s12">
+	    <p>
+	      <label>
+		<input type="checkbox" {% if searchAll == 'yes' %}checked{% endif %} name="search_all" class="filled-in">
+		<span>Search for all words</span>
+	      </label>
+	    </p>
+	  </div>
+	</div>
+      </form>
+    </div>
+  </div>
   {% block content %}{% endblock %}
 </div>

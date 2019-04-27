@@ -3,7 +3,7 @@
     <ul class="pagination center-align">
       {% for i in range(1, paging.total + 1) %}
 	<li class="{% if paging.page == i %}active{% endif %} waves-effect">
-	  <a href="?page={{i}}">{{i}}</a>
+	  <a href="?page={{i}}{% if searchString %}&search={{searchString}}&searchAll={{searchAll}}{% endif %}">{{i}}</a>
 	</li>
       {% endfor %}
     </ul>
