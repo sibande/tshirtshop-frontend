@@ -1,7 +1,7 @@
 import BaseService from './base_service';
 
 
-export default class PostService extends BaseService {
+export default class ProductService extends BaseService {
 
   constructor() {
     super();

@@ -12,8 +12,9 @@ export default class ShoppingcartService extends BaseService {
     try {
       shoppingCart = JSON.parse(shoppingCart);
     } catch (e) {
-      shoppingCart = {items: []};
+      shoppingCart = null;
     }
+    shoppingCart = shoppingCart ? shoppingCart : {items: []};
 
     shoppingCart.items = shoppingCart.items ? shoppingCart.items : [];
 

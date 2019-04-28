@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+  
+  <br>
+  <div class="row">
+    <div class="col s12">
+
+
+      <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false">Login with Facebook</div>
+      <br>
+      <br>
+      Or
+
+    </div>
+
+  </div>
+  <div class="row">
+    <form class="col s12" onsubmit="event.preventDefault();">
+      <div class="row">
+	<div class="input-field col s12">
+          <input id="email" name="email" type="text" class="validate">
+          <label for="email">Email</label>
+        </div>
+      </div>
+      <div class="row">
+	<div class="input-field col s12">
+          <input id="password" type="password" name="password" class="validate">
+          <label for="password">Password</label>
+        </div>
+
+      </div>
+      <div class="row">
+	<div class="col s12">
+	  <button class="waves-effect waves-light btn-large login">Login</button>
+	</div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <div class="col s12">
+      Or
+      <br>
+      <a href="/customer/register">Create an Account</a>
+      <br>
+      <br>
+    </div>
+  </div>
+  
+
+{% endblock %}
+

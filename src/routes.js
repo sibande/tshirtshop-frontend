@@ -4,6 +4,7 @@ import Navigo from 'navigo';
 import HomeController from './controllers/home';
 import ProductController from './controllers/product';
 import ShoppingcartController from './controllers/shoppingcart';
+import CustomerController from './controllers/customer';
 
 var root = '/';
 var router = new Navigo(root);
@@ -44,10 +45,20 @@ router
       controller.render(params, query);
     },
     'shoppingcart/details': function (params, query) {
-      // var controller = new ProductController;
-      // controller.render(params, query);
       var controller = new ShoppingcartController;
       controller.render();
+    },
+    'shoppingcart/shipping': function (params, query) {
+      var controller = new CustomerController;
+      controller.renderShipping();
+    },
+    'customer/login': function (params, query) {
+      var controller = new CustomerController;
+      controller.renderLogin();
+    },
+    'customer/register': function (params, query) {
+      var controller = new CustomerController;
+      controller.renderRegister();
     },
     '*': function () {
       var controller = new HomeController;
