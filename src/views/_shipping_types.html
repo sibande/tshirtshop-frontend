@@ -1,0 +1,8 @@
+<select name="shipping_type">
+  {% for shippingType in shippingTypes %}
+    <option value="{{shippingType.shipping_id}}">
+      {{shippingType.shipping_type}}
+    </option>
+  {% endfor %}
+</select>
+<label>Type</label>

@@ -22,6 +22,16 @@ export default class CustomerService extends BaseService {
     });
   }
 
+  getCustomer() {
+    let url = this.baseUrl + '/customer';
+
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+
   loginCustomer(email, password) {
     var formData = new FormData();
     formData.append('email', email);

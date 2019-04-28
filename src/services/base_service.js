@@ -21,13 +21,18 @@ export default class BaseService {
   }
 
   getOptions() {
+    var authorizationKey = localStorage.getItem('authorizationKey');
+
+    if (authorizationKey) {
+      FETCH_DEFAULTS.headers['USER-KEY'] = authorizationKey;
+    }
     return FETCH_DEFAULTS;
   }
 
   getQuery(params, skipEmpty) {
-    let esc = encodeURIComponent;
+    var esc = encodeURIComponent;
 
-    let queryStr = Object.keys(params)
+    var queryStr = Object.keys(params)
       .map((k) => {
 	if ((params[k] === '' || params[k] === null || params[k] === undefined) && skipEmpty === true) {
 	  return null;

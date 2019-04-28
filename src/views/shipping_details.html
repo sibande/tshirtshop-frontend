@@ -3,9 +3,86 @@
 {% block content %}
   <br>
 
+  <div class="row">
+    <form class="col s12" onsubmit="event.preventDefault();">
+      <div class="row">
+	<div class="input-field col s12">
+          <input id="name" disabled type="text" value="{{customer.name}}" class="validate">
+          <label for="name">Name</label>
+        </div>
+      </div>
+
+      <div class="row">
+	<div class="input-field col s12">
+          <input id="address_1" name="address_1" type="text" value="{{customer.address_1}}" class="validate">
+          <label for="address_1">Address Line 1</label>
+        </div>
+      </div>
+      <div class="row">
+	<div class="input-field col s12">
+          <input id="address_2" name="address_2" type="text" value="{{customer.address_2}}" class="validate">
+          <label for="address_2">Address Line 2</label>
+        </div>
+      </div>
+      <div class="row">
+	<div class="input-field col s12">
+          <input id="region" name="region" type="text" value="{{customer.region}}" class="validate">
+          <label for="region">Region / State / Province</label>
+        </div>
+      </div>
+      <div class="row">
+	<div class="input-field col s6">
+          <input id="city" name="city" type="text" value="{{customer.city}}" class="validate">
+          <label for="city">City</label>
+        </div>
+	<div class="input-field col s6">
+          <input id="postal_code" name="postal_code" type="text" value="{{customer.postal_code}}" class="validate">
+          <label for="postal_code">Postal Code</label>
+        </div>
+
+      </div>
+      <div class="row">
+	<div class="input-field col s12">
+          <input id="country" name="country" type="text" value="{{customer.country}}" class="validate">
+          <label for="country">Country</label>
+        </div>
+      </div>
+
+
+      <div class="row">
+	<div class="input-field col s6">
+	  <select name="shipping_region_id">
+	    {% for shippingRegion in shippingRegions.rows %}
+	      <option
+		{% if shippingRegion.shipping_region_id == 1 %}disabled{% endif %}
+		{% if shippingRegion.shipping_region_id == customer.shipping_region_id %}selected{% endif %}
+		value="{{shippingRegion.shipping_region_id}}"
+		>
+		{{shippingRegion.shipping_region}}
+	      </option>
+	    {% endfor %}
+	  </select>
+	  <label>Shipping Regions</label>
+	</div>
+
+	<div class="input-field col s6 shipping-types">
+	</div>
+      </div>
+
+      <br>
+      <br>
+
+      <div class="row">
+	<div class="col s12">
+	  <button class="waves-effect waves-light btn-large shipping">Continue</button>
+	</div>
+      </div>
+
+      <br>
+      <br>
+
+    </form>
+  </div>
 
 {% endblock %}
-
-
-
 
