@@ -52,6 +52,10 @@ router
       var controller = new CustomerController;
       controller.renderShipping();
     },
+    'shoppingcart/confirm': function (params, query) {
+      var controller = new CustomerController;
+      controller.renderConfirm();
+    },
     'customer/login': function (params, query) {
       var controller = new CustomerController;
       controller.renderLogin();

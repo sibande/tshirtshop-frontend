@@ -61,5 +61,25 @@ export default class CustomerService extends BaseService {
     });
   }
 
+  updateCustomerAddress(address1, address2, city, region, postalCode, country, shippingRegionId) {
+    var url = this.baseUrl + '/customers/address';
+
+    var formData = new FormData();
+    formData.append('address_1', address1);
+    formData.append('address_2', address2);
+    formData.append('city', city);
+    formData.append('region', region);
+    formData.append('postal_code', postalCode);
+    formData.append('country', country);
+    formData.append('shipping_region_id', shippingRegionId);
+
+    return fetch(url, Object.assign({
+      body: formData, // must match 'Content-Type' header
+      method: 'PUT'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+
   
 }

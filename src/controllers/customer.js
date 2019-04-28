@@ -56,29 +56,28 @@ function updateShipping(e) {
   var customParams = e.target.customParams;
   var form = customParams.form;
 
-  var address_1 = form.querySelector('input[name=address_1]').value;
-  var address_2 = form.querySelector('input[name=address_2]').value;
+  var address1 = form.querySelector('input[name=address_1]').value;
+  var address2 = form.querySelector('input[name=address_2]').value;
   var region = form.querySelector('input[name=region]').value;
   var city = form.querySelector('input[name=city]').value;
-  var postal_code = form.querySelector('input[name=postal_code]').value;
+  var postalCode = form.querySelector('input[name=postal_code]').value;
   var country = form.querySelector('input[name=country]').value;
   var shippingRegionId = document.querySelector('select[name="shipping_region_id"]').value;
   var shippingType = document.querySelector('select[name="shipping_type"]').value;
 
 
   localStorage.setItem('draftOrder', JSON.stringify({
-    address_1: address_1,
-    address_2: address_2,
+    address1: address1,
+    address2: address2,
     region: region,
     city: city,
-    postal_code: postal_code,
+    postalCode: postalCode,
     country: country,
     shippingRegionId: shippingRegionId,
     shippingType: shippingType
   }));
 
   window.location.href = '/shoppingcart/confirm';
-
 }
 
 function handleRegister(e) {
@@ -116,6 +115,36 @@ function handleShippingRegionChange(e) {
     });
   }
 }
+
+
+function confirmOrder(e) {
+  var draftOrder;
+  try {
+    draftOrder = JSON.parse(localStorage.getItem('draftOrder'));
+  } catch (e) {
+    draftOrder = null;
+  }
+
+  if (draftOrder) {
+    customerService.updateCustomerAddress(
+      draftOrder.address1, draftOrder.address2, draftOrder.city, draftOrder.region,
+      draftOrder.postalCode, draftOrder.country, draftOrder.shippingRegionId
+    ).then(function(data) {
+      localStorage.setItem('customer', data);
+
+      var shoppingCart = shoppingcartService.getShoppingcart();
+
+      orderService.createOrder(shoppingCart.cartId, draftOrder.shippingType, 2).then(function(data) {
+	if (!('error' in data)) {
+	  localStorage.setItem('customerOrderId', data.orderId);
+
+	  window.location.href = "/shoppingcart/payment";
+	}
+      });
+    });
+  }
+}
+
 
 export default class CustomerController {
 
@@ -188,6 +217,69 @@ export default class CustomerController {
     });
   }
 
+  handleConfirmOrderEvent() {
+    var element = document.querySelector('form button.confirm');
+
+    element.removeEventListener('click', confirmOrder);
+    element.addEventListener('click', confirmOrder);
+    element.customParams = {
+      form: element.closest('form')
+    };
+  }
+
+  renderConfirm() {
+    var that = this;
+
+    //
+    if (!localStorage.getItem('authorizationKey')) {
+      window.location.href = '/customer/login';
+    }
+
+    var shoppingCart = shoppingcartService.getShoppingcart();
+
+    if (shoppingCart.cartId) {
+      var cartId = shoppingCart.cartId;
+      Promise.all([
+	shoppingcartService.getCartProducts(cartId),
+	shoppingcartService.getCartTotalAmount(cartId)
+      ]).then(function(data) {
+	var cartItems = data[0];
+	var totalAmount = data[1]['total_amount'];
+
+	cartItems.map(function(item) {
+	  try {
+	    item.attributes = JSON.parse(item.attributes);
+	  } catch (e) {
+	  }
+	  return item;
+	});
+
+	var draftOrder;
+	try {
+	  draftOrder = JSON.parse(localStorage.getItem('draftOrder'));
+	} catch (e) {
+	  draftOrder = {};
+	}
+
+	orderService.getShippingTypesByRegion(draftOrder.shippingRegionId).then(function(data) {
+	  var context = {
+	    cartItems: cartItems,
+	    totalAmount: totalAmount,
+	    draftOrder: draftOrder,
+	    shippingTypes: data
+	  };
+
+	  render('confirm.html', context, function(err, res) {
+	    var mainDiv = document.getElementById('main');
+	    mainDiv.innerHTML= res;
+	    //
+	    that.handleConfirmOrderEvent();
+	  });
+	});
+      });;
+    }
+
+  }
   
   renderShipping() {
     //

@@ -28,4 +28,19 @@ export default class OrderService extends BaseService {
     });
   }
 
+  createOrder(cartId, shippingId, taxId) {
+    var formData = new FormData();
+    formData.append('cart_id', cartId);
+    formData.append('shipping_id', shippingId);
+    formData.append('tax_id', taxId);
+
+    return fetch(this.baseUrl + '/orders', Object.assign({
+      body: formData, // must match 'Content-Type' header
+      method: 'POST'
+    }, this.getOptions())).then(function(res) {
+
+      return res.json();
+    });
+  }
+
 }
