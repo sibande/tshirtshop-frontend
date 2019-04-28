@@ -39,7 +39,6 @@ function handleAddToCarMouseLeave(e) {
   currentElem.remove();
 }
 
-var lastCalled = new Date().getTime();
 
 function handleAddToCartMouseOver(e) {
   var latestHoverProduct = null;
@@ -237,7 +236,6 @@ export default class HomeController {
   }
 
   handleQuickAddToCartEvent() {
-    lastCalled = new Date().getTime();
 
     document.removeEventListener('mouseover', handleAddToCartMouseOver);
     document.addEventListener('mouseover', handleAddToCartMouseOver);

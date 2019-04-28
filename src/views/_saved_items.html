@@ -1,0 +1,28 @@
+<div class="row header">
+  <div class="col s6">
+    Product Name
+  </div>
+  <div class="col s2">
+    Quantity
+  </div>
+  <div class="col s4">
+  </div>
+</div>
+
+{% for savedItem in savedItems %}
+  <div class="row" data-item-id="{{savedItem.item_id}}">
+    <div class="col s6">
+      {{ savedItem.name }}
+      ({% for attributeName, attribute in savedItem.attributes %}
+      {% if not loop.first %} / {% endif %}{{ attributeName }} - {{ attribute.name }}
+    {% endfor %} )
+    </div>
+    <div class="col s2">
+      {{ savedItem.price }}
+    </div>
+    <div class="col s4">
+      <a class="move" href="#">Move to cart</a> <br>
+      <a class="delete" href="#">Remove</a>
+    </div>
+  </div>
+{% endfor %}

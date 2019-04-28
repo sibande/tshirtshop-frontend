@@ -3,88 +3,31 @@
 {% block content %}
   <br>
 
-  <div class="row">
-    <div class="col s12">
-      <strong>These are the products in your shopping cart:</strong>
-    </div>
-  </div>
-
-  
-  <div class="row">
-      <div class="col s6">
-	Product Name
-      </div>
-      <div class="col s1">
-	Price
-      </div>
-      <div class="col s1">
-	Quantity
-      </div>
-      <div class="col s1">
-	Subtotal
-      </div>
-      <div class="col s3">
-      </div>
-  </div>
-
-  {% for cartItem in cartItems %}
+  <div class="cart-items">
     <div class="row">
-      <div class="col s6">
-	{{ cartItem.name }}
-	({% for attributeName, attribute in cartItem.attributes %}
-           {% if not loop.first %} / {% endif %}{{ attributeName }} - {{ attribute.name }}
-         {% endfor %} )
-      </div>
-      <div class="col s1">
-	{{ cartItem.price }}
-      </div>
-      <div class="col s1">
-	{{ cartItem.quantity }}
-      </div>
-      <div class="col s1">
-	{{ cartItem.quantity * cartItem.price }}
-      </div>
-      <div class="col s3">
-	<a href="#">Save for later</a> <br>
-	<a href="#">Remove</a>
+      <div class="col s12">
+	<strong>These are the products in your shopping cart:</strong>
       </div>
     </div>
-  {% endfor %}
+    <div class="item-list">
 
-  <div class="row">
-    <div class="col s12">
-      <strong>Save products to buy later:</strong>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col s6">
-      Product Name
-    </div>
-    <div class="col s2">
-      Quantity
-    </div>
-    <div class="col s4">
-    </div>
-  </div>
-
-  {% for savedItem in savedItems %}
+  <br>
+  <br>
+  <div class="saved-items">
     <div class="row">
-      <div class="col s6">
-	{{ savedItem.name }}
-	({% for attributeName, attribute in savedItem.attributes %}
-           {% if not loop.first %} / {% endif %}{{ attributeName }} - {{ attribute.name }}
-         {% endfor %} )
-      </div>
-      <div class="col s2">
-	{{ savedItem.price }}
-      </div>
-      <div class="col s4">
-	<a href="#">Move to cart</a> <br>
-	<a href="#">Remove</a>
+      <div class="col s12">
+	<strong>Save products to buy later:</strong>
       </div>
     </div>
-  {% endfor %}
+
+    <div class="item-list">
+    </div>
+
+  </div>
+
 
 {% endblock %}
 

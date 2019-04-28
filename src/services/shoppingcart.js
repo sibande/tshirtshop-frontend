@@ -15,6 +15,8 @@ export default class ShoppingcartService extends BaseService {
       shoppingCart = {items: []};
     }
 
+    shoppingCart.items = shoppingCart.items ? shoppingCart.items : [];
+
     shoppingCart.items.map(function(attribute) {
       try {
 	attribute.attributes = JSON.parse(attribute.attributes);
@@ -84,7 +86,7 @@ export default class ShoppingcartService extends BaseService {
   }
 
   updateItem(itemId, quantity) {
-    let url = this.baseUrl + '/shoppingcart/update/' + itemId;
+    var url = this.baseUrl + '/shoppingcart/update/' + itemId;
 
     var formData = new FormData();
     formData.append('quantity', quantity);
@@ -97,8 +99,38 @@ export default class ShoppingcartService extends BaseService {
     });
   }
 
+  saveForLater(itemId) {
+    var url = this.baseUrl + '/shoppingcart/saveForLater/' + itemId;
+
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.text();
+    });
+  }
+
+  moveToCart(itemId) {
+    var url = this.baseUrl + '/shoppingcart/moveToCart/' + itemId;
+
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.text();
+    });
+  }
+
+  removeProduct(itemId) {
+    var url = this.baseUrl + '/shoppingcart/removeProduct/' + itemId;
+
+    return fetch(url, Object.assign({
+      method: 'DELETE'
+    }, this.getOptions())).then(function(res) {
+      return res.text();
+    });
+  }
+
   getCartTotalAmount(cartId) {
-    let url = this.baseUrl + '/shoppingcart/totalAmount/' + cartId;
+    var url = this.baseUrl + '/shoppingcart/totalAmount/' + cartId;
 
     return fetch(url, Object.assign({
       method: 'GET'
@@ -108,7 +140,7 @@ export default class ShoppingcartService extends BaseService {
   }
 
   getCartProducts(cartId) {
-    let url = this.baseUrl + '/shoppingcart/' + cartId;
+    var url = this.baseUrl + '/shoppingcart/' + cartId;
 
     return fetch(url, Object.assign({
       method: 'GET'
@@ -118,7 +150,7 @@ export default class ShoppingcartService extends BaseService {
   }
 
   getSavedProducts(cartId) {
-    let url = this.baseUrl + '/shoppingcart/getSaved/' + cartId;
+    var url = this.baseUrl + '/shoppingcart/getSaved/' + cartId;
 
     return fetch(url, Object.assign({
       method: 'GET'
@@ -126,9 +158,14 @@ export default class ShoppingcartService extends BaseService {
       return res.json();
     });
   }
+
+  getRefreshCart(cartId) {
+    return this.getCartProducts(cartId).then(function(data) {
+    });
+  }
   
   getCartId() {
-    let url = this.baseUrl + '/shoppingcart/generateUniqueId';
+    var url = this.baseUrl + '/shoppingcart/generateUniqueId';
 
     return fetch(url, Object.assign({
       method: 'GET'
