@@ -40,8 +40,14 @@
 @import "~materialize-css/sass/components/datepicker";
 @import "~materialize-css/sass/components/timepicker";
 
-@import "custom";
 
 
 // Tiny Slider;
 @import "~tiny-slider/src/tiny-slider";
+
+
+// Custom
+@import "custom";
+@import "forms";
+@import "stripe";
+

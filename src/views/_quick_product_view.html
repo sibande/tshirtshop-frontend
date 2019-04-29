@@ -1,7 +1,7 @@
 <div class="row" data-product-id="{{product.product_id}}">
   <div class="col s12">
     <div class="center-align">
-      <a class="nojs" href="/product/{{product.product_id}}"><strong>{{ product.name }}</strong></a>
+      <a href="/product/{{product.product_id}}"><strong>{{ product.name }}</strong></a>
     </div>
     <div class="center-align">
       <p><strong>{{ product.price }}</strong> {{ product.discounted_price }}</p>
@@ -10,9 +10,9 @@
       <input name="quantity" type="hidden" value="1">
       <div class="center-align">
 	{% for attributeNane, attributeList in attributes %}
-	  <div>
+	  <div class="attribute-{{attributeNane|lower}}">
 	    {% for attributeId, attribute in attributeList %}
-	      <label>
+	      <label class="{% if attributeNane == 'Color' %}color-{{attribute.attribute_value|lower}}{% endif %}">
 		<input class="with-gap" name="{{ attributeNane }}"
 		       value="{{ attribute.attribute_value_id }}" type="radio" />
 		       <span>{% if attributeNane == 'Size' %}{{attribute.attribute_value}}{% endif %}</span>

@@ -35,6 +35,7 @@ document.addEventListener('click', function(e) {
 });
 
 
+var loadingPage = '<div id="page-loading"><img src="/static/img/ajax_medium.gif" alt="Page loading..."></div>';
 
 
 router
@@ -74,3 +75,12 @@ router
     }
   })
   .resolve();
+
+router.hooks({
+  before: function(done, params) {
+    var contentElem = document.querySelector('.container > div.content');
+    contentElem.innerHTML = loadingPage;
+
+    done();
+  }
+});

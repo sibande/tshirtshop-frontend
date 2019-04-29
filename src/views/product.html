@@ -61,16 +61,17 @@
       </div>
       <div>
 	{{product.description}}
-	
+
       </div>
       <br />
       <form onsubmit="event.preventDefault();">
 	<div>
 	  {% for attributeNane, attributeList in attributes %}
 	    <div><strong>{{attributeNane}}</strong></div>
-	    <div>
+
+	    <div class="attribute-{{attributeNane|lower}}">
 	      {% for attributeId, attribute in attributeList %}
-		<label>
+		<label class="{% if attributeNane == 'Color' %}color-{{attribute.attribute_value|lower}}{% endif %}">
 		  <input class="with-gap" name="{{ attributeNane }}"
 			 value="{{ attribute.attribute_value_id }}" type="radio" />
 		  <span>{% if attributeNane == 'Size' %}{{attribute.attribute_value}}{% endif %}</span>

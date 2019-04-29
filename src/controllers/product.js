@@ -72,7 +72,7 @@ export default class ProductController {
 	  var mappedAttributes = attributeService.mapProductAttributes(attributes);
 	  that.productAttributes = mappedAttributes;
 
-	  render('product.html', {product: product, attributes: mappedAttributes}, function(err, res) {	    
+	  render('product.html', {product: product, attributes: mappedAttributes}, function(err, res) {
 	    // Render the page
 	    var mainDiv = document.getElementById('main');
 	    mainDiv.innerHTML= res;
@@ -96,6 +96,5 @@ export default class ProductController {
 
       }
     });
-
   }
 }

@@ -18,14 +18,14 @@
     {% endif %}
 
     <div class="col s4">
-      <div class="product-item-wrapper">
+      <div class="product-item-wrapper card-panel">
 
 	<div class="product-item" data-product-id="{{product.product_id}}">
 	  <div class="center-align">
 	    <img src="/static/resources/product_images/{{ product.thumbnail }}" alt="{{ product.name }}">
 	  </div>
 	  <div class="center-align">
-	    <a class="nojs" href="/product/{{product.product_id}}"><strong>{{ product.name }}</strong></a>
+	    <a href="/product/{{product.product_id}}"><strong>{{ product.name }}</strong></a>
 	  </div>
 	  <div class="center-align">
 	    <p><strong>{{ product.price }}</strong></p>
