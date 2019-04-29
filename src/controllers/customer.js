@@ -6,6 +6,7 @@ import CustomerService from './../services/customer';
 import ShoppingcartService from './../services/shoppingcart';
 import OrderService from './../services/order';
 var facebook =require('./../shared/facebook');
+var stripe =require('./../shared/stripe');
 
 
 var productService = new ProductService();
@@ -17,6 +18,28 @@ var shoppingcartService = new ShoppingcartService();
 export function handleStatusChange(res) {
 
 };
+
+
+// Submit the form with the token ID.
+export function stripeTokenHandler(token, orderData) {
+  // Insert the token ID into the form so it gets submitted to the server
+  var form = document.getElementById('payment-form');
+  var hiddenInput = document.createElement('input');
+  hiddenInput.setAttribute('type', 'hidden');
+  hiddenInput.setAttribute('name', 'stripeToken');
+  hiddenInput.setAttribute('value', token.id);
+  form.appendChild(hiddenInput);
+
+  var grandTotal = (orderData.total_amount + orderData.shipping_cost) * 100;
+  orderService.chargeOrder(
+    token.id, orderData.order_id, 'Order # ' +orderData.order_id, grandTotal, 'usd').then(function(data) {
+      if (!('error' in data)) {
+	window.location.href = "/";
+	localStorage.removeItem('draftOrder');
+      }
+    });
+}
+
 
 export function handleAuthResponseChange(res) {
   if (res.status == 'connected') {
@@ -136,9 +159,7 @@ function confirmOrder(e) {
 
       orderService.createOrder(shoppingCart.cartId, draftOrder.shippingType, 2).then(function(data) {
 	if (!('error' in data)) {
-	  localStorage.setItem('customerOrderId', data.orderId);
-
-	  window.location.href = "/shoppingcart/payment";
+	  window.location.href = "/shoppingcart/payment/" + data.orderId;
 	}
       });
     });
@@ -280,6 +301,26 @@ export default class CustomerController {
     }
 
   }
+
+  renderPayment(params, query) {
+    //
+    if (!localStorage.getItem('authorizationKey')) {
+      window.location.href = '/customer/login';
+    }
+    var that = this;
+
+    orderService.getOrder(params.orderId).then(function(data) {
+      var grandTotal = data.total_amount + data.shipping_cost;
+      render('payment.html', {order: data, grandTotal: grandTotal}, function(err, res) {
+	var mainDiv = document.getElementById('main');
+	mainDiv.innerHTML= res;
+
+	stripe.initStripe(data);
+      });
+    });
+
+  }
+
   
   renderShipping() {
     //

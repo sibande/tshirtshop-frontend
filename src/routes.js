@@ -20,7 +20,6 @@ document.addEventListener('click', function(e) {
     elem = elem.closest('a');
   }
 
-
   if (elem.tagName == "A" && elem.getAttribute('href') && !elem.classList.contains('nojs')) {
     let uri = elem.getAttribute('href');
 
@@ -55,6 +54,10 @@ router
     'shoppingcart/confirm': function (params, query) {
       var controller = new CustomerController;
       controller.renderConfirm();
+    },
+    'shoppingcart/payment/:orderId': function (params, query) {
+      var controller = new CustomerController;
+      controller.renderPayment(params, query);
     },
     'customer/login': function (params, query) {
       var controller = new CustomerController;

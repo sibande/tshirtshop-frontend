@@ -11,7 +11,7 @@ export const FETCH_DEFAULTS = {
   referrer: 'no-referrer' // *client, no-referrer
 };
 
-export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = 'https://www.themba.xyz/v1';
 
 
 export default class BaseService {
