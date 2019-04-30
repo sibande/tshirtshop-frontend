@@ -6525,41 +6525,6 @@ input[type=range]::-ms-thumb {
     text-align: center;
     margin-top: 1.2rem; } }
 
-#page-loading img {
-  /* https://stackoverflow.com/a/10795144 */
-  position: absolute;
-  z-index: 15;
-  top: 50%;
-  left: 50%;
-  margin: -32px 0 0 -32px; }
-
-.discounted-price {
-  text-decoration: line-through; }
-
-#customize-thumbnails li {
-  display: inline;
-  list-style-type: none; }
-
-.thumbnails {
-  margin: 20px 0;
-  text-align: center; }
-
-.thumbnails li {
-  display: inline-block;
-  cursor: pointer;
-  border: 5px solid #fff; }
-
-.thumbnails .tns-nav-active {
-  background: none; }
-
-.thumbnails li {
-  height: 50px; }
-
-.thumbnails img {
-  vertical-align: bottom;
-  height: auto;
-  max-height: 50px; }
-
 .tns-outer {
   padding: 0 !important; }
   .tns-outer [hidden] {
@@ -6683,3 +6648,287 @@ input[type=range]::-ms-thumb {
     width: calc(100% / 70);
     height: 10px;
     float: left; }
+
+#page-loading img {
+  /* https://stackoverflow.com/a/10795144 */
+  position: absolute;
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  margin: -32px 0 0 -32px; }
+
+#customize-thumbnails li {
+  display: inline;
+  list-style-type: none; }
+
+.thumbnails {
+  margin: 20px 0;
+  text-align: center; }
+
+.thumbnails li {
+  display: inline-block;
+  cursor: pointer;
+  border: 5px solid #fff; }
+
+.thumbnails .tns-nav-active {
+  background: none; }
+
+.thumbnails li {
+  height: 50px; }
+
+.thumbnails img {
+  vertical-align: bottom;
+  height: auto;
+  max-height: 50px; }
+
+.controls .next {
+  display: inline-block;
+  float: right;
+  margin-top: -50px;
+  cursor: pointer; }
+
+.controls .prev {
+  display: inline-block;
+  float: left;
+  margin-top: -50px;
+  cursor: pointer; }
+
+div.product-item-wrapper {
+  position: relative;
+  clear: both; }
+
+div.product-item-wrapper > div.quick-add-to-cart {
+  position: absolute;
+  width: 94%;
+  height: 100%;
+  background-color: white;
+  z-index: 2;
+  opacity: 0.95;
+  top: 0;
+  left: 0.75rem; }
+
+div.product-item-wrapper > div.quick-add-to-cart img.quick-view-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -16px 0 0 -16px; }
+
+.price {
+  margin: 5px 0; }
+  .price .current-price {
+    color: #ee6e73;
+    font-size: 25px;
+    margin: 0; }
+  .price .old-price {
+    text-decoration: line-through;
+    margin: 0; }
+
+.product h2 {
+  margin-top: 0;
+  padding-top: 0; }
+
+nav.clean {
+  background-color: #fff;
+  border: 0;
+  box-shadow: none; }
+  nav.clean .breadcrumb {
+    color: black; }
+  nav.clean .breadcrumb::before {
+    color: #000; }
+  nav.clean .nav-wrapper > div {
+    padding-left: 0; }
+
+div.attribute-color [type="radio"]:not(:checked) + span::after,
+div.attribute-color .span::after {
+  transform: scale(0.5); }
+
+div.attribute-color [type="radio"]:not(:checked) + span,
+div.attribute-color [type="radio"]:checked + span {
+  padding-left: 18px; }
+
+div.attribute-color label.color-black [type="radio"] + span::after {
+  background-color: #000000;
+  border: 2px solid #000000; }
+
+div.attribute-color label.color-black [type="radio"] + span::before {
+  border: 2px solid #000000; }
+
+div.attribute-color label.color-black [type="radio"]:not(:checked) + span::before {
+  background-color: #000000; }
+
+div.attribute-color label.color-white [type="radio"] + span::after {
+  background-color: #ffffff;
+  border: 2px solid #ffffff; }
+
+div.attribute-color label.color-white [type="radio"]:checked + span::after {
+  border: 2px solid #dddddd; }
+
+div.attribute-color label.color-white [type="radio"] + span::before {
+  border: 2px solid #dddddd; }
+
+div.attribute-color label.color-white [type="radio"]:not(:checked) + span::before {
+  background-color: #ffffff; }
+
+div.attribute-color label.color-red [type="radio"] + span::after {
+  background-color: #ff0000;
+  border: 2px solid #ff0000; }
+
+div.attribute-color label.color-red [type="radio"] + span::before {
+  border: 2px solid #ff0000; }
+
+div.attribute-color label.color-red [type="radio"]:not(:checked) + span::before {
+  background-color: #ff0000; }
+
+div.attribute-color label.color-orange [type="radio"] + span::after {
+  background-color: #ff7f00;
+  border: 2px solid #ff7f00; }
+
+div.attribute-color label.color-orange [type="radio"] + span::before {
+  border: 2px solid #ff7f00; }
+
+div.attribute-color label.color-orange [type="radio"]:not(:checked) + span::before {
+  background-color: #ff7f00; }
+
+div.attribute-color label.color-yellow [type="radio"] + span::after {
+  background-color: #ffff00;
+  border: 2px solid #ffff00; }
+
+div.attribute-color label.color-yellow [type="radio"] + span::before {
+  border: 2px solid #ffff00; }
+
+div.attribute-color label.color-yellow [type="radio"]:not(:checked) + span::before {
+  background-color: #ffff00; }
+
+div.attribute-color label.color-green [type="radio"] + span::after {
+  background-color: #00ff00;
+  border: 2px solid #00ff00; }
+
+div.attribute-color label.color-green [type="radio"] + span::before {
+  border: 2px solid #00ff00; }
+
+div.attribute-color label.color-green [type="radio"]:not(:checked) + span::before {
+  background-color: #00ff00; }
+
+div.attribute-color label.color-blue [type="radio"] + span::after {
+  background-color: #0000ff;
+  border: 2px solid #0000ff; }
+
+div.attribute-color label.color-blue [type="radio"] + span::before {
+  border: 2px solid #0000ff; }
+
+div.attribute-color label.color-blue [type="radio"]:not(:checked) + span::before {
+  background-color: #0000ff; }
+
+div.attribute-color label.color-indigo [type="radio"] + span::after {
+  background-color: #4B0082;
+  border: 2px solid #4B0082; }
+
+div.attribute-color label.color-indigo [type="radio"] + span::before {
+  border: 2px solid #4B0082; }
+
+div.attribute-color label.color-indigo [type="radio"]:not(:checked) + span::before {
+  background-color: #4B0082; }
+
+div.attribute-color label.color-purple [type="radio"] + span::after {
+  background-color: #800080;
+  border: 2px solid #800080; }
+
+div.attribute-color label.color-purple [type="radio"] + span::before {
+  border: 2px solid #800080; }
+
+div.attribute-color label.color-purple [type="radio"]:not(:checked) + span::before {
+  background-color: #800080; }
+
+div.attribute-size [type="radio"]:not(:checked) + span::after,
+div.attribute-size .span::after {
+  transform: scale(1); }
+
+div.attribute-size label {
+  color: #000000; }
+  div.attribute-size label [type="radio"] + span::before,
+  div.attribute-size label [type="radio"] + span::after {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    margin: 0; }
+  div.attribute-size label [type="radio"] + span::after {
+    background-color: #f0f0f0;
+    opacity: 0.5;
+    border: 2px solid #f0f0f0; }
+  div.attribute-size label [type="radio"] + span::before {
+    border: 2px solid #f0f0f0; }
+  div.attribute-size label [type="radio"]:not(:checked) + span::before {
+    opacity: 0.5;
+    background-color: #f0f0f0; }
+  div.attribute-size label [type="radio"]:not(:checked) + span,
+  div.attribute-size label [type="radio"]:checked + span {
+    padding: 0 10px;
+    background-color: #cccccc;
+    width: 45px;
+    text-align: center;
+    margin: 2px 2px 2px 0; }
+  div.attribute-size label [type="radio"]:checked + span::before,
+  div.attribute-size label [type="radio"]:checked + span::after {
+    border-radius: 0;
+    background-color: #cccccc;
+    border: 2px solid #cccccc;
+    opacity: 0.5; }
+
+ul.products-filter [type="radio"]:not(:checked) + span::after,
+ul.products-filter .span::after {
+  transform: scale(1); }
+
+ul.products-filter label {
+  color: #000000; }
+  ul.products-filter label [type="radio"] + span::before,
+  ul.products-filter label [type="radio"] + span::after {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    margin: 0; }
+  ul.products-filter label [type="radio"] + span::after {
+    background-color: #f0f0f0;
+    opacity: 0.5;
+    border: 2px solid #f0f0f0; }
+  ul.products-filter label [type="radio"] + span::before {
+    border: 2px solid #f0f0f0; }
+  ul.products-filter label [type="radio"]:not(:checked) + span::before {
+    opacity: 0.5;
+    background-color: #f0f0f0; }
+  ul.products-filter label [type="radio"]:not(:checked) + span,
+  ul.products-filter label [type="radio"]:checked + span {
+    padding: 0 10px;
+    background-color: #cccccc;
+    width: 100%;
+    text-align: center;
+    margin: 2px 2px 2px 0; }
+  ul.products-filter label [type="radio"]:checked + span::before,
+  ul.products-filter label [type="radio"]:checked + span::after {
+    border-radius: 0;
+    background-color: #cccccc;
+    border: 2px solid #cccccc;
+    opacity: 0.5; }
+
+/**
+ * The CSS shown here will not be introduced in the Quickstart guide, but shows
+ * how you can use CSS to style your Element's container.
+ */
+.StripeElement {
+  box-sizing: border-box;
+  height: 40px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease; }
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df; }
+
+.StripeElement--invalid {
+  border-color: #fa755a; }
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important; }
