@@ -5,7 +5,7 @@ import ShoppingcartService from './../services/shoppingcart';
 import AttributeService from './../services/attribute';
 
 import {getParameterByName} from './../shared/urls';
-import {handleAddToCart} from './product';
+import {handleAddToCartEvent} from './shoppingcart';
 
 import {ITEMS_PER_PAGE} from './../constants';
 
@@ -88,14 +88,12 @@ function handleAddToCartMouseOver(e) {
 	      'div.quick-add-to-cart > div[data-product-id="' + product.product_id + '"] button.add-to-cart');
 
 	    if (button) {
-	      button.removeEventListener('click', handleAddToCart);
-	      button.addEventListener('click', handleAddToCart);
-	      button.customParams = {
+	      handleAddToCartEvent(button, {
 		productId: product.product_id,
 		productAttributes: mappedAttributes,
 		form: button.closest('form'),
 		afterCallback: renderShoppingcartSummary
-	      };
+	      });
 	    }
 
 	    var elems = document.querySelectorAll('select');

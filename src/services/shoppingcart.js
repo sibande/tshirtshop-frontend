@@ -60,18 +60,14 @@ export default class ShoppingcartService extends BaseService {
       	body: formData, // must match 'Content-Type' header
       	method: 'POST'
       }, that.getOptions())).then(function(res) {
-
       	return res.json();
       }).then(function(data) {
-
-
 	var itemIndex = data.length - 1;
 	var addedItem = data[itemIndex];
 
 	if (addedItem && addedItem.product_id == productId) {
-
 	  return that.updateItem(addedItem.item_id, quantity).then(function(items) {
-	    that.getCartTotalAmount(cartId).then(function(data) {
+	    return that.getCartTotalAmount(cartId).then(function(data) {
 	      shoppingCart.items = items;
 	      shoppingCart.totalAmount = data['total_amount'];
 
@@ -82,7 +78,6 @@ export default class ShoppingcartService extends BaseService {
 	}
 	return data;
       });
-
     });
   }
 

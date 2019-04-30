@@ -3,6 +3,9 @@ import {configure, renderString, render} from 'nunjucks';
 import ProductService from './../services/product';
 import ShoppingcartService from './../services/shoppingcart';
 
+var messages = require('./../shared/messages');
+
+
 
 var productService = new ProductService();
 var shoppingcartService = new ShoppingcartService();
@@ -59,6 +62,56 @@ function handleDeleteItemClick(e) {
       controller.renderItems();
     });
   }
+}
+
+export function handleAddToCart(e) {
+
+  var customParams = e.target.customParams;
+
+  var form = customParams.form;
+  var quantity = form.querySelector('input[name=quantity]').value || 1;
+  var colorId = form.querySelector('input[name="Color"]:checked');
+  colorId = colorId ? colorId.value : colorId;
+  if (!colorId) {
+    messages.error('Select an item color');
+    return false;
+  }
+  var colorName = customParams.productAttributes['Color'][colorId].attribute_value;
+
+  var sizeId = form.querySelector('input[name="Size"]:checked');
+
+  sizeId = sizeId ? sizeId.value : sizeId;
+  if (!sizeId) {
+    messages.error('Select an item size');
+    return false;
+  }
+  var sizeName = customParams.productAttributes['Size'][sizeId].attribute_value;
+
+  var attributes = {
+    Size: {id: sizeId, name: sizeName},
+    Color: {id: colorId, name: colorName}
+  };
+
+  shoppingcartService.addToCart(customParams.productId, quantity, attributes).then(function(data) {
+     if (!('error' in data)) {
+       messages.success('Product added to cart');
+       if (customParams.afterCallback) {
+	//
+	 var intervalId = setTimeout(() => {
+	   customParams.afterCallback();
+	 }, 300);
+       }
+     } else {
+       messages.error(data.error.message || 'Internal error');
+     }
+  });
+  return false;
+}
+
+export function handleAddToCartEvent(element, customParams) {
+  element.removeEventListener('click', handleAddToCart);
+  element.addEventListener('click', handleAddToCart);
+  element.customParams = customParams;
 }
 
 

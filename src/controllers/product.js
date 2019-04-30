@@ -5,6 +5,7 @@ var M = require('materialize-css/dist/js/materialize.js');
 import ProductService from './../services/product';
 import ShoppingcartService from './../services/shoppingcart';
 import AttributeService from './../services/attribute';
+import {handleAddToCartEvent} from './shoppingcart';
 
 
 var productService = new ProductService();
@@ -12,52 +13,9 @@ var attributeService = new AttributeService();
 var shoppingcartService = new ShoppingcartService();
 
 
-export function handleAddToCart(e) {
-
-  var customParams = e.target.customParams;
-
-  var form = customParams.form;
-  var quantity = form.querySelector('input[name=quantity]').value || 1;
-  var colorId = form.querySelector('input[name="Color"]:checked');
-  colorId = colorId ? colorId.value : colorId;
-  var colorName = customParams.productAttributes['Color'][colorId].attribute_value;
-
-  var sizeId = form.querySelector('input[name="Size"]:checked');
-  sizeId = sizeId ? sizeId.value : sizeId;
-  var sizeName = customParams.productAttributes['Size'][sizeId].attribute_value;
-
-  var attributes = {
-    Size: {id: sizeId, name: sizeName},
-    Color: {id: colorId, name: colorName}
-  };
-
-  shoppingcartService.addToCart(customParams.productId, quantity, attributes).then(function(data) {
-    if (customParams.afterCallback) {
-      //
-      var intervalId = setTimeout(() => {
-	customParams.afterCallback();
-      }, 300);
-    }
-  });
-}
-
 export default class ProductController {
 
   constructor() {
-  }
-
-  handleAddToCartEvent() {
-    var that = this;
-
-    var element = document.querySelector('button.add-to-cart');
-
-    element.removeEventListener('click', handleAddToCart);
-    element.addEventListener('click', handleAddToCart);
-    element.customParams = {
-      productId: that.params.productId,
-      productAttributes: that.productAttributes,
-      form: document.querySelector('form')
-    };
   }
 
   render(params, query) {
@@ -89,8 +47,13 @@ export default class ProductController {
 
 	    M.updateTextFields();
 
-	    that.handleAddToCartEvent();
 
+	    var element = document.querySelector('button.add-to-cart');
+	    handleAddToCartEvent(element, {
+	      productId: that.params.productId,
+	      productAttributes: that.productAttributes,
+	      form: document.querySelector('button.add-to-cart').closest('form')
+	    });
 	  });
 	});
 
