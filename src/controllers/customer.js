@@ -5,9 +5,11 @@ import ProductService from './../services/product';
 import CustomerService from './../services/customer';
 import ShoppingcartService from './../services/shoppingcart';
 import OrderService from './../services/order';
-var facebook =require('./../shared/facebook');
-var stripe =require('./../shared/stripe');
+var facebook = require('./../shared/facebook');
+var stripe = require('./../shared/stripe');
+var routes = require('./../routes');
 
+var messages = require('./../shared/messages');
 
 var productService = new ProductService();
 var customerService = new CustomerService();
@@ -34,7 +36,7 @@ export function stripeTokenHandler(token, orderData) {
   orderService.chargeOrder(
     token.id, orderData.order_id, 'Order # ' +orderData.order_id, grandTotal, 'usd').then(function(data) {
       if (!('error' in data)) {
-	window.location.href = "/";
+	routes.router.navigate("/", true);
 	localStorage.removeItem('draftOrder');
       }
     });
@@ -50,7 +52,7 @@ export function handleAuthResponseChange(res) {
 	localStorage.setItem('authorizationKey', data.accessToken);
 	localStorage.setItem('customer', data.customer);
 
-	window.location.href = "/shoppingcart/shipping";
+	routes.router.navigate("/shoppingcart/shipping", true);
       }
     });
   }
@@ -61,14 +63,24 @@ function handleLogin(e) {
   var form = customParams.form;
 
   var email = form.querySelector('input[name=email]').value;
+  if (!email) {
+    messages.error('Email required');
+    return false;
+  }
   var password = form.querySelector('input[name=password]').value;
+  if (!password) {
+    messages.error('Password required');
+    return false;
+  }
 
   customerService.loginCustomer(email, password).then(function(data) {
     if (!('error' in data)) {
       localStorage.setItem('authorizationKey', data.accessToken);
       localStorage.setItem('customer', data.customer);
 
-      window.location.href = "/shoppingcart/shipping";
+      routes.router.navigate("/shoppingcart/shipping", true);
+    } else {
+      messages.error(data.error.message || 'Internal error');
     }
   });
 
@@ -100,7 +112,7 @@ function updateShipping(e) {
     shippingType: shippingType
   }));
 
-  window.location.href = '/shoppingcart/confirm';
+  routes.router.navigate('/shoppingcart/confirm', true);
 }
 
 function handleRegister(e) {
@@ -116,7 +128,9 @@ function handleRegister(e) {
       localStorage.setItem('authorizationKey', data.accessToken);
       localStorage.setItem('customer', data.customer);
 
-      window.location.href = "/shoppingcart/shipping";
+      routes.router.navigate("/shoppingcart/shipping", true);
+    } else {
+      messages.error(data.error.message || 'Internal error');
     }
   });
 }
@@ -159,7 +173,7 @@ function confirmOrder(e) {
 
       orderService.createOrder(shoppingCart.cartId, draftOrder.shippingType, 2).then(function(data) {
 	if (!('error' in data)) {
-	  window.location.href = "/shoppingcart/payment/" + data.orderId;
+	  routes.router.navigate("/shoppingcart/payment/" + data.orderId, true);
 	}
       });
     });
@@ -253,7 +267,7 @@ export default class CustomerController {
 
     //
     if (!localStorage.getItem('authorizationKey')) {
-      window.location.href = '/customer/login';
+      routes.router.navigate('/customer/login' + data.orderId, true);
     }
 
     var shoppingCart = shoppingcartService.getShoppingcart();
@@ -266,6 +280,11 @@ export default class CustomerController {
       ]).then(function(data) {
 	var cartItems = data[0];
 	var totalAmount = data[1]['total_amount'];
+
+	if (cartItems.length == 0) {
+	  routes.router.navigate('/', true);
+	  return false;
+	}
 
 	cartItems.map(function(item) {
 	  try {
@@ -290,6 +309,8 @@ export default class CustomerController {
 	    shippingTypes: data
 	  };
 
+
+
 	  render('confirm.html', context, function(err, res) {
 	    var mainDiv = document.getElementById('main');
 	    mainDiv.innerHTML= res;
@@ -305,7 +326,7 @@ export default class CustomerController {
   renderPayment(params, query) {
     //
     if (!localStorage.getItem('authorizationKey')) {
-      window.location.href = '/customer/login';
+      routes.router.navigate('/customer/login', true);
     }
     var that = this;
 
@@ -325,7 +346,7 @@ export default class CustomerController {
   renderShipping() {
     //
     if (!localStorage.getItem('authorizationKey')) {
-      window.location.href = '/customer/login';
+      routes.router.navigate('/customer/login', true);
     }
     
     var that = this;
@@ -334,6 +355,12 @@ export default class CustomerController {
     Promise.all([customerService.getCustomer(), orderService.getShippingRegions()]).then(function(data) {
       var customer = data[0];
       var shippingRegions = data[1];
+
+      if ('error' in customer) {
+	messages.error(customer.error.message || 'Internal error');
+	routes.router.navigate('/customer/login', true);
+	return false;
+      }
 
       render('shipping_details.html', {customer: customer, shippingRegions: shippingRegions}, function(err, res) {
 	var mainDiv = document.getElementById('main');

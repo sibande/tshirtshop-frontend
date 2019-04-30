@@ -1,13 +1,16 @@
 import {configure, renderString, render} from 'nunjucks';
 import Navigo from 'navigo';
 
+
+var root = '/';
+export var router = new Navigo(root);
+
+
 import HomeController from './controllers/home';
 import ProductController from './controllers/product';
 import ShoppingcartController from './controllers/shoppingcart';
 import CustomerController from './controllers/customer';
 
-var root = '/';
-var router = new Navigo(root);
 
 // Handle link navigation
 document.addEventListener('click', function(e) {

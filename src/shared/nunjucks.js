@@ -13,5 +13,14 @@ var env = configure('/static/views', {
 });
 
 env.addFilter('date', dateFilter);
+
+env.addFilter('price', function(num, length) {
+  if (!parseFloat(num)) {
+    num = 0;
+  }
+  return '$' + num.toFixed(length || 2);
+});
+
+
 // Add markdown
 markdown.register(env, marked);

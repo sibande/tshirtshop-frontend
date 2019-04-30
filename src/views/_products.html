@@ -28,8 +28,18 @@
 	    <a href="/product/{{product.product_id}}"><strong>{{ product.name }}</strong></a>
 	  </div>
 	  <div class="center-align">
-	    <p><strong>{{ product.price }}</strong></p>
-	    <p>{{ product.discounted_price }}</p>
+	    <div class="price">
+	      <p class="current-price">
+		{% if product.discounted_price %}
+		  {{product.discounted_price | price}}
+		{% else %}
+		  {{product.price | price}}
+		{% endif %}
+	      </p>
+	      {% if product.discounted_price %}
+		<p class="old-price">{{product.price | price}}</p>
+	      {% endif %}
+	    </div>
 	  </div>
 	</div>
       </div>

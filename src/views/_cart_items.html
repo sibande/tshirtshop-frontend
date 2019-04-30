@@ -24,13 +24,13 @@
     {% endfor %} )
     </div>
     <div class="col s1">
-      {{ cartItem.price }}
+      {{ cartItem.price | price }}
     </div>
     <div class="col s1">
       {{ cartItem.quantity }}
     </div>
     <div class="col s1">
-      {{ cartItem.quantity * cartItem.price }}
+      {{ (cartItem.quantity * cartItem.price) | price }}
     </div>
     <div class="col s3">
       <a class="save" href="#">Save for later</a> <br>
@@ -41,9 +41,9 @@
 
 <div class="row">
   <div class="col s6">
-    Total amount: <strong>{{totalAmount}}</strong>
+    Total amount: <strong>{{totalAmount | price}}</strong>
   </div>
-  <div class="col s6">
+  <div class="col s6 right-align">
     <a href="/shoppingcart/shipping" class="waves-effect waves-light btn-large">Checkout</a>
   </div>
 </div>

@@ -4,7 +4,7 @@
 
   <br>
 
-  <div class="row">
+  <div class="row product">
     <div class="col s5">
 
       <div class="row">
@@ -37,7 +37,7 @@
 		<i class="material-icons">chevron_left</i>
               </li>
               <li class="next">
-		<i class="material-icons">chevron_left</i>
+		<i class="material-icons">chevron_right</i>
               </li>
 	    </ul>
 	  </div>
@@ -47,18 +47,30 @@
       
     </div>
     <div class="col s7">
-      <nav>
+      <h2>{{product.name}}</h2>
+
+      <nav class="clean">
 	<div class="nav-wrapper">
 	  <div class="col s12">
-            <a href="/" class="breadcrumb">Home</a>
-            <a class="breadcrumb">{{product.name}}</a>
+	    <a href="/" class="breadcrumb">Home</a>
+	    <a class="breadcrumb">{{product.name}}</a>
 	  </div>
 	</div>
       </nav>
-      <h2>{{product.name}}</h2>
-      <div>
-	{{product.price}} <span class="discounted-price">{{product.discounted_price}}</span>
+
+      <div class="price">
+	<p class="current-price">
+	  {% if product.discounted_price %}
+	    {{product.discounted_price | price}}
+	  {% else %}
+	    {{product.price | price}}
+	  {% endif %}
+	</p>
+	{% if product.discounted_price %}
+	  <p class="old-price">{{product.price | price}}</p>
+	{% endif %}
       </div>
+
       <div>
 	{{product.description}}
 
@@ -74,7 +86,7 @@
 		<label class="{% if attributeNane == 'Color' %}color-{{attribute.attribute_value|lower}}{% endif %}">
 		  <input class="with-gap" name="{{ attributeNane }}"
 			 value="{{ attribute.attribute_value_id }}" type="radio" />
-		  <span>{% if attributeNane == 'Size' %}{{attribute.attribute_value}}{% endif %}</span>
+			 <span>{% if attributeNane == 'Size' %}{{attribute.attribute_value}}{% endif %}</span>
 		</label>
 	      {% endfor %}
 	    </div>
@@ -94,5 +106,6 @@
       </form>
     </div>
   </div>
+</div>
 
 {% endblock %}

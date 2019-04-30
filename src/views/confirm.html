@@ -48,22 +48,22 @@
       {% endfor %} )
       </div>
       <div class="col s2">
-	{{ cartItem.price }}
+	{{ cartItem.price | price }}
       </div>
       <div class="col s2">
 	{{ cartItem.quantity }}
       </div>
       <div class="col s2">
-	{{ cartItem.quantity * cartItem.price }}
+	{{ (cartItem.quantity * cartItem.price) | price }}
       </div>
     </div>
   {% endfor %}
 
   <form class="row" onsubmit="event.preventDefault();">
     <div class="col s6">
-      Total amount: <strong>{{totalAmount}}</strong>
+      Total amount: <strong>{{totalAmount | price }}</strong>
     </div>
-    <div class="col s6">
+    <div class="col s6 right-align">
       <button class="waves-effect waves-light btn-large confirm">Continue</button>
     </div>
   </form>

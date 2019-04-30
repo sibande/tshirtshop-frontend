@@ -4,7 +4,18 @@
       <a href="/product/{{product.product_id}}"><strong>{{ product.name }}</strong></a>
     </div>
     <div class="center-align">
-      <p><strong>{{ product.price }}</strong> {{ product.discounted_price }}</p>
+      <div class="price">
+	<span class="current-price">
+	  {% if product.discounted_price %}
+	    {{product.discounted_price | price}}
+	  {% else %}
+	    {{product.price | price}}
+	  {% endif %}
+	</span>
+	{% if product.discounted_price %}
+	  <span class="old-price">{{product.price | price}}</span>
+	{% endif %}
+      </div>
     </div>
     <form onsubmit="event.preventDefault();">
       <input name="quantity" type="hidden" value="1">
