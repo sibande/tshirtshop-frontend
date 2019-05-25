@@ -1,3 +1,12 @@
+body {
+    background-color: #f7f7f7;
+}
+
+
+.container {
+  max-width: 960px;
+}
+
 #page-loading img {
     /* https://stackoverflow.com/a/10795144 */
     position: absolute;
@@ -42,24 +51,121 @@
     cursor: pointer;
 }
 
-div.product-item-wrapper { position: relative; clear: both; }
-div.product-item-wrapper > div.quick-add-to-cart {
-    position: absolute;
-    width: 94%;
-    height: 100%;
-    background-color: white;
-    z-index: 2;
-    opacity: 0.95;
-    top: 0;
-    left: 0.75rem;
+.products-list {
+    > .row {
+	margin-bottom: 0;
+    }
 }
 
+.card-panel {
+    border-radius: 0;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14),
+              0 1px 1px 0 rgba(0,0,0,0.12),
+              0 1px 1px 0 rgba(0,0,0,0.2);
+}
 
-div.product-item-wrapper > div.quick-add-to-cart img.quick-view-loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -16px 0 0 -16px;
+.items-per-page {
+    span > a {
+	color: inherit;
+    }
+
+    span {
+	font-weight: bold;
+    }
+
+    span.current {
+	color: #b4b4b4;
+    }
+}
+
+.home .paging {
+    height: 60px;
+
+    .page-right, .page-left {
+	height: 38px;
+
+	a {
+	    padding: 0;
+	}
+
+	span:not(.text) {
+	    background-color: #efefef;
+	    width: 36px;
+	    height: 36px;
+	    border-radius: 18px;
+	    display: inline-block;
+
+	    i {
+		margin-top: 3px;
+	    }
+	}
+
+	span.text {
+	    display: inline-block;
+	    margin-top: -21px;
+	    vertical-align: middle;
+	}
+    }
+
+    .page-right {
+	float: right;
+
+	span.text {
+	    margin-right: 15px;
+	}
+    }
+
+    .page-left {
+	float: left;
+
+	span.text {
+	    margin-left: 15px;
+	}
+
+    }
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.product-item-wrapper {
+    position: relative;
+    height: 250px;
+
+    .product-quick-view {
+	img.quick-view-loading {
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    margin: -16px 0 0 -16px;
+	}
+
+	button {
+	    margin-top: 5px;
+	}
+    }
+
+    > .product-item, > .product-quick-view {
+	padding: 15px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+    }
+
+    &:not(:hover) .product-item {
+	z-index: 1;
+	background-color: #fff;
+	opacity: 1;
+    }
+
+    &:hover .product-quick-view {
+	opacity: 0.95;
+	z-index: 1;
+	background-color: #fff;
+    }
 }
 
 

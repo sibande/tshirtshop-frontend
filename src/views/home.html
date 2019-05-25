@@ -3,35 +3,59 @@
 {% block content %}
   <br>
   <div class="row home">
-    <div class="col s4 card-panel">
-      <div class="row departments">
+    <div class="col s12">
+      <div class="row items-per-page no-margin">
+	<div class="col s12 center-align">
+	  <span>View</span>:
+	  <span class="items-options">
+	    {% for itemNum in itemsList %}
+	      {% if loop.index0 != 0 %}
+		| 
+	      {% endif %}
+	      <span {% if itemsPerPage == itemNum %}class="current"{%endif %}>
+		<a data-items="{{ itemNum }}" href="#">{{ itemNum }}</a>
+	      </span>
+	  {% endfor %}
+	  </span>
+	</div>
+      </div>
+      <div class="row paging no-margin">
 	<div class="col s12">
+	</div>
+      </div>
+      <div class="row">
+	<div class="col s3">
+	  <div class="card-panel">
+	    <div class="row departments">
+	      <div class="col s12">
+	      	<ul class="products-filter">
+		  <li><strong>Department</strong></li>
+		  {% for department in departments %}
+		    <li class="department">
+		      <label>
+			<input {% if department.department_id == departmentId %}checked{% endif %} name="department" value="{{department.department_id}}" type="radio">
+			<span>{{department.name}}</span>
+		      </label>
+		    </li>
+		  {% endfor %}
+		</ul>
 
-	  <ul class="products-filter">
-	    <li><strong>Department</strong></li>
-	    {% for department in departments %}
-	      <li class="department">
-		<label>
-		  <input {% if department.department_id == departmentId %}checked{% endif %} name="department" value="{{department.department_id}}" type="radio">
-		  <span>{{department.name}}</span>
-		</label>
-	      </li>
-	    {% endfor %}
-	  </ul>
+	      </div>
+	    </div>
+	    <div class="row categories">
+	      <div class="col s12">
+	      </div>
+	    </div>
+	    <div class="row shoppingcart-summary">
+	      <div class="col s12">
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<div class="col s9 products-list">
 
 	</div>
       </div>
-      <div class="row categories">
-	<div class="col s12">
-	</div>
-      </div>
-      <div class="row shoppingcart-summary">
-	<div class="col s12">
-	</div>
-      </div>
-    </div>
-    <div class="col s8 products-list">
-      
     </div>
   </div>
 {% endblock %}
