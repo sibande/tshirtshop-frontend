@@ -1,32 +1,43 @@
-<div class="container">
-  <br />
-
-  <div class="row">
-    <div class="col s8">
-      <a href="/"><img src="/static/img/logo.png" alt="Home"></a>
-    </div>
-    <div class="col s4">
-      <form onsubmit="event.preventDefault();">
-	<div class="row">
-	  <div class="input-field col s9">
-	    <input id="search" name="search" type="text" value="{{searchString}}" class="validate">
-	    <label for="search">Search</label>
+<header>
+  <div class="subheader">
+    <div class="container">
+        <div class="row no-margin">
+	  <div class="col s8">
+	    Hi! <a href="/login">Sign In</a> or <a href="/register">Register</a>
 	  </div>
-	  <button class="col s3 waves-effect waves-light btn-large search">Go!</button>
-	</div>
-	<div class="row">
-	  <div class="input-field col s12">
-	    <p>
-	      <label>
-		<input type="checkbox" {% if searchAll == 'yes' %}checked{% endif %} name="search_all" class="filled-in">
-		<span>Search for all words</span>
-	      </label>
-	    </p>
+	  <div class="col s4 right-align">
+	    Your bag: $0.00
 	  </div>
 	</div>
-      </form>
     </div>
   </div>
+
+  <div class="mainheader">
+    <div class="container">
+      <div class="row no-margin">
+	<div class="col s6">
+	  <a class="logo" href="/"><img src="/static/img/logo.png" alt="Home"></a>
+	</div>
+	<div class="col s6 right-align search">
+	  <form onsubmit="event.preventDefault();">
+	    <label class="{% if searchString %}shown{% endif %}">
+	      <a href="#"><i class="small search material-icons">search</i></a>
+	      <a href="#"><i class="tiny close material-icons">close</i></a>
+	      <span class="search-all">
+		<input type="checkbox"  class="filled-in"  {% if searchAll == 'yes' %}checked{% endif %}  name="search_all">
+		<span>All words</span>
+	      </span>
+	      <input class="search" value="{{searchString}}" placeholder="search anything" name="search" type="text" value="{{searchString}}" class="browser-default validate">
+	    </label>
+	  </form>
+	</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+<div class="container">
   <div class="content">
     {% block content %}{% endblock %}
   </div>

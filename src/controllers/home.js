@@ -166,10 +166,16 @@ function handleItemsPerPageChange(e) {
     localStorage.setItem('itemsPerPage', itemsPerPage);
     controller.itemsPerPage = itemsPerPage;
 
+    controller.pageNum = 1;
+
+    history.pushState(null, '', '/');
+
     var currentItemsElem = document.querySelector('div.items-per-page span.current');
     if (currentItemsElem) {
       currentItemsElem.classList.remove('current');
     }
+
+
     controller.renderProducts();
     //
     elem.parentNode.classList.add('current');

@@ -168,6 +168,113 @@ body {
     }
 }
 
+.subheader {
+    height: 40px;
+    padding: 8px 0;
+    font-weight: bold;
+}
+
+.mainheader {
+    background-color: #ffffff;
+    height: 70px;
+    padding: 5px 0;
+
+    .logo img {
+	height: 60px;
+	width: 205.6px;
+    }
+
+    .search {
+	label {
+	    position: relative;
+
+	    span.search-all {
+		// https://stackoverflow.com/a/3332179
+		transition: opacity 0.2s ease-out;
+		transition-delay: 0.5s;
+		opacity: 0;
+		height: 0;
+		overflow: hidden;
+		position: absolute;
+		right: 35px;
+		margin-top: 20px;
+
+		span {
+		    padding-left: 26px;
+		}
+	    }
+
+	    i.search {
+		position: absolute;
+		top: 0;
+		left: 25px;
+		z-index: 1;
+		margin-top: -5px;
+		color: #4f4f4f;
+	    }
+
+	    i.close {
+		transition: opacity 0.2s ease-out;
+		transition-delay: 0.5s;
+		opacity: 0;
+		height: 0;
+		overflow: hidden;
+
+		position: absolute;
+		right: 12.5px;
+		top: 5px;
+		margin-top: -5px;
+		z-index: 1;
+		color: #4f4f4f;
+	    }
+
+	    input.search {
+		pointer-events:none;
+		color: #4f4f4f;
+		margin-top: 10px;
+		transition: width 0.2s ease-in-out 0.2s;
+		transition: padding 0.2s ease-in-out 0.2s;
+		width: 0;
+		padding: 7.5px 7.5px 7.5px 44px;
+		border: 1px solid #e0e0e0;
+		opacity: 0;
+		height: 25px;
+		border-radius: 25px;
+	    }
+
+	    input:focus {
+		border: 1px solid #c0c0c0 !important;
+		box-shadow: none !important;
+	    }
+
+	}
+
+	label.shown {
+	    span.search-all {
+		height: 70px;
+		opacity: 1;
+	    }
+
+	    i.close {
+		height: auto;
+		opacity: 1;
+	    }
+
+	    i.search {
+		left: 12.5px;
+		z-index: 0;
+	    }
+
+	    input.search {
+		pointer-events: auto;
+		width: 200px;
+		opacity: 0.9;
+		padding-right: 140px;
+	    }
+	}
+
+    }
+}
 
 .price {
     margin: 5px 0;
