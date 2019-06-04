@@ -1,4 +1,4 @@
-import {handleAuthResponseChange, handleStatusChange} from './../controllers/customer';
+import {handleAuthResponseChange, handleStatusChange} from './../controllers/auth';
 
 // Init Facebook
 export  function initFacebook() {

@@ -10,6 +10,7 @@ import HomeController from './controllers/home';
 import ProductController from './controllers/product';
 import ShoppingcartController from './controllers/shoppingcart';
 import CustomerController from './controllers/customer';
+import AuthController from './controllers/auth';
 
 
 // Handle link navigation
@@ -63,12 +64,12 @@ router
       var controller = new CustomerController;
       controller.renderPayment(params, query);
     },
-    'customer/login': function (params, query) {
-      var controller = new CustomerController;
+    'login': function (params, query) {
+      var controller = new AuthController;
       controller.renderLogin();
     },
-    'customer/register': function (params, query) {
-      var controller = new CustomerController;
+    'register': function (params, query) {
+      var controller = new AuthController;
       controller.renderRegister();
     },
     '*': function () {

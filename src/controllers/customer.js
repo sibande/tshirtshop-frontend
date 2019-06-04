@@ -17,10 +17,6 @@ var orderService = new OrderService();
 var shoppingcartService = new ShoppingcartService();
 
 
-export function handleStatusChange(res) {
-
-};
-
 
 // Submit the form with the token ID.
 export function stripeTokenHandler(token, orderData) {
@@ -40,50 +36,6 @@ export function stripeTokenHandler(token, orderData) {
 	localStorage.removeItem('draftOrder');
       }
     });
-}
-
-
-export function handleAuthResponseChange(res) {
-  if (res.status == 'connected') {
-    var accessToken = res.authResponse.accessToken;
-
-    customerService.facebookLogin(accessToken).then(function(data) {
-      if (!('error' in data)) {
-	localStorage.setItem('authorizationKey', data.accessToken);
-	localStorage.setItem('customer', data.customer);
-
-	routes.router.navigate("/shoppingcart/shipping", true);
-      }
-    });
-  }
-};
-
-function handleLogin(e) {
-  var customParams = e.target.customParams;
-  var form = customParams.form;
-
-  var email = form.querySelector('input[name=email]').value;
-  if (!email) {
-    messages.error('Email required');
-    return false;
-  }
-  var password = form.querySelector('input[name=password]').value;
-  if (!password) {
-    messages.error('Password required');
-    return false;
-  }
-
-  customerService.loginCustomer(email, password).then(function(data) {
-    if (!('error' in data)) {
-      localStorage.setItem('authorizationKey', data.accessToken);
-      localStorage.setItem('customer', data.customer);
-
-      routes.router.navigate("/shoppingcart/shipping", true);
-    } else {
-      messages.error(data.error.message || 'Internal error');
-    }
-  });
-
 }
 
 
@@ -115,25 +67,6 @@ function updateShipping(e) {
   routes.router.navigate('/shoppingcart/confirm', true);
 }
 
-function handleRegister(e) {
-  var customParams = e.target.customParams;
-  var form = customParams.form;
-
-  var name = form.querySelector('input[name=name]').value;
-  var email = form.querySelector('input[name=email]').value;
-  var password = form.querySelector('input[name=password]').value;
-
-  customerService.registerCustomer(name, email, password).then(function(data) {
-    if (!('error' in data)) {
-      localStorage.setItem('authorizationKey', data.accessToken);
-      localStorage.setItem('customer', data.customer);
-
-      routes.router.navigate("/shoppingcart/shipping", true);
-    } else {
-      messages.error(data.error.message || 'Internal error');
-    }
-  });
-}
 
 function handleShippingRegionChange(e) {
 
@@ -186,27 +119,6 @@ export default class CustomerController {
   constructor() {
   }
 
-  handleLoginEvent() {
-    var element = document.querySelector('form button.login');
-
-    element.removeEventListener('click', handleLogin);
-    element.addEventListener('click', handleLogin);
-    element.customParams = {
-      form: element.closest('form')
-    };
-  }
-
-  
-  handleRegisterEvent() {
-    var element = document.querySelector('form button.register');
-
-    element.removeEventListener('click', handleRegister);
-    element.addEventListener('click', handleRegister);
-    element.customParams = {
-      form: element.closest('form')
-    };
-  }
-
   handleShippingEvent() {
     var element = document.querySelector('form button.shipping');
 
@@ -228,30 +140,6 @@ export default class CustomerController {
     };
   }
 
-  renderLogin() {
-    var that = this;
-
-    render('login.html', {}, function(err, res) {
-      var mainDiv = document.getElementById('main');
-      mainDiv.innerHTML= res;
-
-      that.handleLoginEvent();
-      facebook.initFacebook();
-    });
-  }
-
-  renderRegister() {
-    var that = this;
-
-    render('register.html', {}, function(err, res) {
-      var mainDiv = document.getElementById('main');
-      mainDiv.innerHTML= res;
-
-      that.handleRegisterEvent();
-      facebook.initFacebook();
-    });
-  }
-
   handleConfirmOrderEvent() {
     var element = document.querySelector('form button.confirm');
 
@@ -267,7 +155,7 @@ export default class CustomerController {
 
     //
     if (!localStorage.getItem('authorizationKey')) {
-      routes.router.navigate('/customer/login' + data.orderId, true);
+      routes.router.navigate('/login' + data.orderId, true);
     }
 
     var shoppingCart = shoppingcartService.getShoppingcart();
@@ -318,15 +206,14 @@ export default class CustomerController {
 	    that.handleConfirmOrderEvent();
 	  });
 	});
-      });;
+      });
     }
-
   }
 
   renderPayment(params, query) {
     //
     if (!localStorage.getItem('authorizationKey')) {
-      routes.router.navigate('/customer/login', true);
+      routes.router.navigate('/login', true);
     }
     var that = this;
 
@@ -346,7 +233,7 @@ export default class CustomerController {
   renderShipping() {
     //
     if (!localStorage.getItem('authorizationKey')) {
-      routes.router.navigate('/customer/login', true);
+      routes.router.navigate('/login', true);
     }
     
     var that = this;
@@ -358,7 +245,7 @@ export default class CustomerController {
 
       if ('error' in customer) {
 	messages.error(customer.error.message || 'Internal error');
-	routes.router.navigate('/customer/login', true);
+	routes.router.navigate('/login', true);
 	return false;
       }
 
