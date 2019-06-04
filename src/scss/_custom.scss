@@ -276,7 +276,6 @@ body {
     }
 }
 
-
 div.login, div.register {
 
     color: #2e2e2e;
@@ -300,13 +299,6 @@ div.login, div.register {
 	margin: 5px 0;
     }
 
-    input {
-	width: 100%;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	padding: 18px;
-	text-align: center;
-    }
 
     button {
 	margin: 20px 0 18px 0;
@@ -316,6 +308,27 @@ div.login, div.register {
 	border-radius: 27px;
     }
 }
+
+
+
+input {
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 18px;
+    text-align: center;
+}
+
+.error-msg {
+    color: red;
+}
+
+.has-error {
+    input {
+	border: 1px solid red;
+    }
+}
+
 
 .price {
     margin: 5px 0;

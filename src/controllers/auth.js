@@ -1,5 +1,6 @@
 import {configure, renderString, render} from 'nunjucks';
 var M = require('materialize-css/dist/js/materialize.js');
+var forms = require('./../shared/forms');
 
 import CustomerService from './../services/customer';
 var facebook = require('./../shared/facebook');
@@ -33,14 +34,23 @@ function handleLogin(e) {
   var customParams = e.target.customParams;
   var form = customParams.form;
 
-  var email = form.querySelector('input[name=email]').value;
-  if (!email) {
-    messages.error('Email required');
-    return false;
-  }
-  var password = form.querySelector('input[name=password]').value;
-  if (!password) {
-    messages.error('Password required');
+
+  var email = form.querySelector('input[name=email]').value,
+      password = form.querySelector('input[name=password]').value;
+
+  var constraints = {
+    email: {
+      presence: {allowEmpty: false},
+      email: true
+    },
+    password: {
+      presence: {allowEmpty: false}
+    }
+  };
+
+  var data = {email: email, password: password};
+
+  if (!forms.validateForm(form, data, constraints)) {
     return false;
   }
 
@@ -51,7 +61,7 @@ function handleLogin(e) {
 
       routes.router.navigate("/shoppingcart/shipping", true);
     } else {
-      messages.error(data.error.message || 'Internal error');
+      forms.showFormError(form, (data.error.message || 'Internal error'));
     }
   });
 
@@ -63,9 +73,39 @@ function handleRegister(e) {
   var customParams = e.target.customParams;
   var form = customParams.form;
 
-  var name = form.querySelector('input[name=name]').value;
-  var email = form.querySelector('input[name=email]').value;
-  var password = form.querySelector('input[name=password]').value;
+  var name = form.querySelector('input[name=name]').value,
+      email = form.querySelector('input[name=email]').value,
+      password = form.querySelector('input[name=password]').value,
+      confirm_password = form.querySelector('input[name=confirm_password]').value;
+
+  var constraints = {
+    name: {
+      presence: {allowEmpty: false},
+      length: {minimum: 1}
+    },
+    email: {
+      presence: {allowEmpty: false},
+      email: true
+    },
+    password: {
+      presence: {allowEmpty: false}
+    },
+    confirm_password: {
+      presence: {allowEmpty: false},
+      equality: "password"
+    }
+  };
+
+  var data = {
+    name: name,
+    email: email,
+    password: password,
+    confirm_password: confirm_password
+  };
+
+  if (!forms.validateForm(form, data, constraints)) {
+    return false;
+  }
 
   customerService.registerCustomer(name, email, password).then(function(data) {
     if (!('error' in data)) {
@@ -74,9 +114,10 @@ function handleRegister(e) {
 
       routes.router.navigate("/shoppingcart/shipping", true);
     } else {
-      messages.error(data.error.message || 'Internal error');
+      forms.showFormError(form, (data.error.message || 'Internal error'));
     }
   });
+  return true;
 }
 
 

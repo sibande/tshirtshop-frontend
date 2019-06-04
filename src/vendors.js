@@ -11,6 +11,9 @@ import {tns} from 'tiny-slider/src/tiny-slider';
 // Material
 var M = require('materialize-css/dist/js/materialize.js');
 
+// Validate.js
+var validate = require("validate.js");
+
 // Fetch polyill
 import "es6-promise/auto";
 
