@@ -276,6 +276,47 @@ body {
     }
 }
 
+
+div.login, div.register {
+
+    color: #2e2e2e;
+    margin-top: 35px;
+    text-align: center;
+
+    ::placeholder {
+	color: #2e2e2e;
+    }
+
+    .fb-login-button {
+	height: 40px;
+    }
+
+    .auth-header {
+	font-weight: bold;
+	font-size: 18px;
+    }
+
+    .input-field {
+	margin: 5px 0;
+    }
+
+    input {
+	width: 100%;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 18px;
+	text-align: center;
+    }
+
+    button {
+	margin: 20px 0 18px 0;
+	color: #fff;
+	font-weight: bold;
+	width: 60%;
+	border-radius: 27px;
+    }
+}
+
 .price {
     margin: 5px 0;
 

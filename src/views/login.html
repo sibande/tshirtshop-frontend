@@ -1,54 +1,64 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
-  
-  <br>
-  <div class="row">
+  <div class="row login">
     <div class="col s12">
 
-
-      <div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false">Login with Facebook</div>
-      <br>
-      <br>
-      Or
-
-    </div>
-
-  </div>
-  <div class="row">
-    <form class="col s12" onsubmit="event.preventDefault();">
       <div class="row">
-	<div class="input-field col s12">
-          <input id="email" name="email" type="text" class="validate">
-          <label for="email">Email</label>
-        </div>
-      </div>
-      <div class="row">
-	<div class="input-field col s12">
-          <input id="password" type="password" name="password" class="validate">
-          <label for="password">Password</label>
-        </div>
+	<div class="col s3"></div>
+	<div class="col s6">
 
-      </div>
-      <div class="row">
-	<div class="col s12">
-	  <button class="waves-effect waves-light btn-large login">Login</button>
+	  <div class="card-panel z-depth-3">
+
+	    <div class="row no-margin">
+	      <div class="col s12">
+
+
+		<div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false">Sign in with Facebook</div>
+
+		<br>
+
+		<div class="auth-header">
+		  <p>Or</p>
+		  <p>Sign In</p>
+		</div>
+
+	      </div>
+
+	    </div>
+	    <div class="row">
+	      <form class="col s12" onsubmit="event.preventDefault();">
+		<div class="row no-margin">
+		  <div class="input-field col s12">
+		    <input id="email" name="email" placeholder="Email" type="text" class="browser-default validate">
+		  </div>
+		</div>
+		<div class="row no-margin">
+		  <div class="input-field col s12">
+		    <input id="password" placeholder="Password" type="password" name="password" class="browser-default validate">
+		  </div>
+
+		</div>
+		<div class="row no-margin">
+		  <div class="col s12">
+		    <button class="waves-effect waves-light red btn-flat btn-large login">Login</button>
+		  </div>
+		</div>
+	      </form>
+	    </div>
+
+	    <div class="row">
+	      <div class="col s12">
+		Don't have an account?  <a href="/register">Sign Up</a>
+	      </div>
+	    </div>
+	  </div>
 	</div>
+	<div class="col s3"></div>
       </div>
-    </form>
-  </div>
 
-  <div class="row">
-    <div class="col s12">
-      Or
-      <br>
-      <a href="/customer/register">Create an Account</a>
-      <br>
-      <br>
     </div>
   </div>
-  
 
 {% endblock %}
 
