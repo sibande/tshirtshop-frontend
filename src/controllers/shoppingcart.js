@@ -15,6 +15,9 @@ function handleSaveItemClick(e) {
   e.stopPropagation();
 
   var elem = e.target;
+  if (elem.tagName != 'A') {
+    elem = elem.closest('a');
+  }
   var row = elem.closest('.row');
 
   var controller = elem.customParams.controller;
@@ -33,6 +36,10 @@ function handleMoveItemClick(e) {
   e.stopPropagation();
 
   var elem = e.target;
+  if (elem.tagName != 'A') {
+    elem = elem.closest('a');
+  }
+
   var row = elem.closest('.row');
 
   var controller = elem.customParams.controller;
@@ -51,6 +58,9 @@ function handleDeleteItemClick(e) {
   e.stopPropagation();
 
   var elem = e.target;
+  if (elem.tagName != 'A') {
+    elem = elem.closest('a');
+  }
   var row = elem.closest('.row');
 
   var controller = elem.customParams.controller;

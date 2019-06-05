@@ -3,7 +3,19 @@
     <div class="container">
         <div class="row no-margin">
 	  <div class="col s8">
-	    Hi! <a href="/login">Sign In</a> or <a href="/register">Register</a>
+	    Hi!
+	    {% if customer.customer_id %}
+	      <a class="customer-menu-trigger" href="" data-target="customer-menu">{{ customer.name }}</a>
+	      <!-- Start customer menu -->
+	      <ul id="customer-menu" class="dropdown-content">
+		<li><a href="#!">Profile</a></li>
+		<li class="divider" tabindex="-1"></li>
+		<li><a href="/logout">Logout</a></li>
+	      </ul>
+	      <!-- End customer menu -->
+	    {% else %}
+	      <a href="/login">Sign In</a> or <a href="/register">Register</a>
+	    {% endif %}
 	  </div>
 	  <div class="col s4 right-align">
 	    Your bag: $0.00

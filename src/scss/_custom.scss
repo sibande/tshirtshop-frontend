@@ -59,9 +59,7 @@ body {
 
 .card-panel {
     border-radius: 0;
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14),
-              0 1px 1px 0 rgba(0,0,0,0.12),
-              0 1px 1px 0 rgba(0,0,0,0.2);
+    box-shadow: none;
 }
 
 .items-per-page {
@@ -310,7 +308,6 @@ div.login, div.register {
 }
 
 
-
 input {
     width: 100%;
     border: 1px solid #ccc;
@@ -327,6 +324,109 @@ input {
     input {
 	border: 1px solid red;
     }
+}
+
+.cart-details {
+    .card-panel {
+	box-shadow: none;
+    }
+
+    hr {
+	background-color: #e5e5e5;
+	height: 2px;
+	border: 0;
+	margin: 15px 0;
+    }
+
+    h2 {
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0;
+    }
+
+    .price {
+	font-weight: bold;
+	font-size: 18px;
+    }
+
+    .va-cell {
+	height: 60px;
+	display: table-cell;
+	vertical-align: middle;
+    }
+
+    .cart-actions {
+	.btn {
+	    border-radius: 19px;
+	    text-transform: none;
+	    font-weight: bold;
+	    padding: 0 25px;
+	}
+
+	.btn-flat.proceed {
+	    color: white;
+	}
+    }
+
+    .item-list .header {
+	color: #b4b4b4;
+	font-weight: bold;
+    }
+
+    img.thumbnail {
+	height: 70px;
+	padding: 5px;
+	border: 1px solid #e5e5e5;
+	display: inline-block;
+    }
+
+    .item-info {
+	display: inline-block;
+	min-height: 70px;
+	vertical-align: top;
+	padding-left: 10px;
+	position: relative;
+
+	.item-name {
+	    font-weight: bold;
+	    color: #2e2e2e;
+	}
+
+	.item-actions {
+	    position: absolute;
+	    bottom: 0;
+	    font-size: 12px;
+	    color: #b3b3b3;
+	    width: 190px;
+
+	    a.save i {
+		color: orange;
+	    }
+
+	    a.move i {
+		color: green;
+	    }
+
+	    a.delete i {
+		color: red;
+	    }
+
+	    a.save span,
+	    a.move span,
+	    a.delete span {
+		display: inline-block;
+		vertical-align: top;
+		margin-top: -1px;
+		color: #b3b3b3;
+	    }
+
+	    a.move,
+	    a.save {
+		margin-left: 10px;
+	    }
+	}
+    }
+
 }
 
 

@@ -22,7 +22,7 @@ export function handleAuthResponseChange(res) {
     customerService.facebookLogin(accessToken).then(function(data) {
       if (!('error' in data)) {
 	localStorage.setItem('authorizationKey', data.accessToken);
-	localStorage.setItem('customer', data.customer);
+	localStorage.setItem('customer', JSON.stringify(data.customer));
 
 	routes.router.navigate("/shoppingcart/shipping", true);
       }
@@ -57,7 +57,7 @@ function handleLogin(e) {
   customerService.loginCustomer(email, password).then(function(data) {
     if (!('error' in data)) {
       localStorage.setItem('authorizationKey', data.accessToken);
-      localStorage.setItem('customer', data.customer);
+      localStorage.setItem('customer', JSON.stringify(data.customer));
 
       routes.router.navigate("/shoppingcart/shipping", true);
     } else {
@@ -110,7 +110,7 @@ function handleRegister(e) {
   customerService.registerCustomer(name, email, password).then(function(data) {
     if (!('error' in data)) {
       localStorage.setItem('authorizationKey', data.accessToken);
-      localStorage.setItem('customer', data.customer);
+      localStorage.setItem('customer', JSON.stringify(data.customer));
 
       routes.router.navigate("/shoppingcart/shipping", true);
     } else {
@@ -122,9 +122,6 @@ function handleRegister(e) {
 
 
 export default class AuthController {
-
-  constructor() {
-  }
 
   handleLoginEvent() {
     var element = document.querySelector('form button.login');
@@ -157,6 +154,15 @@ export default class AuthController {
       that.handleLoginEvent();
       facebook.initFacebook();
     });
+  }
+
+  renderLogout() {
+    var that = this;
+    //
+    localStorage.removeItem('authorizationKey');
+    localStorage.removeItem('customer');
+
+    routes.router.navigate("/", true);
   }
 
   renderRegister() {

@@ -1,5 +1,6 @@
 import {configure, renderString, render} from 'nunjucks';
 
+import BaseController from './base';
 import ProductService from './../services/product';
 import ShoppingcartService from './../services/shoppingcart';
 import AttributeService from './../services/attribute';
@@ -197,9 +198,10 @@ function handleSearchEvent() {
   }
 }
 
-export default class HomeController {
+export default class HomeController extends BaseController {
 
   constructor() {
+    super();
     //
     this.departmentId = localStorage.getItem('departmentId') || null;
     this.categoryId = localStorage.getItem('categoryId') || null;
@@ -323,6 +325,7 @@ export default class HomeController {
 
     productService.getDepartments().then(function(departments) {
       var context = {
+	customer: that.customer,
 	departments: departments.rows,
  	departmentId: that.departmentId,
 	categoryId: that.categoryId,
@@ -349,6 +352,8 @@ export default class HomeController {
 	if (that.departmentId) {
 	  that.renderCategories();
 	}
+	//
+	that.globalInit();
       });
     });
   }

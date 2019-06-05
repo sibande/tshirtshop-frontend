@@ -100,7 +100,7 @@ function confirmOrder(e) {
       draftOrder.address1, draftOrder.address2, draftOrder.city, draftOrder.region,
       draftOrder.postalCode, draftOrder.country, draftOrder.shippingRegionId
     ).then(function(data) {
-      localStorage.setItem('customer', data);
+      localStorage.setItem('customer', JSON.stringify(data));
 
       var shoppingCart = shoppingcartService.getShoppingcart();
 

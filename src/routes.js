@@ -68,6 +68,10 @@ router
       var controller = new AuthController;
       controller.renderLogin();
     },
+    'logout': function (params, query) {
+      var controller = new AuthController;
+      controller.renderLogout();
+    },
     'register': function (params, query) {
       var controller = new AuthController;
       controller.renderRegister();
