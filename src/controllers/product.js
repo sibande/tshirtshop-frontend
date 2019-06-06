@@ -2,6 +2,7 @@ import {configure, renderString, render} from 'nunjucks';
 import {tns} from 'tiny-slider/src/tiny-slider';
 var M = require('materialize-css/dist/js/materialize.js');
 
+import BaseController from './base';
 import ProductService from './../services/product';
 import ShoppingcartService from './../services/shoppingcart';
 import AttributeService from './../services/attribute';
@@ -13,7 +14,7 @@ var attributeService = new AttributeService();
 var shoppingcartService = new ShoppingcartService();
 
 
-export default class ProductController {
+export default class ProductController extends BaseController {
 
   constructor() {
   }

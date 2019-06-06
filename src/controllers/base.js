@@ -1,5 +1,17 @@
 var M = require('materialize-css/dist/js/materialize.js');
 
+import {formatPrice} from './../shared/nunjucks';
+import ShoppingcartService from './../services/shoppingcart';
+
+var shoppingcartService = new ShoppingcartService();
+
+
+export function updateCartHeader(totalAmount) {
+  var cartDiv = document.querySelector('header .shopping-cart a');
+  if (cartDiv) {
+    cartDiv.innerHTML = formatPrice(totalAmount);
+  }
+}
 
 export default class BaseController {
 
@@ -20,6 +32,11 @@ export default class BaseController {
   globalInit() {
     var elems = document.querySelectorAll('.customer-menu-trigger');
     var instances = M.Dropdown.init(elems, {});
+
+    var shoppingcart = shoppingcartService.getShoppingcart();
+
+    updateCartHeader(shoppingcart.totalAmount);
   }
+
   
 }

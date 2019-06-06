@@ -48,7 +48,11 @@
 	</div>
       </div>
       <div class="col s2">
-	<div class="va-cell">{{ cartItem.quantity }}</div>
+	<div class="va-cell quantity-select">
+	  <a class="noselect decrease btn-floating btn-small btn-flat waves-effect grey lighten-3 waves-light"><i class="material-icons">remove</i></a>
+	  <input class="noselect browser-default" minlength="1" maxlength="2" type="text" value="{{ cartItem.quantity }}">
+	  <a class="noselect increase btn-floating btn-small btn-flat waves-effect grey lighten-3 waves-light"><i class="material-icons">add</i></a>
+	</div>
       </div>
       <div class="col s2">
 	<div class="price va-cell">

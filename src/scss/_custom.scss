@@ -326,6 +326,47 @@ input {
     }
 }
 
+// https://stackoverflow.com/a/4407335
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.quantity-select {
+    a i {
+	color: #2e2e2e;
+    }
+
+    input {
+	width: 41px;
+	padding: 6px 0;
+	border-radius: 15px;
+	font-weight: bold;
+    }
+}
+
+.updating-content {
+    position: absolute;
+    z-index: 5;
+    background-color: white;
+    width: 100%;
+    display: table;
+    top: 0;
+    height: 100%;
+    opacity: 0.5;
+
+    > div {
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+    }
+}
+
 .cart-details {
     .card-panel {
 	box-shadow: none;
@@ -337,6 +378,7 @@ input {
 	border: 0;
 	margin: 15px 0;
     }
+
 
     h2 {
 	font-size: 16px;
@@ -353,6 +395,7 @@ input {
 	height: 60px;
 	display: table-cell;
 	vertical-align: middle;
+	position: relative;
     }
 
     .cart-actions {

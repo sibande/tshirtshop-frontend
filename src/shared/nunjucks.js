@@ -5,6 +5,8 @@ import * as dateFilter from 'nunjucks-date-filter';
 import * as markdown from 'nunjucks-markdown';
 import * as marked from 'marked';
 
+import { CURRENCY } from './../constants';
+
 
 //nunjucks
 var env = configure('/static/views', {
@@ -14,12 +16,14 @@ var env = configure('/static/views', {
 
 env.addFilter('date', dateFilter);
 
-env.addFilter('price', function(num, length) {
+export function formatPrice(num, length) {
   if (!parseFloat(num)) {
     num = 0;
   }
-  return '$' + num.toFixed(length || 2);
-});
+  return CURRENCY + num.toFixed(length || 2);
+}
+
+env.addFilter('price', formatPrice);
 
 
 // Add markdown

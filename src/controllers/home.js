@@ -230,7 +230,6 @@ export default class HomeController extends BaseController {
   }
 
   handleQuickAddToCartEvent() {
-
     document.removeEventListener('mouseover', handleAddToCartMouseOver);
     document.addEventListener('mouseover', handleAddToCartMouseOver);
   }
