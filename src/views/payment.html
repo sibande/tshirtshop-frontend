@@ -1,59 +1,58 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <br>
-  <h4>Order Payment</h4>
-
-  <div class="row">
-    <div class="col s12">
-      <div class="row">
-	<div class="col s6">
-	  <strong>Items:</strong> {{order.total_amount}}
-	</div>
-      </div>
-      <div class="row">
-	<div class="col s6">
-	  <strong>Shipping cost:</strong> {{order.shipping_cost}}
-	</div>
-      </div>
-      <div class="row">
-	<div class="col s6">
-	  <strong>Total Due:</strong> {{grandTotal}}
-	</div>
-      </div>
-    </div>
-  </div>
-
   <div class="row">
     <div class="col s12">
 
+      <form action="/charge" method="post" id="payment-form">
 
+	<div class="card-panel">
 
+	  {% include "_checkout_step_indicator.html" %}
 
-      <form action="/charge" method="post" id="payment-form" class="row">
-	<div class="col s9">
-	  <div class="form-row">
-	    <label for="card-element">
-	      Credit or debit card
-	    </label>
-	    <div id="card-element">
-	      <!-- A Stripe Element will be inserted here. -->
+	  <div class="row">
+	    <div class="col s6">
+	      <div class="payment-option">
+		<img src="/static/img/visa-master-card.png" alt="Visa Master Card">
+		<div class="bold">Pay {{grandTotal | price}} with credit card</div>
+	      </div>
 	    </div>
+	    <div class="col s6">
+	    </div>
+	  </div>
 
-	    <!-- Used to display form errors. -->
-	    <div id="card-errors" role="alert"></div>
+	  <div class="row">
+	    <div class="col s12">
+
+	      <div class="form-row">
+		<label for="card-element">
+		  Credit or debit card
+		</label>
+		<div id="card-element">
+		  <!-- A Stripe Element will be inserted here. -->
+		</div>
+
+		<!-- Used to display form errors. -->
+		<div id="card-errors" role="alert"></div>
+	      </div>
+
+	    </div>
 	  </div>
 	</div>
-	<div class="col s3">
-	  <button class="waves-effect waves-light btn-small">Submit Payment</button>
+
+	<div class="row cart-actions">
+	  <div class="col s6">
+	    <a href="/shoppingcart/shipping" class="back waves-effect waves-light white btn btn-flat">Back</a>
+	  </div>
+	  <div class="col s6 right-align">
+	    <button href="/shoppingcart/shipping" class="proceed waves-effect waves-light red btn btn-flat">Pay</button>
+	  </div>
 	</div>
+
       </form>
-
-
-
 
     </div>
   </div>
-  
+
 {% endblock %}
 

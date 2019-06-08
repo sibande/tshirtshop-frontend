@@ -58,7 +58,7 @@ export default class OrderService extends BaseService {
     formData.append('stripeToken', stripeToken);
     formData.append('order_id', orderId);
     formData.append('description', description);
-    formData.append('amount', amount);
+    formData.append('amount', amount.toFixed());
     formData.append('currency', currency);
 
     return fetch(this.baseUrl + '/stripe/charge', Object.assign({

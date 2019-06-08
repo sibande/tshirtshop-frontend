@@ -328,6 +328,13 @@ input {
 	margin: 8px auto;
     }
 
+    hr {
+	background-color: #e5e5e5;
+	height: 2px;
+	border: 0;
+	margin: 15px 0;
+    }
+
     label {
 	position: static;
 	font-weight: bold;
@@ -414,6 +421,48 @@ h2 {
     }
 }
 
+.bold {
+    font-weight: bold;
+}
+
+.cred {
+    color: #f62f5e;
+}
+
+.shop-table {
+    .header {
+	color: #b4b4b4;
+	font-weight: bold;
+	margin-bottom: 0;
+	padding: 10px 0;
+    }
+
+    .data-list > div {
+	margin-bottom: 0;
+	padding: 10px 0;
+    }
+
+    .data-list > div.odd {
+	background-color: #f7f7f7;
+    }
+}
+
+.order-summary {
+    .summary-list {
+	padding-right: 65px;
+    }
+}
+
+.payment-option {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #6eb2fb;
+    background-color: #f3f6f9;
+
+    img {
+	width: 160px;
+    }
+}
 
 .cart-details {
     .card-panel {

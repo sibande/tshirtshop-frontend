@@ -60,6 +60,10 @@ router
       var controller = new CustomerController;
       controller.renderConfirm();
     },
+    'shoppingcart/completed': function (params, query) {
+      var controller = new CustomerController;
+      controller.renderCompleted();
+    },
     'shoppingcart/payment/:orderId': function (params, query) {
       var controller = new CustomerController;
       controller.renderPayment(params, query);

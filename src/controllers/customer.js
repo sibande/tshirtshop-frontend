@@ -1,6 +1,8 @@
 import {configure, renderString, render} from 'nunjucks';
 var M = require('materialize-css/dist/js/materialize.js');
+var forms = require('./../shared/forms');
 
+import BaseController from './base';
 import ProductService from './../services/product';
 import CustomerService from './../services/customer';
 import ShoppingcartService from './../services/shoppingcart';
@@ -32,7 +34,7 @@ export function stripeTokenHandler(token, orderData) {
   orderService.chargeOrder(
     token.id, orderData.order_id, 'Order # ' +orderData.order_id, grandTotal, 'usd').then(function(data) {
       if (!('error' in data)) {
-	routes.router.navigate("/", true);
+	routes.router.navigate("/shoppingcart/completed", true);
 	localStorage.removeItem('draftOrder');
       }
     });
@@ -43,26 +45,63 @@ function updateShipping(e) {
   var customParams = e.target.customParams;
   var form = customParams.form;
 
-  var address1 = form.querySelector('input[name=address_1]').value;
-  var address2 = form.querySelector('input[name=address_2]').value;
-  var region = form.querySelector('input[name=region]').value;
-  var city = form.querySelector('input[name=city]').value;
-  var postalCode = form.querySelector('input[name=postal_code]').value;
-  var country = form.querySelector('input[name=country]').value;
-  var shippingRegionId = document.querySelector('select[name="shipping_region_id"]').value;
-  var shippingType = document.querySelector('select[name="shipping_type"]').value;
+  var name = form.querySelector('input[name=name]').value,
+      address1 = form.querySelector('input[name=address_1]').value,
+      address2 = form.querySelector('input[name=address_2]').value,
+      region = form.querySelector('input[name=region]').value,
+      city = form.querySelector('input[name=city]').value,
+      postalCode = form.querySelector('input[name=postal_code]').value,
+      country = form.querySelector('input[name=country]').value,
+      shippingRegionId = document.querySelector('select[name="shipping_region_id"]').value,
+      shippingType = document.querySelector('select[name="shipping_type"]').value;
 
-
-  localStorage.setItem('draftOrder', JSON.stringify({
-    address1: address1,
-    address2: address2,
+  var data = {
+    name: name,
+    address_1: address1,
+    address_2: address2,
     region: region,
     city: city,
-    postalCode: postalCode,
+    postal_code: postalCode,
     country: country,
-    shippingRegionId: shippingRegionId,
-    shippingType: shippingType
-  }));
+    shipping_region_id: shippingRegionId,
+    shipping_type: shippingType
+  };
+
+  var constraints = {
+    name: {
+      presence: {allowEmpty: false}
+    },
+    address_1: {
+      presence: {allowEmpty: false}
+    },
+    region: {
+      presence: {allowEmpty: false}
+    },
+    city: {
+      presence: {allowEmpty: false}
+    },
+    city: {
+      presence: {allowEmpty: false}
+    },
+    country: {
+      presence: {allowEmpty: false}
+    },
+    postal_code: {
+      presence: {allowEmpty: false}
+    },
+    shipping_region_id: {
+      presence: {allowEmpty: false}
+    },
+    shipping_type: {
+      presence: {allowEmpty: false}
+    }
+  };
+
+  if (!forms.validateForm(form, data, constraints)) {
+    return false;
+  }
+
+  localStorage.setItem('draftOrder', JSON.stringify(data));
 
   routes.router.navigate('/shoppingcart/confirm', true);
 }
@@ -97,15 +136,16 @@ function confirmOrder(e) {
 
   if (draftOrder) {
     customerService.updateCustomerAddress(
-      draftOrder.address1, draftOrder.address2, draftOrder.city, draftOrder.region,
-      draftOrder.postalCode, draftOrder.country, draftOrder.shippingRegionId
+      draftOrder.address_1, draftOrder.address_2, draftOrder.city, draftOrder.region,
+      draftOrder.postal_code, draftOrder.country, draftOrder.shipping_region_id
     ).then(function(data) {
       localStorage.setItem('customer', JSON.stringify(data));
 
       var shoppingCart = shoppingcartService.getShoppingcart();
 
-      orderService.createOrder(shoppingCart.cartId, draftOrder.shippingType, 2).then(function(data) {
+      orderService.createOrder(shoppingCart.cartId, draftOrder.shipping_type, 2).then(function(data) {
 	if (!('error' in data)) {
+	  localStorage.removeItem('shoppingCart');
 	  routes.router.navigate("/shoppingcart/payment/" + data.orderId, true);
 	}
       });
@@ -114,9 +154,11 @@ function confirmOrder(e) {
 }
 
 
-export default class CustomerController {
+export default class CustomerController extends BaseController {
 
   constructor() {
+    //
+    super();
   }
 
   handleShippingEvent() {
@@ -189,14 +231,22 @@ export default class CustomerController {
 	  draftOrder = {};
 	}
 
-	orderService.getShippingTypesByRegion(draftOrder.shippingRegionId).then(function(data) {
+	orderService.getShippingTypesByRegion(draftOrder.shipping_region_id).then(function(data) {
+	  var shippingType;
+	  data.forEach(function(shipping) {
+	    if (shipping.shipping_id == draftOrder.shipping_type) {
+	      shippingType = shipping;
+	    }
+	  });
+
 	  var context = {
+	    customer: that.customer,
 	    cartItems: cartItems,
 	    totalAmount: totalAmount,
 	    draftOrder: draftOrder,
+	    shippingType: shippingType,
 	    shippingTypes: data
 	  };
-
 
 
 	  render('confirm.html', context, function(err, res) {
@@ -204,10 +254,26 @@ export default class CustomerController {
 	    mainDiv.innerHTML= res;
 	    //
 	    that.handleConfirmOrderEvent();
+	    //
+	    that.globalInit();
 	  });
 	});
       });
     }
+  }
+
+  renderCompleted(params, query) {
+    if (!localStorage.getItem('authorizationKey')) {
+      return routes.router.navigate('/login', true);
+    }
+    var that = this;
+
+    render('completed.html', {customer: that.customer}, function(err, res) {
+	var mainDiv = document.getElementById('main');
+	mainDiv.innerHTML= res;
+	//
+	that.globalInit();
+    });
   }
 
   renderPayment(params, query) {
@@ -219,17 +285,18 @@ export default class CustomerController {
 
     orderService.getOrder(params.orderId).then(function(data) {
       var grandTotal = data.total_amount + data.shipping_cost;
-      render('payment.html', {order: data, grandTotal: grandTotal}, function(err, res) {
+      render('payment.html', {customer: that.customer, order: data, grandTotal: grandTotal}, function(err, res) {
 	var mainDiv = document.getElementById('main');
 	mainDiv.innerHTML= res;
 
 	stripe.initStripe(data);
+	//
+	that.globalInit();
       });
     });
 
   }
 
-  
   renderShipping() {
     //
     if (!localStorage.getItem('authorizationKey')) {
@@ -265,6 +332,8 @@ export default class CustomerController {
 
 	that.handleShippingEvent();
 	that.handleShippingRegionChangeEvent();
+	//
+	that.globalInit();
       });
 
     });
