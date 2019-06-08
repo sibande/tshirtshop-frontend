@@ -197,7 +197,7 @@ export default class CustomerController extends BaseController {
 
     //
     if (!localStorage.getItem('authorizationKey')) {
-      return routes.router.navigate('/login' + data.orderId, true);
+      return routes.router.navigate('/login', true);
     }
 
     var shoppingCart = shoppingcartService.getShoppingcart();

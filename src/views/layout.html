@@ -9,6 +9,7 @@
 	      <!-- Start customer menu -->
 	      <ul id="customer-menu" class="dropdown-content">
 		<li><a href="#!">Profile</a></li>
+		<li><a href="/orders">Orders</a></li>
 		<li class="divider" tabindex="-1"></li>
 		<li><a href="/logout">Logout</a></li>
 	      </ul>
@@ -33,11 +34,13 @@
 	<div class="col s6 right-align search">
 	  <form onsubmit="event.preventDefault();">
 	    <label class="{% if searchString %}shown{% endif %}">
-	      <a href="#"><i class="small search material-icons">search</i></a>
-	      <a href="#"><i class="tiny close material-icons">close</i></a>
+	      <a class="show" href="#"><i class="small search material-icons">search</i></a>
+	      <a class="close" href="#"><i class="tiny close material-icons">close</i></a>
 	      <span class="search-all">
-		<input type="checkbox"  class="filled-in"  {% if searchAll == 'yes' %}checked{% endif %}  name="search_all">
-		<span>All words</span>
+		<label>
+		  <input type="checkbox"  class="filled-in"  {% if searchAll == 'yes' %}checked{% endif %}  name="search_all">
+		  <span>All words</span>
+		</label>
 	      </span>
 	      <input class="search" value="{{searchString}}" placeholder="search anything" name="search" type="text" value="{{searchString}}" class="browser-default validate">
 	    </label>

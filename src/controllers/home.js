@@ -183,20 +183,6 @@ function handleItemsPerPageChange(e) {
   }
 }
 
-function handleSearchProducts() {
-  var searchString = document.querySelector('input[name=search]').value;
-  var searchAll = document.querySelector('input[name=search_all]').checked ? 'yes' : 'no';
-  window.location.href = '/?search=' + searchString + '&searchAll=' + searchAll;
-};
-
-function handleSearchEvent() {
-  var element = document.querySelector('button.search');
-
-  if (element) {
-    element.removeEventListener('click', handleSearchProducts);
-    element.addEventListener('click', handleSearchProducts);
-  }
-}
 
 export default class HomeController extends BaseController {
 
@@ -347,7 +333,6 @@ export default class HomeController extends BaseController {
 	that.handleQuickAddToCartEvent();
 	that.handleDepartmentChangeEvent();
 	that.handleItemsPerPageEvent();
-	handleSearchEvent();
 	if (that.departmentId) {
 	  that.renderCategories();
 	}

@@ -38,6 +38,16 @@ export default class OrderService extends BaseService {
     });
   }
 
+  getOrderList() {
+    var url = this.baseUrl + '/orders/inCustomer';
+
+    return fetch(url, Object.assign({
+      method: 'GET'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
+
   createOrder(cartId, shippingId, taxId) {
     var formData = new FormData();
     formData.append('cart_id', cartId);

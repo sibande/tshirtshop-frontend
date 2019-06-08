@@ -186,6 +186,10 @@ body {
     }
 
     .search {
+	input, div, a, i {
+	    outline: none;
+	}
+
 	label {
 	    position: relative;
 
@@ -202,6 +206,7 @@ body {
 
 		span {
 		    padding-left: 26px;
+		    z-index: 5;
 		}
 	    }
 
@@ -315,15 +320,27 @@ div.login, div.register {
 }
 
 
-input {
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 18px;
-    text-align: center;
+.quantity-select, .custom-form, div.login, div.register {
+    input {
+	width: 100%;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 18px;
+	text-align: center;
+    }
 }
 
+
 .custom-form {
+
+    input {
+	width: 100%;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 18px;
+	text-align: center;
+    }
+
     .input-field {
 	margin: 8px auto;
     }

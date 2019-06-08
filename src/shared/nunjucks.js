@@ -26,5 +26,18 @@ export function formatPrice(num, length) {
 env.addFilter('price', formatPrice);
 
 
+// Status ID to description
+export function orderStatusName(statusId) {
+  var name = 'Unknown';
+
+  if (statusId == 1) {
+    name = 'Completed';
+  }
+  return name;
+}
+
+env.addFilter('orderStatusName', orderStatusName);
+
+
 // Add markdown
 markdown.register(env, marked);
