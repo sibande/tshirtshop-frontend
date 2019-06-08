@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <div class="row">
+    <div class="col s12">
+      <div class="card-panel shop-table">
+
+	<h2>Orders history</h2>
+
+
+	<div class="row header">
+	  <div class="col s5">
+	    Order ID
+	  </div>
+	  <div class="col s2">
+	    Price
+	  </div>
+	  <div class="col s3">
+	    Time Placed
+	  </div>
+	  <div class="col s2">
+	    Status
+	  </div>
+	</div>
+
+	<div class="data-list">
+	  {% for order in orders %}
+	    <div class="row {% if loop.index % 2 == 0 %}even{% else %}odd{% endif %}">
+	      <div class="col s5 bold">
+		{{order.order_id}}
+	      </div>
+	      <div class="col s2 cred bold">
+		{{order.total_amount|price}}
+	      </div>
+	      <div class="col s3">
+		{{order.created_on|date('LLL')}}
+	      </div>
+	      <div class="col s2">
+		{{order.status|orderStatusName}}
+	      </div>
+	    </div>
+	  {% endfor %}
+	</div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
