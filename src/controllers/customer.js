@@ -155,7 +155,7 @@ export default class CustomerController {
 
     //
     if (!localStorage.getItem('authorizationKey')) {
-      routes.router.navigate('/login' + data.orderId, true);
+      return routes.router.navigate('/login' + data.orderId, true);
     }
 
     var shoppingCart = shoppingcartService.getShoppingcart();
@@ -213,7 +213,7 @@ export default class CustomerController {
   renderPayment(params, query) {
     //
     if (!localStorage.getItem('authorizationKey')) {
-      routes.router.navigate('/login', true);
+      return routes.router.navigate('/login', true);
     }
     var that = this;
 
@@ -233,7 +233,7 @@ export default class CustomerController {
   renderShipping() {
     //
     if (!localStorage.getItem('authorizationKey')) {
-      routes.router.navigate('/login', true);
+      return routes.router.navigate('/login', true);
     }
     
     var that = this;
@@ -245,8 +245,7 @@ export default class CustomerController {
 
       if ('error' in customer) {
 	messages.error(customer.error.message || 'Internal error');
-	routes.router.navigate('/login', true);
-	return false;
+	return routes.router.navigate('/login', true);
       }
 
       render('shipping_details.html', {customer: customer, shippingRegions: shippingRegions}, function(err, res) {

@@ -356,7 +356,7 @@ export default class ShoppingcartController extends BaseController {
   render() {
     var that = this;
 
-    render('cart_details.html', {}, function(err, res) {
+    render('cart_details.html', {customer: that.customer}, function(err, res) {
       var mainDiv = document.getElementById('main');
       mainDiv.innerHTML= res;
 

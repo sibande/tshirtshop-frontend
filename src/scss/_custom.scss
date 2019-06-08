@@ -1,3 +1,6 @@
+// Custom
+@import "ms_indicator";
+
 body {
     background-color: #f7f7f7;
 }
@@ -295,6 +298,10 @@ div.login, div.register {
 
     .input-field {
 	margin: 5px 0;
+
+	input {
+	    text-align: center;
+	}
     }
 
 
@@ -314,6 +321,26 @@ input {
     border-radius: 5px;
     padding: 18px;
     text-align: center;
+}
+
+.custom-form {
+    .input-field {
+	margin: 8px auto;
+    }
+
+    label {
+	position: static;
+	font-weight: bold;
+	color: #b4b4b4;
+	font-size: 15px;
+
+    }
+
+    input {
+	padding: 15px;
+	border: 1px solid #e1e1e1;
+	text-align: left;
+    }
 }
 
 .error-msg {
@@ -367,6 +394,27 @@ input {
     }
 }
 
+h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 0;
+}
+
+
+.cart-actions {
+    .btn {
+	border-radius: 19px;
+	text-transform: none;
+	font-weight: bold;
+	padding: 0 25px;
+    }
+
+    .btn-flat.proceed {
+	color: white;
+    }
+}
+
+
 .cart-details {
     .card-panel {
 	box-shadow: none;
@@ -377,13 +425,6 @@ input {
 	height: 2px;
 	border: 0;
 	margin: 15px 0;
-    }
-
-
-    h2 {
-	font-size: 16px;
-	font-weight: bold;
-	margin: 0;
     }
 
     .price {
@@ -398,18 +439,6 @@ input {
 	position: relative;
     }
 
-    .cart-actions {
-	.btn {
-	    border-radius: 19px;
-	    text-transform: none;
-	    font-weight: bold;
-	    padding: 0 25px;
-	}
-
-	.btn-flat.proceed {
-	    color: white;
-	}
-    }
 
     .item-list .header {
 	color: #b4b4b4;

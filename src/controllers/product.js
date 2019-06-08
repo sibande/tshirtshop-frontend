@@ -17,6 +17,7 @@ var shoppingcartService = new ShoppingcartService();
 export default class ProductController extends BaseController {
 
   constructor() {
+    super();
   }
 
   render(params, query) {

@@ -1,8 +1,9 @@
-<select name="shipping_type">
+<label>Type</label>
+<select name="shipping_type" class="browser-default">
   {% for shippingType in shippingTypes %}
     <option value="{{shippingType.shipping_id}}">
       {{shippingType.shipping_type}}
     </option>
   {% endfor %}
 </select>
-<label>Type</label>
+
