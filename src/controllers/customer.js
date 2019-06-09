@@ -264,6 +264,17 @@ export default class CustomerController extends BaseController {
     };
   }
 
+  handleConfirmOrderEvent() {
+    var element = document.querySelector('form button.confirm');
+
+    element.removeEventListener('click', confirmOrder);
+    element.addEventListener('click', confirmOrder);
+    element.customParams = {
+      form: element.closest('form'),
+      controller: this
+    };
+  }
+
   handleRegisterEvent() {
     var element = document.querySelector('form button.register');
 
