@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <div class="row customer">
+    <div class="col s12">
+      <form class="custom-form" onsubmit="event.preventDefault();">
+	
+	<div class="card-panel shop-table">
+	  <h2>Customer profile</h2>
+	  <br>
+
+	  <div class="row no-margin">
+	    <div class="input-field col s12">
+	      <label>Full name*</label>
+	      <input type="text" placeholder="Name" name="name" value="{{customer.name}}" class="browser-default">
+            </div>
+	  </div>
+
+	  <div class="row no-margin">
+	    <div class="input-field col s12">
+	      <label>Email*</label>
+	      <input type="text" {% if isFacebookLogin %}readonly{% endif %} placeholder="Email" name="email" value="{{customer.email}}" class="browser-default">
+            </div>
+	  </div>
+
+	  <div class="row no-margin">
+	    <div class="input-field col s12">
+	      <label>Work Phone</label>
+	      <input type="text" placeholder="Work Phone" name="day_phone" value="{{customer.day_phone}}" class="browser-default">
+            </div>
+	  </div>
+
+	  <div class="row no-margin">
+	    <div class="input-field col s12">
+	      <label>Home Phone</label>
+	      <input type="text" placeholder="Home Phone" name="eve_phone" value="{{customer.eve_phone}}" class="browser-default">
+            </div>
+	  </div>
+
+	  <div class="row no-margin">
+	    <div class="input-field col s12">
+	      <label>Mobile Phone</label>
+	      <input type="text" placeholder="Mobile Phone" name="mob_phone" value="{{customer.mob_phone}}" class="browser-default">
+            </div>
+	  </div>
+
+	  {% if isFacebookLogin != '1' %}
+
+	    <hr>
+	    
+	    <h2>Change password</h2>
+	    <div class="row no-margin">
+	      <div class="input-field col s12">
+		<label>Password</label>
+		<input type="password" placeholder="Password" name="password" class="browser-default">
+              </div>
+	    </div>
+	    <div class="row no-margin">
+	      <div class="input-field col s12">
+		<label>Confirm Password</label>
+		<input type="password" placeholder="Confirm Password" name="confirm_password" class="browser-default">
+              </div>
+	    </div>
+	  {% endif %}
+
+	  <div class="row no-margin">
+	    <div class="col s12">
+	      <button class="waves-effect waves-light red btn-flat btn-large customer-update">Update</button>
+	    </div>
+	  </div>
+	  
+	</div>
+
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
+

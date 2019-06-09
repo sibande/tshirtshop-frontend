@@ -81,5 +81,21 @@ export default class CustomerService extends BaseService {
     });
   }
 
+
+  updateCustomer(data) {
+    var url = this.baseUrl + '/customer';
+
+    var formData = new FormData();
+    for (var key in data) {
+      formData.append(key, data[key]);
+    }
+
+    return fetch(url, Object.assign({
+      body: formData, // must match 'Content-Type' header
+      method: 'PUT'
+    }, this.getOptions())).then(function(res) {
+      return res.json();
+    });
+  }
   
 }

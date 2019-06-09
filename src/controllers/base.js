@@ -44,7 +44,8 @@ export default class BaseController {
 
   constructor() {
     var authorizationKey = localStorage.getItem('authorizationKey'),
-	customer = localStorage.getItem('customer');
+	customer = localStorage.getItem('customer'),
+	isFacebookLogin = localStorage.getItem('isFacebookLogin');
 
     try {
       customer = JSON.parse(customer);
@@ -53,6 +54,7 @@ export default class BaseController {
     }
 
     this.customer = customer || {};
+    this.isFacebookLogin = isFacebookLogin;
   }
 
   handleSearchEvent() {

@@ -73,6 +73,10 @@ router
       var controller = new OrderController;
       controller.render();
     },
+    'customer': function (params, query) {
+      var controller = new CustomerController;
+      controller.renderCustomer();
+    },
     'login': function (params, query) {
       var controller = new AuthController;
       controller.renderLogin();

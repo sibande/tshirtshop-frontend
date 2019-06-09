@@ -106,6 +106,77 @@ function updateShipping(e) {
   routes.router.navigate('/shoppingcart/confirm', true);
 }
 
+function customerUpdate(e) {
+  var elem = e.target;
+
+  var customParams = e.target.customParams;
+  var form = customParams.form;
+
+  const formData = new FormData(form);
+
+  var data = {};
+  formData.forEach(function(value, key){
+    data[key] = value;
+  });
+
+  var constraints = {
+    name: {
+      presence: {allowEmpty: false}
+    },
+    email: {
+      presence: {allowEmpty: false},
+      email: true
+    },
+    day_phone: {
+      presence: true,
+      format: {
+	pattern: /(\+?\d{6,22})?/,
+	message: "format invalid, only numeric values allowed"
+      }
+    },
+    eve_phone: {
+      presence: true,
+      format: {
+	pattern: /(\+?\d{6,22})?/,
+	message: "format invalid, only numeric values allowed"
+      }
+    },
+    mob_phone: {
+      presence: true,
+      format: {
+	pattern: /(\+?\d{6,22})?/,
+	message: "format invalid, only numeric values allowed"
+      }
+    },
+    password: {
+      presence: false
+    },
+    confirm_password: {
+      presence: false,
+      equality: "password"
+    }
+  };
+
+  if (!forms.validateForm(form, data, constraints)) {
+    return false;
+  }
+
+  if (!data['password']) {
+    delete data['password'];
+  }
+  delete data['confirm_password'];
+
+  //
+  customerService.updateCustomer(data).then(function(data) {
+      if ('error' in data) {
+	messages.error(data.error.message || 'Internal error');
+      } else {
+	localStorage.setItem('customer', JSON.stringify(data));
+	messages.success('User updated');
+      }
+  });
+}
+
 
 function handleShippingRegionChange(e) {
 
@@ -182,11 +253,22 @@ export default class CustomerController extends BaseController {
     };
   }
 
-  handleConfirmOrderEvent() {
-    var element = document.querySelector('form button.confirm');
+  handleCustomerUpdateEvent() {
+    var element = document.querySelector('form button.customer-update');
 
-    element.removeEventListener('click', confirmOrder);
-    element.addEventListener('click', confirmOrder);
+    element.removeEventListener('click', customerUpdate);
+    element.addEventListener('click', customerUpdate);
+    element.customParams = {
+      form: element.closest('form'),
+      controller: this
+    };
+  }
+
+  handleRegisterEvent() {
+    var element = document.querySelector('form button.register');
+
+    element.removeEventListener('click', handleRegister);
+    element.addEventListener('click', handleRegister);
     element.customParams = {
       form: element.closest('form')
     };
@@ -260,6 +342,27 @@ export default class CustomerController extends BaseController {
 	});
       });
     }
+  }
+
+  renderCustomer(params, query) {
+    if (!localStorage.getItem('authorizationKey')) {
+      return routes.router.navigate('/login', true);
+    }
+    var that = this;
+
+    var context = {
+      customer: that.customer,
+      isFacebookLogin: that.isFacebookLogin
+    };
+
+    render('customer.html', context, function(err, res) {
+      var mainDiv = document.getElementById('main');
+      mainDiv.innerHTML= res;
+
+      that.handleCustomerUpdateEvent();
+      //
+      that.globalInit();
+    });
   }
 
   renderCompleted(params, query) {

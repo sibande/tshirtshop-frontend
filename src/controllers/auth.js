@@ -23,6 +23,7 @@ export function handleAuthResponseChange(res) {
       if (!('error' in data)) {
 	localStorage.setItem('authorizationKey', data.accessToken);
 	localStorage.setItem('customer', JSON.stringify(data.customer));
+	localStorage.setItem('isFacebookLogin', 1);
 
 	routes.router.navigate("/shoppingcart/shipping", true);
       }
@@ -58,6 +59,7 @@ function handleLogin(e) {
     if (!('error' in data)) {
       localStorage.setItem('authorizationKey', data.accessToken);
       localStorage.setItem('customer', JSON.stringify(data.customer));
+      localStorage.setItem('isFacebookLogin', 0);
 
       routes.router.navigate("/shoppingcart/shipping", true);
     } else {
@@ -111,6 +113,7 @@ function handleRegister(e) {
     if (!('error' in data)) {
       localStorage.setItem('authorizationKey', data.accessToken);
       localStorage.setItem('customer', JSON.stringify(data.customer));
+      localStorage.setItem('isFacebookLogin', 0);
 
       routes.router.navigate("/shoppingcart/shipping", true);
     } else {
