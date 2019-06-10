@@ -8,17 +8,13 @@ import OrderService from './../services/order';
 var orderService = new OrderService();
 
 
-export default class ProductController extends BaseController {
+export default class OrderController extends BaseController {
 
   constructor() {
     super();
   }
 
   render(params, query) {
-    if (!localStorage.getItem('authorizationKey')) {
-      return routes.router.navigate('/login', true);
-    }
-
     var that = this;
 
     orderService.getOrderList().then(function(orders) {

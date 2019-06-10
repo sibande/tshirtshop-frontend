@@ -288,12 +288,21 @@ export default class CustomerController extends BaseController {
   renderConfirm() {
     var that = this;
 
-    //
-    if (!localStorage.getItem('authorizationKey')) {
-      return routes.router.navigate('/login', true);
+    var shoppingCart = shoppingcartService.getShoppingcart();
+
+    if (!shoppingCart.items.length) {
+      messages.error('Cart empty');
+      return routes.router.navigate('/', true);
     }
 
-    var shoppingCart = shoppingcartService.getShoppingcart();
+    var draftOrder;
+    try {
+      draftOrder = JSON.parse(localStorage.getItem('draftOrder'));
+    } catch (e) {
+      messages.error('Error getting shipping details.');
+      window.location.href = '/shoppingcart/shipping';
+      return false;
+    }
 
     if (shoppingCart.cartId) {
       var cartId = shoppingCart.cartId;
@@ -316,13 +325,6 @@ export default class CustomerController extends BaseController {
 	  }
 	  return item;
 	});
-
-	var draftOrder;
-	try {
-	  draftOrder = JSON.parse(localStorage.getItem('draftOrder'));
-	} catch (e) {
-	  draftOrder = {};
-	}
 
 	orderService.getShippingTypesByRegion(draftOrder.shipping_region_id).then(function(data) {
 	  var shippingType;
@@ -356,9 +358,6 @@ export default class CustomerController extends BaseController {
   }
 
   renderCustomer(params, query) {
-    if (!localStorage.getItem('authorizationKey')) {
-      return routes.router.navigate('/login', true);
-    }
     var that = this;
 
     var context = {
@@ -377,9 +376,6 @@ export default class CustomerController extends BaseController {
   }
 
   renderCompleted(params, query) {
-    if (!localStorage.getItem('authorizationKey')) {
-      return routes.router.navigate('/login', true);
-    }
     var that = this;
 
     render('completed.html', {customer: that.customer}, function(err, res) {
@@ -391,10 +387,6 @@ export default class CustomerController extends BaseController {
   }
 
   renderPayment(params, query) {
-    //
-    if (!localStorage.getItem('authorizationKey')) {
-      return routes.router.navigate('/login', true);
-    }
     var that = this;
 
     orderService.getOrder(params.orderId).then(function(data) {
@@ -412,24 +404,25 @@ export default class CustomerController extends BaseController {
   }
 
   renderShipping() {
-    //
-    if (!localStorage.getItem('authorizationKey')) {
-      return routes.router.navigate('/login', true);
-    }
-    
     var that = this;
 
+    var shoppingCart = shoppingcartService.getShoppingcart();
+
+    if (!shoppingCart.items.length) {
+      messages.error('Cart empty');
+      return routes.router.navigate('/', true);
+    }
 
     Promise.all([customerService.getCustomer(), orderService.getShippingRegions()]).then(function(data) {
       var customer = data[0];
       var shippingRegions = data[1];
 
-      if ('error' in customer) {
-	messages.error(customer.error.message || 'Internal error');
-	return routes.router.navigate('/login', true);
-      }
+      var context = {
+	customer: customer,
+	shippingRegions: shippingRegions
+      };
 
-      render('shipping_details.html', {customer: customer, shippingRegions: shippingRegions}, function(err, res) {
+      render('shipping_details.html', context, function(err, res) {
 	var mainDiv = document.getElementById('main');
 
 	mainDiv.innerHTML= res;

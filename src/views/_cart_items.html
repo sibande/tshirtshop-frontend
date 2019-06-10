@@ -67,6 +67,8 @@
     <a href="/" class="back waves-effect waves-light white btn btn-flat">Back to Shop</a>
   </div>
   <div class="col s6 right-align">
-    <a href="/shoppingcart/shipping" class="proceed waves-effect waves-light red btn btn-flat">Checkout</a>
+    {% if cartItems.length %}
+      <a href="/shoppingcart/shipping" class="proceed waves-effect waves-light red btn btn-flat">Checkout</a>
+    {% endif %}
   </div>
 </div>

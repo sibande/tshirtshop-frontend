@@ -1,6 +1,7 @@
 import {configure, renderString, render} from 'nunjucks';
 var M = require('materialize-css/dist/js/materialize.js');
 var forms = require('./../shared/forms');
+import {getParameterByName} from './../shared/urls';
 
 import CustomerService from './../services/customer';
 var facebook = require('./../shared/facebook');
@@ -25,7 +26,9 @@ export function handleAuthResponseChange(res) {
 	localStorage.setItem('customer', JSON.stringify(data.customer));
 	localStorage.setItem('isFacebookLogin', 1);
 
-	routes.router.navigate("/shoppingcart/shipping", true);
+	var next = getParameterByName('next') || '/';
+
+	window.location.href = next;
       }
     });
   }
@@ -61,7 +64,9 @@ function handleLogin(e) {
       localStorage.setItem('customer', JSON.stringify(data.customer));
       localStorage.setItem('isFacebookLogin', 0);
 
-      routes.router.navigate("/shoppingcart/shipping", true);
+      var next = getParameterByName('next') || '/';
+
+      window.location.href = next;
     } else {
       forms.showFormError(form, (data.error.message || 'Internal error'));
     }
@@ -115,7 +120,9 @@ function handleRegister(e) {
       localStorage.setItem('customer', JSON.stringify(data.customer));
       localStorage.setItem('isFacebookLogin', 0);
 
-      routes.router.navigate("/shoppingcart/shipping", true);
+      var next = getParameterByName('next') || '/';
+
+      window.location.href = next;
     } else {
       forms.showFormError(form, (data.error.message || 'Internal error'));
     }

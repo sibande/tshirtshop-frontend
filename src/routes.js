@@ -43,6 +43,20 @@ document.addEventListener('click', function(e) {
 var loadingPage = '<div id="page-loading"><img src="/static/img/ajax_medium.gif" alt="Page loading..."></div>';
 
 
+function authMiddleware(callback) {
+  if (!localStorage.getItem('authorizationKey')) {
+    var next = window.location.pathname + window.location.search;
+    window.location.href = '/login?next=' + encodeURIComponent(next);
+    return false;
+  }
+
+  //
+  callback();
+
+  return true;
+}
+
+
 router
   .on({
     'product/:productId': function (params, query) {
@@ -55,27 +69,40 @@ router
     },
     'shoppingcart/shipping': function (params, query) {
       var controller = new CustomerController;
-      controller.renderShipping();
+      authMiddleware(function() {
+	controller.renderShipping();
+      });
     },
     'shoppingcart/confirm': function (params, query) {
       var controller = new CustomerController;
-      controller.renderConfirm();
+      authMiddleware(function() {
+	controller.renderConfirm();
+      });
     },
     'shoppingcart/completed': function (params, query) {
       var controller = new CustomerController;
-      controller.renderCompleted();
+      authMiddleware(function() {
+	controller.renderCompleted();
+      });
     },
     'shoppingcart/payment/:orderId': function (params, query) {
       var controller = new CustomerController;
-      controller.renderPayment(params, query);
+      authMiddleware(function() {
+	controller.renderPayment(params, query);
+      });
     },
     'orders': function (params, query) {
       var controller = new OrderController;
-      controller.render();
+      authMiddleware(function() {
+	controller.render();
+      });
     },
     'customer': function (params, query) {
       var controller = new CustomerController;
-      controller.renderCustomer();
+
+      authMiddleware(function() {
+	controller.renderCustomer();
+      });
     },
     'login': function (params, query) {
       var controller = new AuthController;
