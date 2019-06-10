@@ -153,6 +153,12 @@ export function handleAdjustQuantity(e) {
 
   clearTimeout(timeoutId);
 
+  // Handle updates to quantity
+  elem.customParams.updateItemQuantity(controller, quantityElem);
+}
+
+
+function updateItemQuantity(controller, quantityElem) {
   timeoutId = setTimeout(function() {
     // Quantity limited to a minimum of 1 and a maximum of 99
     if (quantityElem.value < 1) {
@@ -191,7 +197,6 @@ export function handleAdjustQuantity(e) {
     });
 
   }, 1000);
-
 }
 
 
@@ -260,7 +265,8 @@ export default class ShoppingcartController extends BaseController {
 	elem.addEventListener(event, handleAdjustQuantity);
 	elem.customParams = {
 	  controller: that,
-	  quantityElem: quantityElem
+	  quantityElem: quantityElem,
+	  updateItemQuantity: updateItemQuantity
 	};
       }
 

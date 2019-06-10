@@ -319,10 +319,12 @@ div.login, div.register {
     }
 }
 
-.customer {
+.customer,
+.product-view {
     button {
 	margin: 10px 0 10px 0;
 	color: #fff;
+	text-transform: none;
 	font-weight: bold;
 	border-radius: 27px;
     }
@@ -599,24 +601,29 @@ h2 {
 }
 
 
-// Pagination Styles
-nav.clean {
-    background-color: #fff;
-    border: 0;
-    box-shadow: none;
+.product-view {
 
-    .breadcrumb {
-	color: rgba(0,0,0,1);
+    // Pagination Styles
+    nav.clean {
+	background-color: #fff;
+	border: 0;
+	box-shadow: none;
+	height: 44px;
+	line-height: 44px;
 
-    }
+	.breadcrumb {
+	    color: #a9a9a9;
+	    font-size: 14px;
 
-    .breadcrumb::before {
-        color: #000;
-    }
+	    &::before {
+		color: #a9a9a9;
+	    }
+	}
 
-    .nav-wrapper  > div {
-	padding-left: 0;
+	.nav-wrapper  > div {
+	    padding-left: 0;
+	}
+
     }
 
 }
-

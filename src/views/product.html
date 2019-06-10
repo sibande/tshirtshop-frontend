@@ -2,108 +2,117 @@
 
 {% block content %}
 
-  <br>
+  <div class="row product-view">
+    <div class="col s12">
+      <div class="card-panel">
 
-  <div class="row product">
-    <div class="col s5">
+	<div class="row product">
+	  <div class="col s5">
 
-      <div class="row">
-	<div class="col s12">
+	    <div class="row">
+	      <div class="col s12">
 
+		<div class="customize center-align" id="customize">
+		  <div>
+		    <div>
+		      <img src="/static/resources/product_images/{{ product.image }}" alt="{{ product.name }} 1">
+		    </div>
+		  </div>
+		  <div>
+		    <div>
+		      <img src="/static/resources/product_images/{{ product.image_2 }}" alt="{{ product.name }} 2">
+		    </div>
+		  </div>
+		</div>
+		<div class="customize-tools">
+		  <ul class="thumbnails" id="customize-thumbnails">
+		    <li>
+		      <img src="/static/resources/product_images/{{ product.image }}" alt="{{ product.name }} 1">
+		    </li>
+		    <li>
+		      <img src="/static/resources/product_images/{{ product.image_2 }}" alt="{{ product.name }} 2">
+		    </li>
+		  </ul>
+		  <ul class="controls" id="customize-controls">
+		    <li class="prev">
+		      <i class="material-icons">chevron_left</i>
+		    </li>
+		    <li class="next">
+		      <i class="material-icons">chevron_right</i>
+		    </li>
+		  </ul>
+		</div>
+	      </div>
+	    </div>
 
-	  <div class="customize center-align" id="customize">
+	  </div>
+	  <div class="col s7">
+
+	    <nav class="clean">
+	      <div class="nav-wrapper">
+		<div class="col s12">
+		  <a href="/" class="breadcrumb">Home</a>
+		  <a class="breadcrumb">{{product.name}}</a>
+		</div>
+	      </div>
+	    </nav>
+
+	    <h2>{{product.name}}</h2>
+
+	    <div class="price">
+	      <p class="current-price">
+		{% if product.discounted_price %}
+		  {{product.discounted_price | price}}
+		{% else %}
+		  {{product.price | price}}
+		{% endif %}
+	      </p>
+	      {% if product.discounted_price %}
+		<p class="old-price">{{product.price | price}}</p>
+	      {% endif %}
+	    </div>
+
 	    <div>
-              <div>
-		<img src="/static/resources/product_images/{{ product.image }}" alt="{{ product.name }} 1">
-              </div>
+	      {{product.description}}
+
 	    </div>
-	    <div>
-              <div>
-		<img src="/static/resources/product_images/{{ product.image_2 }}" alt="{{ product.name }} 2">
-              </div>
-	    </div>
-	  </div>
-	  <div class="customize-tools">
-	    <ul class="thumbnails" id="customize-thumbnails">
-              <li>
-		<img src="/static/resources/product_images/{{ product.image }}" alt="{{ product.name }} 1">
-              </li>
-              <li>
-		<img src="/static/resources/product_images/{{ product.image_2 }}" alt="{{ product.name }} 2">
-              </li>
-	    </ul>
-	    <ul class="controls" id="customize-controls">
-              <li class="prev">
-		<i class="material-icons">chevron_left</i>
-              </li>
-              <li class="next">
-		<i class="material-icons">chevron_right</i>
-              </li>
-	    </ul>
+	    <br />
+	    <form onsubmit="event.preventDefault();">
+	      <div>
+		{% for attributeNane, attributeList in attributes %}
+		  <div><strong>{{attributeNane}}</strong></div>
+
+		  <div class="attribute-{{attributeNane|lower}}">
+		    {% for attributeId, attribute in attributeList %}
+		      <label class="{% if attributeNane == 'Color' %}color-{{attribute.attribute_value|lower}}{% endif %}">
+			<input class="with-gap" name="{{ attributeNane }}"
+			       value="{{ attribute.attribute_value_id }}" type="radio" />
+			       <span>{% if attributeNane == 'Size' %}{{attribute.attribute_value}}{% endif %}</span>
+		      </label>
+		    {% endfor %}
+		  </div>
+		{% endfor %}
+	      </div>
+	      <div>
+		<div class="row">
+		  <div class="input-field col s6">
+		    <div><strong>Quantity</strong></div>
+		    <div class="va-cell quantity-select">
+		      <a class="noselect decrease btn-floating btn-small btn-flat waves-effect grey lighten-3 waves-light"><i class="material-icons">remove</i></a>
+		      <input class="noselect browser-default" minlength="1" maxlength="2" name="quantity" type="text" value="1">
+		      <a class="noselect increase btn-floating btn-small btn-flat waves-effect grey lighten-3 waves-light"><i class="material-icons">add</i></a>
+		    </div>
+		  </div>
+		</div>
+	      </div>
+	      <div>
+		<button class="waves-effect waves-light btn-large red btn-flat add-to-cart">Add to cart</button>
+	      </div>
+	    </form>
 	  </div>
 	</div>
       </div>
 
-      
-    </div>
-    <div class="col s7">
-      <h2>{{product.name}}</h2>
-
-      <nav class="clean">
-	<div class="nav-wrapper">
-	  <div class="col s12">
-	    <a href="/" class="breadcrumb">Home</a>
-	    <a class="breadcrumb">{{product.name}}</a>
-	  </div>
-	</div>
-      </nav>
-
-      <div class="price">
-	<p class="current-price">
-	  {% if product.discounted_price %}
-	    {{product.discounted_price | price}}
-	  {% else %}
-	    {{product.price | price}}
-	  {% endif %}
-	</p>
-	{% if product.discounted_price %}
-	  <p class="old-price">{{product.price | price}}</p>
-	{% endif %}
-      </div>
-
-      <div>
-	{{product.description}}
-
-      </div>
-      <br />
-      <form onsubmit="event.preventDefault();">
-	<div>
-	  {% for attributeNane, attributeList in attributes %}
-	    <div><strong>{{attributeNane}}</strong></div>
-
-	    <div class="attribute-{{attributeNane|lower}}">
-	      {% for attributeId, attribute in attributeList %}
-		<label class="{% if attributeNane == 'Color' %}color-{{attribute.attribute_value|lower}}{% endif %}">
-		  <input class="with-gap" name="{{ attributeNane }}"
-			 value="{{ attribute.attribute_value_id }}" type="radio" />
-			 <span>{% if attributeNane == 'Size' %}{{attribute.attribute_value}}{% endif %}</span>
-		</label>
-	      {% endfor %}
-	    </div>
-	  {% endfor %}
-	</div>
-	<div>
-	  <div class="row">
-	    <div class="input-field col s2">
-              <input name="quantity" min="1" max="20" type="number" value="1" class="validate">
-              <label for="quantity">Quantity</label>
-            </div>
-	  </div>
-	</div>    
-	<div>
-	  <button class="waves-effect waves-light btn-large add-to-cart">Add to cart</button>
-	</div>
-      </form>
     </div>
   </div>
 </div>
