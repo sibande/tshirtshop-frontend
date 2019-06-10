@@ -10,7 +10,6 @@
     "@types/marked": "^0.6.5",
     "element-closest": "^3.0.1",
     "es6-promise": "^4.2.6",
-    "express-validator": "^5.3.1",
     "fetch-ie8": "^1.5.0",
     "lodash": "^4.17.11",
     "materialize-css": "^1.0.0",
