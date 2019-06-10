@@ -34,7 +34,7 @@ function handleSearch(e) {
 
 function handleSearchProducts() {
   var searchString = document.querySelector('input[name=search]').value;
-  var searchAll = document.querySelector('input[name=search_all]').checked ? 'yes' : 'no';
+  var searchAll = document.querySelector('input[name=search_all]').checked ? 'on' : 'off';
 
   routes.router.navigate('/?search=' + searchString + '&searchAll=' + searchAll, true);
 };
