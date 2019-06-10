@@ -30,7 +30,6 @@ body {
 }
 .thumbnails li {
   display: inline-block;
-  cursor: pointer;
   border: 5px solid #fff;
 }
 .thumbnails .tns-nav-active {
@@ -134,6 +133,10 @@ body {
     position: relative;
     height: 250px;
 
+    a {
+	color: #2e2e2e;
+    }
+
     .product-quick-view {
 	img.quick-view-loading {
 	    position: absolute;
@@ -143,8 +146,13 @@ body {
 	}
 
 	button {
-	    margin-top: 5px;
+	    margin-top: 10px;
+	    color: #fff;
+	    text-transform: none;
+	    font-weight: bold;
+	    border-radius: 16px;
 	}
+
     }
 
     > .product-item, > .product-quick-view {
