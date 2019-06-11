@@ -3,6 +3,8 @@ var M = require('materialize-css/dist/js/materialize.js');
 var forms = require('./../shared/forms');
 import {getParameterByName} from './../shared/urls';
 
+import { handleFormCatch, showSubmitting, hideSubmitting } from './base';
+import BaseController from './base';
 import CustomerService from './../services/customer';
 var facebook = require('./../shared/facebook');
 var routes = require('./../routes');
@@ -16,20 +18,35 @@ export function handleStatusChange(res) {
 
 };
 
+
+function startLoginSession(data, isFacebookLogin) {
+  localStorage.setItem('authorizationKey', data.accessToken);
+  localStorage.setItem('customer', JSON.stringify(data.customer));
+  localStorage.setItem('isFacebookLogin', isFacebookLogin);
+
+  var next = getParameterByName('next') || '/';
+
+  window.location.href = next;
+}
+
+
 export function handleAuthResponseChange(res) {
+  var form = document.querySelector('form button.login, form button.register');
+  form = form.closest('form');
+
   if (res.status == 'connected') {
     var accessToken = res.authResponse.accessToken;
 
+
+
+    showSubmitting(form);
     customerService.facebookLogin(accessToken).then(function(data) {
-      if (!('error' in data)) {
-	localStorage.setItem('authorizationKey', data.accessToken);
-	localStorage.setItem('customer', JSON.stringify(data.customer));
-	localStorage.setItem('isFacebookLogin', 1);
+      //
+      startLoginSession(data, 1);
 
-	var next = getParameterByName('next') || '/';
-
-	window.location.href = next;
-      }
+    }).catch(function(error) {
+      hideSubmitting(form);
+      messages.error(error.message || 'Internal error');
     });
   }
 };
@@ -58,18 +75,15 @@ function handleLogin(e) {
     return false;
   }
 
+  showSubmitting(form);
   customerService.loginCustomer(email, password).then(function(data) {
-    if (!('error' in data)) {
-      localStorage.setItem('authorizationKey', data.accessToken);
-      localStorage.setItem('customer', JSON.stringify(data.customer));
-      localStorage.setItem('isFacebookLogin', 0);
+    //
+    startLoginSession(data, 0);
 
-      var next = getParameterByName('next') || '/';
-
-      window.location.href = next;
-    } else {
-      forms.showFormError(form, (data.error.message || 'Internal error'));
-    }
+  }).catch(function(error) {
+    //
+    handleFormCatch(form, error);
+    hideSubmitting(form);
   });
 
   return false;
@@ -114,24 +128,26 @@ function handleRegister(e) {
     return false;
   }
 
+  showSubmitting(form);
   customerService.registerCustomer(name, email, password).then(function(data) {
-    if (!('error' in data)) {
-      localStorage.setItem('authorizationKey', data.accessToken);
-      localStorage.setItem('customer', JSON.stringify(data.customer));
-      localStorage.setItem('isFacebookLogin', 0);
-
-      var next = getParameterByName('next') || '/';
-
-      window.location.href = next;
-    } else {
-      forms.showFormError(form, (data.error.message || 'Internal error'));
-    }
+    //
+    startLoginSession(data, 0);
+  }).catch(function(error) {
+    //
+    handleFormCatch(form, error);
+    hideSubmitting(form);
   });
+
   return true;
 }
 
 
-export default class AuthController {
+export default class AuthController extends BaseController {
+
+  constructor() {
+    //
+    super();
+  }
 
   handleLoginEvent() {
     var element = document.querySelector('form button.login');
@@ -163,6 +179,8 @@ export default class AuthController {
 
       that.handleLoginEvent();
       facebook.initFacebook();
+      //
+      that.globalInit();
     });
   }
 
@@ -184,6 +202,8 @@ export default class AuthController {
 
       that.handleRegisterEvent();
       facebook.initFacebook();
+      //
+      that.globalInit();
     });
   }
   

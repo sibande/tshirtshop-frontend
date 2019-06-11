@@ -1,4 +1,5 @@
 import BaseService from './base_service';
+import {INVALID_SERVER_RESPONSE, handleFetchResponse} from './base_service';
 
 
 export default class CustomerService extends BaseService {
@@ -17,8 +18,7 @@ export default class CustomerService extends BaseService {
       body: formData, // must match 'Content-Type' header
       method: 'POST'
     }, this.getOptions())).then(function(res) {
-
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
@@ -41,8 +41,7 @@ export default class CustomerService extends BaseService {
       body: formData, // must match 'Content-Type' header
       method: 'POST'
     }, this.getOptions())).then(function(res) {
-
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
@@ -56,8 +55,7 @@ export default class CustomerService extends BaseService {
       body: formData, // must match 'Content-Type' header
       method: 'POST'
     }, this.getOptions())).then(function(res) {
-
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 

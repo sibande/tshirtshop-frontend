@@ -2,6 +2,9 @@ var M = require('materialize-css/dist/js/materialize.js');
 
 import {formatPrice} from './../shared/nunjucks';
 import ShoppingcartService from './../services/shoppingcart';
+import {SMALL_SUBMITTING_DIV} from './../constants';
+
+var forms = require('./../shared/forms');
 
 var routes = require('./../routes');
 
@@ -38,6 +41,42 @@ function handleSearchProducts() {
 
   routes.router.navigate('/?search=' + searchString + '&searchAll=' + searchAll, true);
 };
+
+
+export function handleFormCatch(form, error) {
+  forms.clearAllErrors(form);
+
+  if (error.field) {
+    forms.showInputError(form, error.field, error.message);
+  } else {
+    forms.showFormError(form, (error.message || 'Internal error'));
+  }
+}
+
+
+export function showSubmitting(form) {
+  var submitting;
+
+  var button = form.querySelector('button');
+  button.classList.add('hide');
+
+  submitting = document.createElement('div');
+  submitting.innerHTML = SMALL_SUBMITTING_DIV;
+
+  button.closest('div').appendChild(submitting.firstChild);
+}
+
+
+export function hideSubmitting(form) {
+  var submitting = form.querySelector('img.submitting');
+
+  if (submitting) {
+    submitting.remove();
+  }
+
+  var button = form.querySelector('button');
+  button.classList.remove('hide');
+}
 
 
 export default class BaseController {

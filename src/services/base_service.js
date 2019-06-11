@@ -13,6 +13,30 @@ export const FETCH_DEFAULTS = {
 
 export const BASE_URL = 'https://www.themba.xyz/v1';
 
+export const INVALID_SERVER_RESPONSE = {
+  code: 'SVR_01',
+  message: 'Invalid server response',
+  status: 500
+};
+
+export function handleFetchResponse(res) {
+  if (res.status !== 200) {
+    var error = null;
+
+    try {
+      return res.json().then(function(err) {
+	throw err;
+      });
+    } catch (e) {
+      error = INVALID_SERVER_RESPONSE;
+    }
+
+    return Promise.reject(error);
+  } else {
+    return Promise.resolve(res.json());
+  }
+}
+
 
 export default class BaseService {
 
