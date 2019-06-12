@@ -173,7 +173,7 @@ export default class AuthController extends BaseController {
   renderLogin() {
     var that = this;
 
-    render('login.html', {}, function(err, res) {
+    render('login.html', {customer: that.customer}, function(err, res) {
       var mainDiv = document.getElementById('main');
       mainDiv.innerHTML= res;
 
@@ -196,7 +196,7 @@ export default class AuthController extends BaseController {
   renderRegister() {
     var that = this;
 
-    render('register.html', {}, function(err, res) {
+    render('register.html', {customer: that.customer}, function(err, res) {
       var mainDiv = document.getElementById('main');
       mainDiv.innerHTML= res;
 

@@ -19,7 +19,7 @@
 	  <div class="row no-margin">
 	    <div class="input-field col s12">
 	      <label>Email*</label>
-	      <input type="text" {% if isFacebookLogin %}readonly{% endif %} placeholder="Email" name="email" value="{{customer.email}}" class="browser-default">
+	      <input type="text" {% if isFacebookLogin == '1' %}readonly{% endif %} placeholder="Email" name="email" value="{{customer.email}}" class="browser-default">
             </div>
 	  </div>
 
@@ -64,7 +64,7 @@
 	  {% endif %}
 
 	  <div class="row no-margin">
-	    <div class="col s12">
+	    <div class="col s12 valign-wrapper submit-container">
 	      <button class="waves-effect waves-light red btn-flat btn-large customer-update">Update</button>
 	    </div>
 	  </div>

@@ -331,7 +331,7 @@ div.login, div.register {
     }
 }
 
-img.submitting {
+.center-align img.submitting {
     margin: 0 auto;
 }
 
@@ -343,6 +343,10 @@ img.submitting {
 	text-transform: none;
 	font-weight: bold;
 	border-radius: 27px;
+    }
+
+    .submit-container {
+	height: 74px;
     }
 }
 

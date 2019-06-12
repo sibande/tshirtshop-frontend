@@ -2,6 +2,7 @@ import {configure, renderString, render} from 'nunjucks';
 var M = require('materialize-css/dist/js/materialize.js');
 var forms = require('./../shared/forms');
 
+import { handleFormCatch, showSubmitting, hideSubmitting } from './base';
 import BaseController from './base';
 import ProductService from './../services/product';
 import CustomerService from './../services/customer';
@@ -45,27 +46,12 @@ function updateShipping(e) {
   var customParams = e.target.customParams;
   var form = customParams.form;
 
-  var name = form.querySelector('input[name=name]').value,
-      address1 = form.querySelector('input[name=address_1]').value,
-      address2 = form.querySelector('input[name=address_2]').value,
-      region = form.querySelector('input[name=region]').value,
-      city = form.querySelector('input[name=city]').value,
-      postalCode = form.querySelector('input[name=postal_code]').value,
-      country = form.querySelector('input[name=country]').value,
-      shippingRegionId = document.querySelector('select[name="shipping_region_id"]').value,
-      shippingType = document.querySelector('select[name="shipping_type"]').value;
+  const formData = new FormData(form);
 
-  var data = {
-    name: name,
-    address_1: address1,
-    address_2: address2,
-    region: region,
-    city: city,
-    postal_code: postalCode,
-    country: country,
-    shipping_region_id: shippingRegionId,
-    shipping_type: shippingType
-  };
+  var data = {};
+  formData.forEach(function(value, key){
+    data[key] = value;
+  });
 
   var constraints = {
     name: {
@@ -80,9 +66,6 @@ function updateShipping(e) {
     city: {
       presence: {allowEmpty: false}
     },
-    city: {
-      presence: {allowEmpty: false}
-    },
     country: {
       presence: {allowEmpty: false}
     },
@@ -90,7 +73,8 @@ function updateShipping(e) {
       presence: {allowEmpty: false}
     },
     shipping_region_id: {
-      presence: {allowEmpty: false}
+      presence: {allowEmpty: false},
+      numericality: {onlyInteger: true}
     },
     shipping_type: {
       presence: {allowEmpty: false}
@@ -166,14 +150,18 @@ function customerUpdate(e) {
   }
   delete data['confirm_password'];
 
+  showSubmitting(form);
   //
   customerService.updateCustomer(data).then(function(data) {
-      if ('error' in data) {
-	messages.error(data.error.message || 'Internal error');
-      } else {
-	localStorage.setItem('customer', JSON.stringify(data));
-	messages.success('User updated');
-      }
+    forms.clearAllErrors(form);
+
+    localStorage.setItem('customer', JSON.stringify(data));
+    messages.success('User updated');
+    hideSubmitting(form);
+  }).catch(function(error) {
+    //
+    handleFormCatch(form, error);
+    hideSubmitting(form);
   });
 }
 
@@ -205,6 +193,11 @@ function confirmOrder(e) {
     draftOrder = null;
   }
 
+  var form = document.querySelector('form button.confirm');
+  form = form.closest('form');
+  //
+  showSubmitting(form);
+
   if (draftOrder) {
     customerService.updateCustomerAddress(
       draftOrder.address_1, draftOrder.address_2, draftOrder.city, draftOrder.region,
@@ -215,12 +208,17 @@ function confirmOrder(e) {
       var shoppingCart = shoppingcartService.getShoppingcart();
 
       orderService.createOrder(shoppingCart.cartId, draftOrder.shipping_type, 2).then(function(data) {
-	if (!('error' in data)) {
-	  localStorage.removeItem('shoppingCart');
-	  routes.router.navigate("/shoppingcart/payment/" + data.orderId, true);
-	}
+      	if (!('error' in data)) {
+      	  localStorage.removeItem('shoppingCart');
+      	  routes.router.navigate("/shoppingcart/payment/" + data.orderId, true);
+      	}
       });
+    }).catch(function(error) {
+      routes.router.navigate('/shoppingcart/shipping', true);
+      messages.error(error.message || 'Internal error');
     });
+  } else {
+    window.location.href = '/shoppingcart/shipping';
   }
 }
 

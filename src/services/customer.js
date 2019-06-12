@@ -28,7 +28,7 @@ export default class CustomerService extends BaseService {
     return fetch(url, Object.assign({
       method: 'GET'
     }, this.getOptions())).then(function(res) {
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
@@ -75,7 +75,7 @@ export default class CustomerService extends BaseService {
       body: formData, // must match 'Content-Type' header
       method: 'PUT'
     }, this.getOptions())).then(function(res) {
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
@@ -92,7 +92,7 @@ export default class CustomerService extends BaseService {
       body: formData, // must match 'Content-Type' header
       method: 'PUT'
     }, this.getOptions())).then(function(res) {
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
   
