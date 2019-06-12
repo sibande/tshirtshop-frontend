@@ -1,5 +1,5 @@
 import BaseService from './base_service';
-import {INVALID_SERVER_RESPONSE, handleFetchResponse} from './base_service';
+import {handleFetchResponse} from './base_service';
 
 
 export default class CustomerService extends BaseService {

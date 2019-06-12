@@ -1,6 +1,7 @@
 import {configure, renderString, render} from 'nunjucks';
 var M = require('materialize-css/dist/js/materialize.js');
 var forms = require('./../shared/forms');
+import {STRIPE_CURRENCY} from './../constants';
 
 import { handleFormCatch, showSubmitting, hideSubmitting } from './base';
 import BaseController from './base';
@@ -31,13 +32,18 @@ export function stripeTokenHandler(token, orderData) {
   hiddenInput.setAttribute('value', token.id);
   form.appendChild(hiddenInput);
 
+  showSubmitting(form);
+  //
   var grandTotal = (orderData.total_amount + orderData.shipping_cost) * 100;
   orderService.chargeOrder(
-    token.id, orderData.order_id, 'Order # ' +orderData.order_id, grandTotal, 'usd').then(function(data) {
-      if (!('error' in data)) {
-	routes.router.navigate("/shoppingcart/completed", true);
-	localStorage.removeItem('draftOrder');
-      }
+    token.id, orderData.order_id, 'Order # ' +orderData.order_id, grandTotal, STRIPE_CURRENCY)
+    .then(function(data) {
+      localStorage.removeItem('draftOrder');
+      routes.router.navigate("/shoppingcart/completed", true);
+    }).catch(function(error) {
+      //
+      messages.error(error.message || 'Internal error');
+      hideSubmitting(form);
     });
 }
 
@@ -208,11 +214,12 @@ function confirmOrder(e) {
       var shoppingCart = shoppingcartService.getShoppingcart();
 
       orderService.createOrder(shoppingCart.cartId, draftOrder.shipping_type, 2).then(function(data) {
-      	if (!('error' in data)) {
-      	  localStorage.removeItem('shoppingCart');
-      	  routes.router.navigate("/shoppingcart/payment/" + data.orderId, true);
-      	}
-      });
+      	localStorage.removeItem('shoppingCart');
+      	routes.router.navigate("/shoppingcart/payment/" + data.orderId, true);
+      }).catch(function(error) {
+	messages.error(error.message || 'Internal error');
+	hideSubmitting(form);
+    });
     }).catch(function(error) {
       routes.router.navigate('/shoppingcart/shipping', true);
       messages.error(error.message || 'Internal error');
@@ -397,6 +404,9 @@ export default class CustomerController extends BaseController {
 	//
 	that.globalInit();
       });
+    }).catch(function(error) {
+      messages.error(error.message || 'Internal error');
+      routes.router.navigate('/', true);
     });
 
   }

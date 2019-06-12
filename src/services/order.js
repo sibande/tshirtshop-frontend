@@ -1,4 +1,5 @@
 import BaseService from './base_service';
+import {handleFetchResponse} from './base_service';
 
 
 export default class OrderService extends BaseService {
@@ -14,7 +15,7 @@ export default class OrderService extends BaseService {
     return fetch(url, Object.assign({
       method: 'GET'
     }, this.getOptions())).then(function(res) {
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
@@ -24,7 +25,7 @@ export default class OrderService extends BaseService {
     return fetch(url, Object.assign({
       method: 'GET'
     }, this.getOptions())).then(function(res) {
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
@@ -34,7 +35,7 @@ export default class OrderService extends BaseService {
     return fetch(url, Object.assign({
       method: 'GET'
     }, this.getOptions())).then(function(res) {
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
@@ -44,7 +45,7 @@ export default class OrderService extends BaseService {
     return fetch(url, Object.assign({
       method: 'GET'
     }, this.getOptions())).then(function(res) {
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
@@ -58,8 +59,7 @@ export default class OrderService extends BaseService {
       body: formData, // must match 'Content-Type' header
       method: 'POST'
     }, this.getOptions())).then(function(res) {
-
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
@@ -75,8 +75,7 @@ export default class OrderService extends BaseService {
       body: formData, // must match 'Content-Type' header
       method: 'POST'
     }, this.getOptions())).then(function(res) {
-
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
