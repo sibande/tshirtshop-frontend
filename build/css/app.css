@@ -6956,11 +6956,16 @@ div.login, div.register {
     div.login .input-field input, div.register .input-field input {
       text-align: center; }
   div.login button, div.register button {
-    margin: 20px 0 18px 0;
+    margin: 20px auto 18px auto;
     color: #fff;
     font-weight: bold;
     width: 60%;
     border-radius: 27px; }
+  div.login .submit-container, div.register .submit-container {
+    height: 92px; }
+
+.center-align img.submitting {
+  margin: 0 auto; }
 
 .customer button,
 .product-view button {
@@ -6969,6 +6974,10 @@ div.login, div.register {
   text-transform: none;
   font-weight: bold;
   border-radius: 27px; }
+
+.customer .submit-container,
+.product-view .submit-container {
+  height: 74px; }
 
 .quantity-select input, .custom-form input, div.login input, div.register input {
   width: 100%;
