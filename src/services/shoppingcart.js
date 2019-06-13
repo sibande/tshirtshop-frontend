@@ -1,4 +1,5 @@
 import BaseService from './base_service';
+import {handleFetchResponse} from './base_service';
 
 
 export default class ShoppingcartService extends BaseService {
@@ -60,7 +61,7 @@ export default class ShoppingcartService extends BaseService {
       	body: formData, // must match 'Content-Type' header
       	method: 'POST'
       }, that.getOptions())).then(function(res) {
-      	return res.json();
+      	return handleFetchResponse(res);
       }).then(function(data) {
 	var itemIndex = data.length - 1;
 	var addedItem = data[itemIndex];
@@ -91,7 +92,7 @@ export default class ShoppingcartService extends BaseService {
       body: formData, // must match 'Content-Type' header
       method: 'PUT'
     }, this.getOptions())).then(function(res) {
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
@@ -131,7 +132,7 @@ export default class ShoppingcartService extends BaseService {
     return fetch(url, Object.assign({
       method: 'GET'
     }, this.getOptions())).then(function(res) {
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
@@ -141,7 +142,7 @@ export default class ShoppingcartService extends BaseService {
     return fetch(url, Object.assign({
       method: 'GET'
     }, this.getOptions())).then(function(res) {
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
@@ -151,7 +152,7 @@ export default class ShoppingcartService extends BaseService {
     return fetch(url, Object.assign({
       method: 'GET'
     }, this.getOptions())).then(function(res) {
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 
@@ -166,7 +167,7 @@ export default class ShoppingcartService extends BaseService {
     return fetch(url, Object.assign({
       method: 'GET'
     }, this.getOptions())).then(function(res) {
-      return res.json();
+      return handleFetchResponse(res);
     });
   }
 

@@ -127,7 +127,9 @@ router
 router.hooks({
   before: function(done, params) {
     var contentElem = document.querySelector('.container > div.content');
-    contentElem.innerHTML = loadingPage;
+    if (contentElem) {
+      contentElem.innerHTML = loadingPage;
+    }
 
     done();
   }

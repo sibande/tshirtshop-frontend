@@ -1,3 +1,5 @@
+import { handleFormCatch, showSubmitting, hideSubmitting } from './../controllers/base';
+import {STRIPE_PUBLIC_KEY} from './../constants';
 import {stripeTokenHandler} from './../controllers/customer';
 
 
@@ -12,7 +14,7 @@ export  function initStripe(orderData) {
     tag.onload = function() {
       
 
-      var stripe = Stripe('pk_test_qusTUGCVV0b8ptzpEFF6Gan300Q13Il4BN');
+      var stripe = Stripe(STRIPE_PUBLIC_KEY);
 
       // Create an instance of Elements.
       var elements = stripe.elements();
@@ -56,11 +58,15 @@ export  function initStripe(orderData) {
       form.addEventListener('submit', function(event) {
 	event.preventDefault();
 
+	showSubmitting(form);
+
 	stripe.createToken(card).then(function(result) {
 	  if (result.error) {
 	    // Inform the user if there was an error.
 	    var errorElement = document.getElementById('card-errors');
 	    errorElement.textContent = result.error.message;
+
+	    hideSubmitting(form);
 	  } else {
 	    // Send the token to your server.
 	    stripeTokenHandler(result.token, orderData);

@@ -32,8 +32,6 @@ export function stripeTokenHandler(token, orderData) {
   hiddenInput.setAttribute('value', token.id);
   form.appendChild(hiddenInput);
 
-  showSubmitting(form);
-  //
   var grandTotal = (orderData.total_amount + orderData.shipping_cost) * 100;
   orderService.chargeOrder(
     token.id, orderData.order_id, 'Order # ' +orderData.order_id, grandTotal, STRIPE_CURRENCY)

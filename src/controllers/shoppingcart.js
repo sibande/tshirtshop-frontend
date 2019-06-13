@@ -107,20 +107,18 @@ export function handleAddToCart(e) {
   };
 
   shoppingcartService.addToCart(customParams.productId, quantity, attributes).then(function(data) {
-    if (!('error' in data)) {
-      updateCartHeader(data['total_amount']);
+    updateCartHeader(data['total_amount']);
 
-      messages.success('Product added to cart');
-      if (customParams.afterCallback) {
-	//
-	var intervalId = setTimeout(() => {
-	  customParams.afterCallback();
-	}, 300);
-      }
-    } else {
-      messages.error(data.error.message || 'Internal error');
+    messages.success('Product added to cart');
+    if (customParams.afterCallback) {
+      //
+      var intervalId = setTimeout(() => {
+	customParams.afterCallback();
+      }, 300);
     }
-  });
+  }).catch(function(error) {
+    messages.error(error.message || 'Internal error');
+  });;
   return false;
 }
 
